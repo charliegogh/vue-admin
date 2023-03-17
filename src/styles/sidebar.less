@@ -1,0 +1,68 @@
+@sideBarWidth: 220px;
+#app{
+  .main-container {
+    min-height: 100%;
+    transition: margin-left .1s;
+    margin-left: @sideBarWidth;
+    position: relative;
+    .nav{
+      position: fixed;
+      right: 0;
+      top: 0;
+      z-index: 99;
+      width: 100%;
+      transition: width .1s;
+    }
+  }
+  .sidebar-container{
+    width: @sideBarWidth !important;
+    background-color: #ffffff;
+    height: 100vh;
+    position: fixed;
+    //overflow-y: scroll;
+    overflow: hidden;
+    font-size: 0px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    .ant-menu{
+    }
+  }
+  .hideSidebar {
+    .sidebar-container {
+      width: 80px !important;
+    }
+
+    .main-container {
+      margin-left: 80px;
+    }
+  }
+
+  // mobile responsive
+  .mobile {
+    .main-container {
+      margin-left: 0px;
+    }
+
+    .sidebar-container {
+      transition: transform .28s;
+      width: @sideBarWidth !important;
+    }
+
+    &.hideSidebar {
+      .sidebar-container {
+        pointer-events: none;
+        transition-duration: 0.3s;
+        transform: translate3d(-@sideBarWidth, 0, 0);
+      }
+    }
+  }
+  .withoutAnimation {
+
+    .main-container,
+    .sidebar-container {
+      transition: none;
+    }
+  }
+}

@@ -1,0 +1,39 @@
+<template>
+  <section class="app-main">
+    <div class="ql" />
+    <transition name="router-fade" mode="out-in">
+      <router-view />
+    </transition>
+    <!--    <keep-alive>-->
+    <!--      <router-view v-if="$route.meta.keepAlive" :key="key" />-->
+    <!--    </keep-alive>-->
+    <!--    <router-view v-if="!$route.meta.keepAlive" :key="key" />-->
+  </section>
+</template>
+
+<script>
+export default {
+  name: 'AppMain',
+  computed: {
+    key() {
+      return this.$route.fullPath
+    }
+  }
+}
+</script>
+<style lang="less" scoped>
+.router-fade-enter-active, .router-fade-leave-active {
+  transition: opacity .3s;
+}
+.router-fade-enter, .router-fade-leave-active {
+  opacity: 0;
+}
+.app-main {
+  .ql{
+    height: 110px;
+  }
+  padding: 15px;
+  position: relative;
+}
+</style>
+

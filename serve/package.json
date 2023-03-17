@@ -1,0 +1,28 @@
+{
+  "name": "serve",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "dev": "set node_env=development&&nodemon app.js",
+    "serve": "nodemon ./app.js",
+    "ws": "nodemon ./ws/index.js",
+    "debug": "nodemon --inspect ./app.js",
+    "lint-fix": "eslint --fix **/*.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^5.15.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.5.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^7.4.0",
+    "koa2-cors": "^2.0.6",
+    "moment": "^2.29.1",
+    "mysql2": "^2.1.0",
+    "request": "^2.88.0",
+    "sequelize": "^6.3.5"
+  }
+}

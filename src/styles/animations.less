@@ -1,0 +1,14 @@
+.enter-x-animation{
+  animation:enter-x-animation .5s ease-in-out .3s;
+  animation-fill-mode: forwards;
+  z-index: 99;
+  animation-delay: .1s;
+  opacity: 0;
+}
+@keyframes enter-x-animation
+{
+  to {
+    opacity: 1;
+    transform: translateX(0)
+  }
+}
