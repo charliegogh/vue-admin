@@ -5,6 +5,7 @@
       @searchQuery="searchQuery"
       @searchReset="searchReset"
     />
+    <div class="test"></div>
     <a-table
       :columns="columns.filter(i=>(colCheckedList.includes(i.dataIndex)))"
       size="middle"
@@ -79,4 +80,8 @@ export default {
   }
 }
 </script>
-
+<style lang="less">
+.test{
+  .row-start-center;
+}
+</style>
