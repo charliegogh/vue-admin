@@ -33,14 +33,14 @@ import RoleModal from './components/Role/RoleModal'
 import AuthModal from './components/Role/AuthModal'
 const columns = [
   {
-    title: '角色编码',
-    align: 'center',
-    dataIndex: 'roleCode'
-  },
-  {
     title: '角色名称',
     align: 'center',
     dataIndex: 'roleName'
+  },
+  {
+    title: '角色编码',
+    align: 'center',
+    dataIndex: 'roleCode'
   },
   {
     title: '操作',
