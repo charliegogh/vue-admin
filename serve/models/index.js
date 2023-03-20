@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const config = require('../config')
 const fs = require('fs')
-db = {}
+let db = {}
 const path = require('path')
 const basename = path.basename(__filename)
 let sequelize = null

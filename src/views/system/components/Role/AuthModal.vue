@@ -168,6 +168,7 @@ export default {
             this.close()
           } else {
             // 仅保存，只更新列表
+            await this.loadData()
             this.$emit('ok')
           }
           this.$message.success('操作成功')

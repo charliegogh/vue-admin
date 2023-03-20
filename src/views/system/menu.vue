@@ -45,8 +45,7 @@ import { ListMixin } from '@/mixins/ListMixin'
 const columns = [
   {
     title: '菜单名称',
-    dataIndex: 'name',
-    key: 'name'
+    dataIndex: 'name'
   },
   {
     title: '路径',

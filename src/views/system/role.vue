@@ -49,7 +49,7 @@ const columns = [
     dataIndex: 'action',
     scopedSlots: { customRender: 'action' },
     align: 'center',
-    width: 150
+    width: 180
   }
 ]
 export default {

@@ -1,4 +1,4 @@
-const { sys_menus, sys_roles } = require(process.cwd() + '/models')
+const { sys_menus, sys_roles, sys_role_menus } = require(process.cwd() + '/models')
 const router = require('koa-router')()
 const base = '/sys/permission'
 const uuid = require('uuid')
@@ -70,15 +70,14 @@ router.post(base + '/edit', async(ctx) => {
 router.get(base + '/queryRolePermission', async(ctx) => {
   try {
     const { roleId } = ctx.request.query
-    const data = await sys_roles.findOne(
+    const data = await sys_role_menus.findAll(
       {
         where: {
-          id: roleId
+          role_id: roleId
         }
       }
     )
-
-    ctx.success(data.permissionIds.split(','))
+    ctx.success(data.map(i => i.menu_id))
   } catch (e) {
     console.log(e)
   }
@@ -86,17 +85,21 @@ router.get(base + '/queryRolePermission', async(ctx) => {
 // 保存角色权限信息
 router.post(base + '/saveRolePermission', async(ctx) => {
   try {
-    const params = ctx.request.body
-    await sys_roles.update(
-      {
-        ...params
+    const { roleId, permissionIds } = ctx.request.body
+    await sys_role_menus.findOrCreate({
+      where: {
+        role_id: roleId
       },
-      {
-        where: {
-          id: params.roleId
-        }
+      defaults: {}
+    }).spread((user, created) => {
+      // 如果没有
+      if (created) {
+        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ update')
+      } else {
+        //  如果有，去更新
+
       }
-    )
+    })
     ctx.success()
   } catch (e) {
     console.log(e)

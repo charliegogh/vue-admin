@@ -57,7 +57,7 @@ export default {
         {
           code: 2,
           name: '按钮/权限',
-          menus: ['code', 'type']
+          menus: ['name', 'code', 'type']
         }
       ]
     }
