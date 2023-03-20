@@ -48,10 +48,8 @@ export const ListMixin = {
       if (arg === 1) {
         this.ipagination.current = 1
       }
-      // var params = this.getQueryParams()// 查询条件
-      const params = {}// 查询条件
       this.loading = true
-      this.$fetch.getAction(this.url.list, params).then((res) => {
+      this.$fetch.getAction(this.url.list, this.queryParam).then((res) => {
         if (res.success) {
           this.dataSource = res.data
           // this.ipagination.total = res.result.total

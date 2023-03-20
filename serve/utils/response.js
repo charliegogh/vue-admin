@@ -10,7 +10,7 @@ const responseBody = (option = {}) => {
       }
     }
     ctx.fail = function(msg, code) {
-      // ctx.response.status = code
+      ctx.response.status = code || 500
       ctx.body = {
         code: code || option.code || 500,
         message: msg || option.msg || 'fail'

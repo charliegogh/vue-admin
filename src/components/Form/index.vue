@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="c-basic-form">
     <div
       :class="layout.layout==='inline'?'form-inline-container':'from-container'"
     >
@@ -37,6 +37,7 @@
                 v-model="dataForm[formField.prop]"
                 :placeholder="formField.placeholder || `请输入${formField.label}`"
                 v-bind="formField"
+                allow-clear
                 onkeypress="javascript:if(event.keyCode == 32)event.returnValue = false;"
               />
               <!-- 密码输入框 -->
@@ -194,38 +195,43 @@ export default {
 }
 </script>
 <style lang="less">
-.form-inline-container {
+.c-basic-form{
+  .form-inline-container {
 
-  .ant-form-inline {
+    .ant-form-inline {
 
-    .ant-form-item {
-      display: flex;
-      margin-bottom: 24px;
-      margin-right: 0;
+      .ant-form-item {
+        display: flex;
+        margin-bottom: 24px;
+        margin-right: 0;
 
-      .ant-form-item-control-wrapper {
-        flex: 1 1;
-        display: inline-block;
-        vertical-align: middle;
-      }
+        .ant-form-item-control-wrapper {
+          flex: 1 1;
+          display: inline-block;
+          vertical-align: middle;
+        }
 
-      > .ant-form-item-label {
-        line-height: 32px;
-        padding-right: 8px;
-        width: auto;
-      }
-      .ant-form-item-control {
-        height: 32px;
-        line-height: 32px;
+        > .ant-form-item-label {
+          line-height: 32px;
+          padding-right: 8px;
+          width: auto;
+        }
+        .ant-form-item-control {
+          height: 32px;
+          line-height: 32px;
+        }
       }
     }
-  }
 
-  .table-page-search-submitButtons {
-    display: block;
-    margin-bottom: 24px;
-    white-space: nowrap;
-  }
+    .table-page-search-submitButtons {
+      display: block;
+      margin-bottom: 24px;
+      white-space: nowrap;
+    }
 
+  }
+  .ant-form-item{
+    margin-bottom: 20px;
+  }
 }
 </style>

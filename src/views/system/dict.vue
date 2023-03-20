@@ -16,58 +16,50 @@
       </template>
       <span slot="action" slot-scope="text, record">
         <a @click="handleEdit(record)">编辑</a>
-
         <a-divider type="vertical" />
-        <a-dropdown>
-          <a class="ant-dropdown-link">
-            更多 <a-icon type="down" />
-          </a>
-          <a-menu slot="overlay">
-            <a-menu-item>
-              <a href="javascript:;" @click="handleDetail(record)">详情</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a href="javascript:;" @click="handleAddSub(record)">添加下级</a>
-            </a-menu-item>
-            <a-menu-item>
-              <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
-                <a>删除</a>
-              </a-popconfirm>
-            </a-menu-item>
-          </a-menu>
-        </a-dropdown>
+        <a @click="handleOption(record)">字典配置</a>
+        <a-divider type="vertical" />
+        <a-popconfirm title="确定删除吗?" @confirm="() => handleDelete(record.id)">
+          <a>删除</a>
+        </a-popconfirm>
       </span>
     </a-table>
     <DictModal
       ref="modalForm"
-      :dict-list="dataSource"
+      @ok="modalFormOk"
+    />
+    <DictOptionModal
+      ref="DictOptionModal"
       @ok="modalFormOk"
     />
   </a-card>
 </template>
 <script>
-import DictModal from './components/DictModal'
+import DictModal from './components/Dict/Modal'
+import DictOptionModal from './components/Dict/Option/index'
 import { ListMixin } from '@/mixins/ListMixin'
-
 const columns = [
   {
     title: '字典名称',
     dataIndex: 'name',
-    key: 'name'
+    key: 'name',
+    align: 'center'
   },
   {
     title: '字典编码',
     dataIndex: 'code',
     key: 'path',
-    scopedSlots: { customRender: 'path' }
+    align: 'center'
   },
   {
     title: '排序',
-    dataIndex: 'sort',
+    dataIndex: 'order_no',
+    align: 'center',
     key: 'sort'
   },
   {
     title: '创建时间',
+    align: 'center',
     dataIndex: 'createTime',
     key: 'createTime'
   },
@@ -76,29 +68,27 @@ const columns = [
     dataIndex: 'action',
     scopedSlots: { customRender: 'action' },
     align: 'center',
-    width: 150
+    width: 200
   }
 ]
 export default {
   components: {
-    DictModal
+    DictModal,
+    DictOptionModal
   },
   mixins: [ListMixin],
   data() {
     return {
       columns,
       url: {
-        list: '/sys/dict/getList',
-        delete: '/sys/dict/delete'
+        list: '/sys/dictCode/getList',
+        delete: '/sys/dictCode/delete'
       }
     }
   },
-  mounted() {
-  },
   methods: {
-    handleAddSub(record) {
-      this.$refs.modalForm.title = '添加子菜单'
-      this.$refs.modalForm.edit({ dictType: '1', 'parentId': record.id })
+    handleOption(record) {
+      this.$refs.DictOptionModal.show(record)
     }
   }
 }

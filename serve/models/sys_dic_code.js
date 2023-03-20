@@ -1,20 +1,16 @@
 module.exports = (sequelize, DataTypes) =>
   sequelize.define(
-    'sys_dict',
+    'sys_dic_code',
     {
       id: {
         type: DataTypes.STRING,
         primaryKey: true // 主键
       },
-      parentId: {
+      pid: {
         type: DataTypes.STRING,
         allowNull: true
       },
       name: {
-        type: DataTypes.STRING,
-        allowNull: true
-      },
-      sort: {
         type: DataTypes.STRING,
         allowNull: true
       },
@@ -23,18 +19,23 @@ module.exports = (sequelize, DataTypes) =>
         allowNull: true
       },
       dictType: {
-        type: DataTypes.STRING,
-        allowNull: true
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'dic_type'
+      },
+      orderNo: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'order_no'
       },
       createTime: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        field: 'create_time'
       }
     },
     {
-      tableName: 'sys_dict',
-      timestamps: false //
-      // updatedAt: 'updatedTime',
-      // createdAt: 'createdTime' // 将createdAt设为自定义字段createdTime
+      tableName: 'sys_dic_code',
+      timestamps: false
     }
   )

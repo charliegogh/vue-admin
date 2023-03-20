@@ -37,6 +37,10 @@ router.post('/getUserInfo', async(ctx) => {
       return undefined
     }
   })
+  if (!id) {
+    ctx.fail('登录失效', 401)
+    return
+  }
   // 用户id
   const { dataValues: userInfo } = id && await sys_users.findOne({
     where: {
@@ -57,7 +61,6 @@ router.post('/getUserInfo', async(ctx) => {
       }
     }
   )
-  console.log(roleMenu)
   // 查询
   const menu = await sys_menus.findAll(
     {
@@ -74,6 +77,5 @@ router.post('/getUserInfo', async(ctx) => {
       'pid')
   }
   id && ctx.success(data)
-  !id && ctx.fail('登录失效', 401)
 })
 module.exports = router.routes()

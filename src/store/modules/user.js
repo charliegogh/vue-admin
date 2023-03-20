@@ -78,7 +78,6 @@ const actions = {
       },
       children: asyncRoutes
     }].concat(errorRoutes) // 组合完毕之后再去添加静态路由用来防止异步
-    console.log(_routes)
     commit('SET_ROUTERS', asyncRoutes) // 侧边栏结构
     return _routes
   },

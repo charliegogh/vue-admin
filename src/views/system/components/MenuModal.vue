@@ -57,7 +57,7 @@ export default {
         {
           code: 2,
           name: '按钮/权限',
-          menus: ['dict', 'name', 'type']
+          menus: ['code', 'type']
         }
       ]
     }
@@ -83,7 +83,7 @@ export default {
               trigger: 'blur'
             }
           ],
-          dict: [
+          code: [
             {
               required: true,
               message: '请输入字典编码',

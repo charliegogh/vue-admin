@@ -2,6 +2,7 @@ import axios from 'axios'
 import qs from 'qs'
 import notification from 'ant-design-vue/es/notification'
 import { getToken } from '@/utils/auth'
+import store from '@/store'
 const CancelToken = axios.CancelToken
 const queue = [] // 请求队列
 const service = axios.create({
@@ -52,11 +53,12 @@ service.interceptors.response.use(
     const errMsg = error.toString()
     const code = errMsg.substr(errMsg.indexOf('code') + 5)
     switch (code) {
-      case '401':
+      case 401:
         notification.error({
           message: 'Forbidden',
           description: '登录期请重新登录'
         })
+        store.dispatch('user/logOut')
         break
       case '404':
         notification.error({

@@ -28,7 +28,7 @@ router.beforeEach(async(to, from, next) => {
             next({ ...to, replace: true })
           }
         } catch (e) {
-          // await store.dispatch('user/logOut')
+          await store.dispatch('user/logOut')
           NProgress.done()
         }
       }
