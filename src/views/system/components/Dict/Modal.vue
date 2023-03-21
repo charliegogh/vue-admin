@@ -31,7 +31,13 @@ export default {
             prop: 'code', label: '字典编码', component: 'input'
           },
           {
-            prop: 'remark', label: '描述', component: 'input'
+            prop: 'remark', label: '描述', component: 'select',
+            dataSource:[
+              {
+                name:'1',
+                code:'1'
+              }
+            ]
           }
         ],
         rules: {

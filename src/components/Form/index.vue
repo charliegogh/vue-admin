@@ -63,13 +63,17 @@
                 :placeholder="formField.placeholder || `请输入${formField.label}`"
                 v-bind="formField"
               />
-              <!-- 下拉 -->
+              <!-- 下拉
+                              :value="dataForm[formField.prop] || undefined"
+              -->
               <a-select
                 v-if="formField.component==='select'"
                 v-model="dataForm[formField.prop]"
                 :placeholder="`请选择${formField.label}`"
+                allow-clear
                 v-bind="formField.options"
                 v-on="formField.event"
+                @change="(el)=>{dataForm[formField.prop] = el}"
               >
                 <a-select-option
                   v-for="(item, index) in formField.dataSource"

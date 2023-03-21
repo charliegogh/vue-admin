@@ -71,6 +71,7 @@ router.post('/getUserInfo', async(ctx) => {
   )
   const data = {
     sysUser: userInfo,
+    buttonCodes: [],
     menuInfo: flatToTree(
       menu,
       '',

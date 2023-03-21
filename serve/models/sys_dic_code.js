@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) =>
         allowNull: true,
         field: 'order_no'
       },
+      remark: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+      },
       createTime: {
         type: DataTypes.STRING,
         allowNull: true,

@@ -1,4 +1,6 @@
+import permission from '@/directive/permission'
 export const ListMixin = {
+  directives: { permission },
   data() {
     return {
       /* table加载状态 */

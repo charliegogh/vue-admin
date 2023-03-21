@@ -2,7 +2,12 @@
   <a-card :bordered="false">
     <!-- 操作按钮区域 -->
     <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleAdd">新增</a-button>
+      <a-button
+        v-permission="['add:dict']"
+        type="primary"
+        icon="plus"
+        @click="handleAdd"
+      >新增</a-button>
     </div>
     <a-table
       :columns="columns"

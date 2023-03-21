@@ -53,7 +53,7 @@ const actions = {
         const { data } = res
         commit('SET_USER_INFO', data)
         // 获取按钮数组信息
-        // await dispatch('getRoles', res.data.remark)
+        await dispatch('getRoles', data.menuInfo)
         // 处理权限路由结构信息
         res.needRoutes = await dispatch('generateRoutes', data.menuInfo)
       } else {
@@ -67,8 +67,7 @@ const actions = {
   // 生成路由表
   async generateRoutes({ commit, dispatch }, routes) {
     const asyncRoutes = formatRoutes(routes)
-    // const redirect = asyncRoutes[0].redirect || '/dashboard/analysis'
-    const redirect = '/system/menu'
+    const redirect = asyncRoutes[0].redirect || '/dashboard/analysis'
     const _routes = [{
       path: '/',
       component: Layout,
@@ -82,9 +81,18 @@ const actions = {
     return _routes
   },
   // 权限按钮信息
-  async getRoles({ commit, dispatch }, id) {
-    // const { data } = await getMenuCodesByRoleId({ roleId: id })
-    // commit('SET_ROLES', data)
+  async getRoles({ commit, dispatch }, menuList) {
+    const roles = []
+    const getRolesList = menuList => {
+      menuList.forEach(item => {
+        if (item.type === 2) roles.push(item.code)
+        item.children && getRolesList(item.children)
+      })
+      return roles
+    }
+    getRolesList(menuList)
+    console.log(roles)
+    commit('SET_ROLES', roles)
   },
   /* 更新用戶信息 （用户相关信息更改之后） */
   async updateUserInfo({ commit }) {
@@ -103,6 +111,7 @@ const actions = {
     location.reload()
   }
 }
+
 // 递归生成路由结构信息
 
 /**
@@ -112,7 +121,7 @@ const actions = {
  */
 const formatRoutes = (menuList = []) => {
   return menuList.map(item => {
-    if (item.children && item.children.length) {
+    if (item.children && item.children.length && item.children[0].type !== 2) {
       return {
         path: item.pageUrl,
         children: formatRoutes(item.children),

@@ -8,9 +8,15 @@ module.exports = (sequelize, DataTypes) =>
       },
       role_id: {
         type: DataTypes.STRING,
-        allowNull: true
+        allowNull: true,
+        unique: true // 唯一
       },
       menu_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true // 唯一
+      },
+      menu_code: {
         type: DataTypes.STRING,
         allowNull: true
       }

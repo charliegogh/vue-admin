@@ -1,8 +1,9 @@
-const { sys_menus, sys_roles, sys_role_menus } = require(process.cwd() + '/models')
+const { sys_menus, sys_roles, sys_role_menus, Sequelize } = require(process.cwd() + '/models')
 const router = require('koa-router')()
 const base = '/sys/permission'
 const uuid = require('uuid')
 const { flatToTree } = require(process.cwd() + '/utils/tree')
+const Op = Sequelize.Op
 // 获取菜单列表
 router.get(base + '/getSystemMenuList', async(ctx) => {
   try {
@@ -86,21 +87,24 @@ router.get(base + '/queryRolePermission', async(ctx) => {
 router.post(base + '/saveRolePermission', async(ctx) => {
   try {
     const { roleId, permissionIds } = ctx.request.body
-    await sys_role_menus.findOrCreate({
-      where: {
-        role_id: roleId
-      },
-      defaults: {}
-    }).spread((user, created) => {
-      // 如果没有
-      if (created) {
-        console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ update')
-      } else {
-        //  如果有，去更新
-
+    const allRole = await sys_role_menus.findAll(
+      {
+        where: {
+          role_id: roleId
+        }
+      }
+    )
+    const params = permissionIds.split(',').map((i, idx) => {
+      return {
+        id: allRole.find(p => p.menu_id === i)?.id || uuid.v1().replaceAll('-', ''),
+        role_id: roleId,
+        menu_id: i
       }
     })
-    ctx.success()
+    const data = await sys_role_menus.bulkCreate(params, {
+      updateOnDuplicate: ['role_id', 'menu_id']
+    })
+    ctx.success(data)
   } catch (e) {
     console.log(e)
   }
