@@ -109,7 +109,7 @@ export default {
       const status = this.$refs.Form.validate()
       if (status) {
         try {
-          const Form = this.dataForm
+          const Form = this.Form.dataForm
           this.confirmLoading = true
           let res
           if (!Form.id) {

@@ -5,11 +5,6 @@ const uuid = require('uuid')
 router.get(base + '/list', async(ctx) => {
   try {
     const data = await sys_users.findAll(
-      {
-        // 跳过多少条数据
-        // 取多少条数据
-        limit: 2
-      }
     )
     ctx.success(data)
   } catch (e) {
@@ -25,7 +20,7 @@ router.delete(base + '/delete', async(ctx) => {
         id
       }
     })
-    ctx.success({}, '删除成功')
+    ctx.success()
   } catch (e) {
     ctx.fail('删除失败')
   }
@@ -34,7 +29,7 @@ router.delete(base + '/delete', async(ctx) => {
 router.post(base + '/add', async(ctx) => {
   const params = ctx.request.body
   try {
-    const res = await sys_users.create(
+    await sys_users.create(
       {
         id: uuid.v1(),
         ...params
