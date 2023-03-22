@@ -64,7 +64,7 @@
                 v-bind="formField"
               />
               <!-- 下拉11111111
-                              :value="dataForm[formField.prop] || undefined"
+                                           v-model="dataForm[formField.prop]"
               -->
               <a-select
                 v-if="formField.component==='select'"
@@ -73,7 +73,6 @@
                 allow-clear
                 v-bind="formField.options"
                 v-on="formField.event"
-                @change="(el)=>{dataForm[formField.prop] = el}"
               >
                 <a-select-option
                   v-for="(item, index) in formField.dataSource"
@@ -177,7 +176,7 @@
   </div>
 </template>
 <script>
-import mixins from '_com/Form/mixins'
+import mixins from '_com/c-form/mixins'
 export default {
   name: 'Form',
   mixins: [mixins],
@@ -235,7 +234,7 @@ export default {
 
   }
   .ant-form-item{
-    margin-bottom: 20px;
+    margin-bottom: 13px;
   }
 }
 </style>

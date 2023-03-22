@@ -54,6 +54,10 @@ import {
   Pagination,
   Cascader
 } from 'ant-design-vue'
+import {
+  CDrawer,
+  CTable
+} from '@/components'
 
 Vue.use(ConfigProvider)
 Vue.use(Collapse)
@@ -104,6 +108,9 @@ Vue.use(Slider)
 Vue.use(Empty)
 Vue.use(Pagination)
 Vue.use(Cascader)
+// 自定义
+Vue.use(CDrawer)
+Vue.use(CTable)
 
 Vue.prototype.$confirm = Modal.confirm
 Vue.prototype.$message = message

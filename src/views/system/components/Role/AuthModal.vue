@@ -97,6 +97,15 @@ export default {
     }
   },
   methods: {
+    // 根据屏幕变化,设置抽屉尺寸
+    resetScreenSize() {
+      const screenWidth = document.body.clientWidth
+      if (screenWidth < 500) {
+        this.drawerWidth = screenWidth
+      } else {
+        this.drawerWidth = 700
+      }
+    },
     // 树选择
     onCheck(o, e) {
       if (this.checkStrictly) {
@@ -113,6 +122,7 @@ export default {
     show(roleId) {
       this.roleId = roleId
       this.visible = true
+      this.resetScreenSize()
     },
     // 关闭
     close() {

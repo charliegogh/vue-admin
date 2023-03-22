@@ -1,6 +1,6 @@
 <template>
   <a-card :bordered="false">
-    <TableOperator
+    <c-search
       @handleAdd="handleAdd"
       @searchQuery="searchQuery"
       @searchReset="searchReset"
@@ -32,6 +32,7 @@
 import { ListMixin } from '@/mixins/ListMixin'
 import RoleModal from './components/Role/RoleModal'
 import AuthModal from './components/Role/AuthModal'
+import CSearch from "../../components/c-form/search";
 const columns = [
   {
     title: '角色名称',
@@ -54,6 +55,7 @@ const columns = [
 ]
 export default {
   components: {
+    CSearch,
     RoleModal,
     AuthModal
   },

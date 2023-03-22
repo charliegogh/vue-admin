@@ -5,6 +5,7 @@ const cors = require('koa2-cors')
 const logger = require('koa-logger')()
 const config = require('./config') // 全局配置
 const routerResponse = require('./utils/response')
+
 // 路由
 new Koa()
   // 跨域配置

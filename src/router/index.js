@@ -16,6 +16,22 @@ export const errorRoutes = [
 ]
 export const routes = [
   {
+    path: '/user',
+    component: Layout,
+    name: 'User',
+    hidden: true,
+    children: [
+      {
+        path: '/user/account',
+        name: 'userAccount',
+        component: () => import('@/views/user/account'),
+        meta: {
+          title: '个人中心'
+        }
+      }
+    ]
+  },
+  {
     path: '/redirect',
     component: Layout,
     hidden: true,

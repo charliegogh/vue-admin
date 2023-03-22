@@ -1,177 +1,121 @@
 <template>
-  <a-drawer
-    :title="title"
-    :mask-closable="true"
-    placement="right"
-    :closable="true"
-    :width="drawerWidth"
-    :visible="visible"
-    @close="handleCancel"
+  <CDrawer
+    v-model="visible"
+    :loading="confirmLoading"
+    @handleSubmit="handleSubmit"
   >
-
-    <template slot="title">
-      <div style="width: 100%;">
-        <span>{{ title }}</span>
-      </div>
-    </template>
-
-    <a-spin :spinning="confirmLoading">
-      <Form
-        v-if="visible"
-        ref="Form"
-        :data-form="dataForm"
-        :rules="rules"
-        :form-fields="formFields"
-      />
-    </a-spin>
-    <div v-show="!disableSubmit" class="drawer-bootom-button">
-      <a-popconfirm title="确定放弃编辑？" ok-text="确定" cancel-text="取消" @confirm="handleCancel">
-        <a-button style="margin-right: .8rem">取消</a-button>
-      </a-popconfirm>
-      <a-button type="primary" :loading="confirmLoading" @click="handleSubmit">提交</a-button>
-    </div>
-  </a-drawer>
+    <Form v-bind="Form" />
+  </CDrawer>
 </template>
 <script>
 export default {
-  props: {
-    dict: {
-      type: Object,
-      default: () => {
-      }
-    }
+  components: {
   },
   data() {
     return {
-      disableSubmit: false,
       title: '操作',
       confirmLoading: false,
       visible: false,
-      drawerWidth: 700,
-      dataForm: {
-      },
-      rules: {
-        username: [
+      Form: {
+        ref: 'Form',
+        dataForm: {
+        },
+        rules: {
+          username: [
+            {
+              required: true,
+              message: '请输入用户账号',
+              trigger: 'blur'
+            }
+          ],
+          password: [
+            {
+              required: true,
+              message: '请输入登录密码',
+              trigger: 'blur'
+            }
+          ],
+          phone: [
+            {
+              required: true,
+              message: '请输入手机号',
+              trigger: 'blur'
+            }
+          ],
+          roles: [
+            {
+              required: true,
+              message: '请选择角色',
+              trigger: 'change'
+            }
+          ]
+        },
+        formFields: [
           {
-            required: true,
-            message: '请输入用户账号',
-            trigger: 'blur'
-          }
-        ],
-        password: [
+            prop: 'username', label: '用户账号', component: 'input'
+          },
           {
-            required: true,
-            message: '请输入登录密码',
-            trigger: 'blur'
-          }
-        ],
-        phone: [
+            prop: 'realname', label: '用户姓名', component: 'input'
+          },
           {
-            required: true,
-            message: '请输入手机号',
-            trigger: 'blur'
-          }
-        ],
-        roles: [
+            prop: 'password', label: '登录密码', component: 'password'
+          },
           {
-            required: true,
-            message: '请选择角色',
-            trigger: 'change'
+            prop: 'phone', label: '手机号', component: 'input'
+          },
+          {
+            prop: 'roles', label: '角色分配', component: 'select',
+            dict: 'roles',
+            options: {
+              value: 'id',
+              label: 'roleName'
+            }
+          },
+          {
+            prop: 'sex', label: '性别', component: 'select',
+            dict: 'sex'
+          },
+          {
+            prop: 'avatar', label: '头像', component: 'upload',
+            options: {
+              listType: 'picture-card'
+            }
+          },
+          {
+            prop: 'status', label: '状态', component: 'switch',
+            dict: 'sys_user_status',
+            options: {
+              'checked-children': '启用',
+              'un-checked-children': '禁用'
+            }
           }
         ]
-      },
-      formFields: [
-        {
-          prop: 'username', label: '用户账号', component: 'input'
-        },
-        {
-          prop: 'realname', label: '用户姓名', component: 'input'
-        },
-        {
-          prop: 'password', label: '登录密码', component: 'password'
-        },
-        {
-          prop: 'phone', label: '手机号', component: 'input'
-        },
-        {
-          prop: 'roles', label: '角色分配', component: 'select',
-          dict: 'roles',
-          options: {
-            value: 'id',
-            label: 'roleName'
-          }
-        },
-        {
-          prop: 'sex', label: '性别', component: 'select',
-          dict: 'sex'
-        },
-        {
-          prop: 'avatar', label: '头像', component: 'upload',
-          options: {
-            listType: 'picture-card'
-          }
-        },
-        {
-          prop: 'status', label: '状态', component: 'switch',
-          dict: 'status',
-          options: {
-            'checked-children': '启用',
-            'un-checked-children': '禁用'
-          }
-        }
-      ]
-    }
-  },
-  watch: {
-    'dict': {
-      immediate: true,
-      deep: true,
-      handler(val) {
-        this.formFields.forEach(f => {
-          Object.keys(val).forEach(d => {
-            if (f.dict === d) f.dataSource = val[f.dict]
-          })
-        })
       }
     }
   },
-  mounted() {
-  },
   methods: {
-    handleCancel() {
-      this.visible = false
-    },
     add() {
-      this.edit({ status: '0' })
+      this.edit()
     },
     // 编辑
     edit(record) {
-      this.dataForm = Object.assign({}, record)
-      this.resetScreenSize()
+      this.Form.dataForm = Object.assign({}, record)
       this.visible = true
       this.$nextTick(() => {
         this.$refs.Form.clearValidate()
       })
     },
-    // 根据屏幕变化,设置抽屉尺寸
-    resetScreenSize() {
-      const screenWidth = document.body.clientWidth
-      if (screenWidth < 500) {
-        this.drawerWidth = screenWidth
-      } else {
-        this.drawerWidth = 700
-      }
-    },
     async handleSubmit() {
       const status = this.$refs.Form.validate()
       if (status) {
         try {
+          const Form = this.dataForm
           this.confirmLoading = true
           let res
-          if (!this.dataForm.id) {
-            res = await this.$fetch.postAction('/sys/user/add', this.dataForm)
+          if (!Form.id) {
+            res = await this.$fetch.postAction('/sys/user/add', Form)
           } else {
-            res = await this.$fetch.postAction('/sys/user/edit', this.dataForm)
+            res = await this.$fetch.postAction('/sys/user/edit', Form)
           }
           if (res.success) {
             this.confirmLoading = false
@@ -190,35 +134,4 @@ export default {
   }
 }
 </script>
-<style scoped>
-  .avatar-uploader > .ant-upload {
-    width:104px;
-    height:104px;
-  }
-  .ant-upload-select-picture-card i {
-    font-size: 49px;
-    color: #999;
-  }
 
-  .ant-upload-select-picture-card .ant-upload-text {
-    margin-top: 8px;
-    color: #666;
-  }
-
-  .ant-table-tbody .ant-table-row td{
-    padding-top:10px;
-    padding-bottom:10px;
-  }
-
-  .drawer-bootom-button {
-    position: absolute;
-    bottom: -8px;
-    width: 100%;
-    border-top: 1px solid #e8e8e8;
-    padding: 10px 16px;
-    text-align: right;
-    left: 0;
-    background: #fff;
-    border-radius: 0 0 2px 2px;
-  }
-</style>

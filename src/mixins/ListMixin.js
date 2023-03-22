@@ -64,8 +64,11 @@ export const ListMixin = {
         this.loading = false
       })
     },
-    // 加载字典   后期可配置本地存储
+    // 加载字典
     async loadDict() {
+      // 本地
+      await this.$store.dispatch('app/setDict', this.dict)
+      // 远端
       if (!this.url.dict) return
       await this.$store.dispatch('app/loadDict', this.url.dict)
       this.dict = {

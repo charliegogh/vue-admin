@@ -11,6 +11,5 @@ module.exports = {
       paranoid: true
     }
   },
-  token: 'charlie',
-  appID: 'wx730666522764a093'
+  token: 'charlie'
 }

@@ -4,7 +4,13 @@ const base = '/sys/user'
 const uuid = require('uuid')
 router.get(base + '/list', async(ctx) => {
   try {
-    const data = await sys_users.findAll()
+    const data = await sys_users.findAll(
+      {
+        // 跳过多少条数据
+        // 取多少条数据
+        limit: 2
+      }
+    )
     ctx.success(data)
   } catch (e) {
     console.log(e)

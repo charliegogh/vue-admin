@@ -133,7 +133,7 @@
       <div class="fl">
         <a-button type="primary" icon="plus" @click="$emit('handleAdd')">新增</a-button>
       </div>
-      <div class="fr">
+      <div v-show="formFields.length!==0" class="fr">
         <a-button type="primary" icon="search" @click="$emit('searchQuery')">查询</a-button>
         <a-button type="primary" icon="reload" @click="searchReset">重置</a-button>
         <a
@@ -149,9 +149,9 @@
   </div>
 </template>
 <script>
-import mixins from '_com/Form/mixins'
+import mixins from '_com/c-form/mixins'
 export default {
-  name: 'TableOperator',
+  name: 'CSearch',
   mixins: [mixins],
   data() {
     return {

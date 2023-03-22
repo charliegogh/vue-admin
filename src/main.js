@@ -2,8 +2,8 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import './core/lazy_use' // 按需加载组件
 import './styles/index.less' // 全局样式
+import './core/lazy_use' // 按需加载组件
 import * as fetch from '@/api'
 
 // 权限认证
@@ -15,10 +15,7 @@ import config from './defaultSettings'
 Vue.prototype.$config = config
 
 // 动态表单
-import '@/components/Form/install.js'
-
-// table 二次封装
-import '@/components/CTable/install.js'
+import '@/components/c-form/install.js'
 
 // 全局过滤器
 import * as filters from './filters'

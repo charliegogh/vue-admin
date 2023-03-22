@@ -1,10 +1,10 @@
 <template>
   <a-card :bordered="false">
-    <!-- 操作按钮区域 -->
-    <div class="table-operator">
-      <a-button type="primary" icon="plus" @click="handleAdd">添加用户</a-button>
-    </div>
-
+    <c-search
+      @handleAdd="handleAdd"
+      @searchQuery="searchQuery"
+      @searchReset="searchReset"
+    />
     <c-table
       :columns="columns"
       :data-source="dataSource"
@@ -24,10 +24,10 @@
           <a-avatar shape="square" :src="$config.fileContext+record.avatar" icon="user" />
         </div>
       </template>
+      <!--      <template slot="action" slot-scope="record" />-->
     </c-table>
     <user-modal
       ref="modalForm"
-      :dict="dict"
       @ok="modalFormOk"
     />
   </a-card>
@@ -75,6 +75,7 @@ const columns = [
   }
 ]
 export default {
+  name: 'User',
   components: {
     UserModal
   },
@@ -103,13 +104,13 @@ export default {
             code: '1'
           }
         ],
-        status: [
+        sys_user_status: [
           {
-            name: '启用',
+            name: '正常',
             code: '0'
           },
           {
-            name: '禁用',
+            name: '停用',
             code: '1'
           }
         ]

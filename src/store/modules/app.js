@@ -74,10 +74,16 @@ const actions = {
           code: i.code || i
         })
       })).then(res => {
-        commit('SET_DICT', Object.fromEntries(codeList.map((code, index) => ([[code.code || code], res[index].result.records]))))
+        commit('SET_DICT', Object.fromEntries(codeList.map((code, index) => ([[code.code || code], res[index].data]))))
         resolve()
       })
     })
+  },
+  /**
+   * 配置全局dict  后期可优化，现有只会替换
+   */
+  setDict({ state, commit }, dictArr) {
+    commit('SET_DICT', dictArr)
   },
   /**
    * 通用地址列表

@@ -2,18 +2,17 @@
   <div class="account-settings-info-view">
     <Form
       ref="Form"
-      :data-form="dataForm"
-      :rules="rules"
-      :label-col="2"
-      :form-fields="formFields"
+      v-bind="Form"
     >
-      <a-form-item>
-        <a-button
-          type="primary"
-          :loading="submitLoading"
-          @click="handleSubmit"
-        >保存</a-button>
-      </a-form-item>
+      <a-button
+        slot="submit"
+        type="primary"
+        html-type="submit"
+        class="login-button"
+        :loading="confirmLoading"
+        @click="handleSubmit"
+      >确定
+      </a-button>
     </Form>
   </div>
 </template>
@@ -23,32 +22,37 @@ export default {
   },
   data() {
     return {
-      dataForm: {},
-      rules: {
-        username: [
+      confirmLoading: false,
+      Form: {
+        ref: 'Form',
+        dataForm: {},
+        rules: {
+          username: [
+            {
+              required: true,
+              message: '请输入用户账号',
+              trigger: 'blur'
+            }
+          ]
+        },
+        formFields: [
           {
-            required: true,
-            message: '请输入用户账号',
-            trigger: 'blur'
+            prop: 'username', label: '用户账号', component: 'input'
+          },
+          {
+            prop: 'phone', label: '手机号', component: 'input'
           }
         ]
       },
-      submitLoading: false,
-      formFields: [
-        {
-          prop: 'username', label: '用户账号', component: 'input'
-        },
-        {
-          prop: 'phone', label: '手机号', component: 'input'
-        }
-      ]
+      submitLoading: false
+
     }
   },
   methods: {
     handleSubmit() {
       const status = this.$refs.Form.validate() // 调用组件的校验
       if (status) {
-        this.submitLoading = true
+        this.confirmLoading = true
       }
     }
   }

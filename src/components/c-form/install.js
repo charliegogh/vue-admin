@@ -8,5 +8,6 @@ const components = modulesFiles.keys().reduce((modules, modulePath) => {
   return modules
 }, [])
 components.forEach(item => {
+  console.log(item)
   Vue.component(item.name, item.default || item)
 })

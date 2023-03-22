@@ -12,5 +12,4 @@ module.exports = {
     }
   },
   token: 'charlie',
-  appID: 'wx730666522764a093'
 }

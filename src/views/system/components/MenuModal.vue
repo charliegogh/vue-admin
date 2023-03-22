@@ -76,7 +76,7 @@ export default {
               trigger: 'blur'
             }
           ],
-          url: [
+          pageUrl: [
             {
               required: true,
               message: '请输入菜单路径',

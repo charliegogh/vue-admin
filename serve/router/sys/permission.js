@@ -87,6 +87,7 @@ router.get(base + '/queryRolePermission', async(ctx) => {
 router.post(base + '/saveRolePermission', async(ctx) => {
   try {
     const { roleId, permissionIds } = ctx.request.body
+    // 查询所有
     const allRole = await sys_role_menus.findAll(
       {
         where: {
@@ -94,6 +95,13 @@ router.post(base + '/saveRolePermission', async(ctx) => {
         }
       }
     )
+    // 删除原有
+    await sys_role_menus.destroy({
+      where:{
+        role_id: roleId
+      }
+    })
+    // 批量更新
     const params = permissionIds.split(',').map((i, idx) => {
       return {
         id: allRole.find(p => p.menu_id === i)?.id || uuid.v1().replaceAll('-', ''),
@@ -101,9 +109,8 @@ router.post(base + '/saveRolePermission', async(ctx) => {
         menu_id: i
       }
     })
-    const data = await sys_role_menus.bulkCreate(params, {
-      updateOnDuplicate: ['role_id', 'menu_id']
-    })
+    // 批量创建
+    const data = await sys_role_menus.bulkCreate(params)
     ctx.success(data)
   } catch (e) {
     console.log(e)

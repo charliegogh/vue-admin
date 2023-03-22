@@ -51,7 +51,7 @@ const actions = {
     try {
       if (res.code === 200) {
         const { data } = res
-        commit('SET_USER_INFO', data)
+        commit('SET_USER_INFO', data.sysUser)
         // 获取按钮数组信息
         await dispatch('getRoles', data.menuInfo)
         // 处理权限路由结构信息

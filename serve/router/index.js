@@ -13,9 +13,5 @@ fs.readdirSync(__dirname)
     router.use(require('./' + file))
   })
 router.get('/test', async(ctx, next) => {
-  // const rs = await sequelize.query('SELECT * FROM `test`', {
-  //   type: QueryTypes.SELECT
-  // })
-  ctx.success(1)
 })
 module.exports = router
