@@ -14,7 +14,6 @@
           <a-col
             v-for="formField in formFields.filter(e=>e.show!==false)"
             :key="formField.prop"
-
             v-bind="layout.layout==='inline' && layout.inlineCol"
           >
             <a-form-model-item
@@ -233,8 +232,6 @@ export default {
     }
 
   }
-  .ant-form-item{
-    margin-bottom: 13px;
-  }
+
 }
 </style>

@@ -1,6 +1,8 @@
 <template>
   <a-card :bordered="false">
     <c-search
+      :data-form="{}"
+      :form-fields="formFields"
       @handleAdd="handleAdd"
       @searchQuery="searchQuery"
       @searchReset="searchReset"
@@ -83,6 +85,46 @@ export default {
   data() {
     return {
       columns,
+      formFields: [
+        {
+          prop: 'username', label: '用户账号', component: 'input'
+        },
+        {
+          prop: 'realname', label: '用户姓名', component: 'input'
+        },
+        {
+          prop: 'password', label: '登录密码', component: 'password'
+        },
+        {
+          prop: 'phone', label: '手机号', component: 'input'
+        },
+        {
+          prop: 'roles', label: '角色分配', component: 'select',
+          dict: 'roles',
+          options: {
+            value: 'id',
+            label: 'roleName'
+          }
+        },
+        {
+          prop: 'sex', label: '性别', component: 'select',
+          dict: 'sex'
+        },
+        {
+          prop: 'avatar', label: '头像', component: 'upload',
+          options: {
+            listType: 'picture-card'
+          }
+        },
+        {
+          prop: 'status', label: '状态', component: 'switch',
+          dict: 'sys_user_status',
+          options: {
+            'checked-children': '启用',
+            'un-checked-children': '禁用'
+          }
+        }
+      ],
       url: {
         list: '/sys/user/list',
         delete: '/sys/user/delete',

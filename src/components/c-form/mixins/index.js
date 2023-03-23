@@ -41,7 +41,7 @@ export default {
           },
           inlineCol: {
             xxl: 6,
-            sm: 12
+            sm: 8
           }
         }
       }

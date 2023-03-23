@@ -5,12 +5,15 @@
         layout="inline"
         @keyup.enter.native="$emit('searchQuery')"
       >
-        <a-row :gutter="24">
+        <a-row
+          :gutter="24"
+          :class="(!toggleStatus && formFields.length>maxFieldsShowLength)?'toggleStatus':''"
+        >
           <a-col
-            v-for="formField in formFields"
+            v-for="(formField,index) in formFields"
             :key="formField.prop"
-            :xxl="6"
-            :sm="12"
+            v-bind="layout.inlineCol"
+            :class="(!toggleStatus && index>maxFieldsShowLength-1) && 'none'"
           >
             <a-form-model-item
               :key="formField.prop"
@@ -135,14 +138,14 @@
       </div>
       <div v-show="formFields.length!==0" class="fr">
         <a-button type="primary" icon="search" @click="$emit('searchQuery')">查询</a-button>
-        <a-button type="primary" icon="reload" @click="searchReset">重置</a-button>
+        <a-button type="primary" icon="reload" @click="$emit('searchReset')">重置</a-button>
         <a
-          v-show="formFields.length>15"
+          v-show="formFields.length>maxFieldsShowLength"
           style="margin-left: 8px"
-          @click="handleToggleSearch"
+          @click="toggleStatus = !toggleStatus"
         >
-          {{ toggleSearchStatus ? '收起' : '展开' }}
-          <a-icon :type="toggleSearchStatus ? 'up' : 'down'" />
+          {{ toggleStatus ? '收起' : '展开' }}
+          <a-icon :type="toggleStatus ? 'up' : 'down'" />
         </a>
       </div>
     </div>
@@ -153,22 +156,19 @@ import mixins from '_com/c-form/mixins'
 export default {
   name: 'CSearch',
   mixins: [mixins],
+  props: {
+    // 4元素一行，两行自动折叠，不考虑自适应
+    maxFieldsShowLength: {
+      type: Number,
+      default: 8
+    }
+  },
   data() {
     return {
-      toggleSearchStatus: false
+      toggleStatus: false
     }
   },
   methods: {
-    // 展开
-    handleToggleSearch() {
-      this.toggleSearchStatus = !this.toggleSearchStatus
-    },
-    searchReset() {
-      this.$emit('searchReset')
-    },
-    searchQuery() {
-      this.$emit('searchQuery')
-    }
   }
 }
 </script>
@@ -206,10 +206,5 @@ export default {
     white-space: nowrap;
   }
 
-}
-.table-operator{
-  button{
-    margin-left: 8px;
-  }
 }
 </style>
