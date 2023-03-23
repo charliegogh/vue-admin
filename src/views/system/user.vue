@@ -3,6 +3,9 @@
     <c-search
       :data-form="{}"
       :form-fields="formFields"
+      :permission="{
+        add:'xxx'
+      }"
       @handleAdd="handleAdd"
       @searchQuery="searchQuery"
       @searchReset="searchReset"
@@ -123,9 +126,6 @@ export default {
         ]
       }
     }
-  },
-  created() {
-
   }
 }
 </script>

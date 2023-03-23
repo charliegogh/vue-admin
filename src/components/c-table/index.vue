@@ -22,7 +22,7 @@
   </a-table>
 </template>
 <script>
-import Emitter from './emitter'
+import Emitter from '../mixins/emitter'
 export default {
   name: 'CTable',
   mixins: [Emitter]
