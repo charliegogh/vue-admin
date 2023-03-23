@@ -134,9 +134,21 @@
     </div>
     <div class="table-operator row-between-center" style="margin-top: 0;align-items: center">
       <div class="fl">
-        <a-button type="primary" icon="plus" @click="$emit('handleAdd')">新增</a-button>
+        <template v-if="permission && Object.keys(permission).length!==0">
+          <a-button
+            v-permission="[permission.add]"
+            type="primary"
+            icon="plus"
+            @click="$emit('handleAdd')"
+          >新增</a-button>
+        </template>
+        <template v-else>
+          <a-button type="primary" icon="plus" @click="$emit('handleAdd')">新增</a-button>
+        </template>
+        <slot name="fl" />
       </div>
       <div v-show="formFields.length!==0" class="fr">
+        <slot name="fr" />
         <a-button type="primary" icon="search" @click="$emit('searchQuery')">查询</a-button>
         <a-button type="primary" icon="reload" @click="$emit('searchReset')">重置</a-button>
         <a
@@ -152,15 +164,21 @@
   </div>
 </template>
 <script>
+import permission from '@/directive/permission'
 import mixins from '_com/c-form/mixins'
 export default {
   name: 'CSearch',
+  directives: { permission },
   mixins: [mixins],
   props: {
     // 4元素一行，两行自动折叠，不考虑自适应
     maxFieldsShowLength: {
       type: Number,
       default: 8
+    },
+    permission: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {

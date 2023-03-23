@@ -1,34 +1,12 @@
 <template>
-  <a-drawer
-    :title="title"
-    :mask-closable="true"
-    :width="drawerWidth"
-    placement="right"
-    :visible="visible"
-    :closable="true"
-    :confirm-loading="confirmLoading"
-    @close="handleCancel"
+  <CDrawer
+    v-model="visible"
+    :loading="confirmLoading"
+    @handleSubmit="handleOk"
   >
-    <div class="drawer-modal-body">
-      <a-spin :spinning="confirmLoading">
-        <Form
-          v-bind="form"
-        />
-      </a-spin>
-      <a-row class="menu-modal-footer row-end-end">
-        <a-button @click="handleCancel">
-          关闭
-        </a-button>
-        <a-button
-          :loading="confirmLoading"
-          type="primary"
-          @click="handleOk"
-        >确定</a-button>
-      </a-row>
-    </div>
-  </a-drawer>
+    <Form v-bind="Form" />
+  </CDrawer>
 </template>
-
 <script>
 import { deepClone } from '_utils'
 
@@ -64,7 +42,7 @@ export default {
     return {
       dict,
       visible: false,
-      form: {
+      Form: {
         ref: 'Form',
         dataForm: {
         },
@@ -133,10 +111,10 @@ export default {
     }
   },
   watch: {
-    'form.dataForm.type': {
+    'Form.dataForm.type': {
       immediate: true,
       handler(val) {
-        this.form.formFields.forEach(item => {
+        this.Form.formFields.forEach(item => {
           item.show = this.dict.type.find(item => item.code === val)?.menus.includes(item.prop)
         })
       }
@@ -145,7 +123,7 @@ export default {
   methods: {
     // 切换菜单类型
     onChangeMenuType(e) {
-      this.form.dataForm.type = e?.target?.value || 0
+      this.Form.dataForm.type = e?.target?.value || 0
     },
     // 取消
     handleCancel() {
@@ -155,7 +133,7 @@ export default {
       this.edit({ type: 0, pid: '' })
     },
     edit(record) {
-      this.form.dataForm = Object.assign({}, record)
+      this.Form.dataForm = Object.assign({}, record)
       this.resetScreenSize() // 调用此方法,根据屏幕宽度自适应调整抽屉的宽度
       this.visible = true
       this.$nextTick(() => {
@@ -167,7 +145,7 @@ export default {
         const status = this.$refs.Form.validate() // 调用组件的校验
         if (status) {
           this.confirmLoading = true
-          const dataForm = deepClone(this.form.dataForm)
+          const dataForm = deepClone(this.Form.dataForm)
           delete dataForm.children
           let res
           if (!dataForm.id) {
@@ -187,15 +165,6 @@ export default {
         }
       } catch (e) {
         throw e
-      }
-    },
-    // 根据屏幕变化,设置抽屉尺寸
-    resetScreenSize() {
-      const screenWidth = document.body.clientWidth
-      if (screenWidth < 500) {
-        this.drawerWidth = screenWidth
-      } else {
-        this.drawerWidth = 700
       }
     }
   }

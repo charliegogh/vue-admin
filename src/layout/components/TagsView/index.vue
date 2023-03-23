@@ -146,6 +146,9 @@ export default {
       if (pageKey === indexKey) {
         return
       }
+      if (this.pageList.length === 1) {
+        return
+      }
       const tempList = [...this.pageList]
       const indexContent = tempList.slice(0, 1)[0]
       const index = this.linkList.indexOf(pageKey)
