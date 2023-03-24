@@ -30,6 +30,6 @@ new Koa()
  * start serve
  */
 function on() {
-  const port = config.port
+    const port = config.port
   console.log(`server port ${port} listening and open browser with http://localhost:${port}....`)
 }

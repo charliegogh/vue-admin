@@ -1,5 +1,5 @@
 module.exports = {
-  port: 3000, // 服务器端口
+  port: 88, // 服务器端口
   sequelize: {
     username: 'root',
     password: 'gcl@123',
