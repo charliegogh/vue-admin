@@ -158,6 +158,11 @@
                 :name="formField.prop"
                 :prop="formField.prop"
               />
+              <!--  导入     -->
+              <Import
+                v-if="formField.component==='import'"
+                v-model="dataForm[formField.prop]"
+              />
             </a-form-model-item>
           </a-col>
           <a-col

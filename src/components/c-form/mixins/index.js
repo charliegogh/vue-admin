@@ -59,10 +59,10 @@ export default {
   watch: {
     // 动态字典
     'dict': {
-      immediate: true,
+      // immediate: true,
       deep: true,
       handler(val) {
-        console.log(val, 'dict')
+        // console.log(val, 'dict')
         this.formFields.forEach(f => {
           Object.keys(val).forEach(d => {
             if (f.dict === d) f.dataSource = val[f.dict]

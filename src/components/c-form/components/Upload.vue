@@ -137,7 +137,6 @@ export default {
             }
           }
         })
-        console.log(this.fileList)
         this.handleSelectChange()
       } else {
         this.fileList = this.value

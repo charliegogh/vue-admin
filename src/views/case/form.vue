@@ -49,7 +49,6 @@ export default {
           dateRange: [
             '2022-08', '2022-10'
           ]
-          // date: '2022'
         },
         rules: {
           input: [
@@ -63,6 +62,9 @@ export default {
           ]
         },
         formFields: [
+          {
+            prop: 'import', label: '导入', component: 'import'
+          },
           {
             prop: 'dateRange', label: '时间范围', component: 'dateRange'
             // format: 'YYYY-MM',
@@ -232,6 +234,7 @@ export default {
   },
   methods: {
     submit() {
+      console.log(this.form.dataForm)
       this.$refs.form.validate()
     }
   }

@@ -7,7 +7,7 @@ const CancelToken = axios.CancelToken
 const queue = [] // 请求队列
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_URL,
-  baseURL: 'http://localhost:3000/',
+  baseURL: 'http://localhost:88/',
   withCredentials: true, // 允许携带 cookie
   timeout: 50000, // 请求超时时间
   // 默认请求头
