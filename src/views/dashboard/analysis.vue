@@ -17,6 +17,7 @@
             <a-menu-item>
               <Import
                 action="~~~~~~~~~~~~~~~~"
+                @change="handleImport"
               />
             </a-menu-item>
           </a-menu>
@@ -24,7 +25,7 @@
       </template>
     </c-search>
     <a-row :gutter="24">
-      <a-col :span="12">
+      <a-col :span="24">
         <Form
           v-bind="form"
         >
@@ -65,9 +66,6 @@ export default {
       },
       search: {
         formFields: [
-          {
-            prop: 'import', label: '导入', component: 'import'
-          }
         ]
       },
       form: {
@@ -95,9 +93,9 @@ export default {
           ]
         },
         formFields: [
-          {
-            prop: 'import', label: '导入', component: 'import'
-          },
+          // {
+          //   prop: 'import', label: '导入', component: 'import'
+          // },
           {
             prop: 'dateRange', label: '时间范围', component: 'dateRange'
             // format: 'YYYY-MM',
@@ -253,6 +251,24 @@ export default {
     submit() {
       console.log(this.form.dataForm)
       this.$refs.form.validate()
+    },
+    // 信息导入
+    handleImport(info) {
+      if (info.file.status === 'uploading') {
+        this.importLoading = true
+      }
+      if (info.file.status === 'done') {
+        if (info.file.response.code === 200) {
+          this.$message.success(`${info.file.response.message}`)
+          this.importLoading = false
+          this.loadData()
+        } else {
+          this.$message.error(`${info.file.response.message}`)
+        }
+      } else if (info.file.status === 'error') {
+        this.$message.error('导入失败')
+        this.importLoading = false
+      }
     }
   }
 }

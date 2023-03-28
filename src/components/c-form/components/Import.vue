@@ -24,7 +24,7 @@ export default {
       })
     },
     handleImport(file) {
-      this.$emit('handleImport', file)
+      this.$emit('change', file)
     }
   }
 }
