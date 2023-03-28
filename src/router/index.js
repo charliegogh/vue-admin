@@ -28,6 +28,14 @@ export const routes = [
         meta: {
           title: '个人中心'
         }
+      },
+      {
+        path: '/user/setting',
+        name: 'userSetting',
+        component: () => import('@/views/user/setting'),
+        meta: {
+          title: '账户设置'
+        }
       }
     ]
   },

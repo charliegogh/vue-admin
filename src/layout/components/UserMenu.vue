@@ -11,6 +11,12 @@
             <span>个人中心</span>
           </router-link>
         </a-menu-item>
+        <a-menu-item key="1">
+          <router-link :to="{ path: '/user/setting' }">
+            <a-icon type="setting" />
+            <span>账户设置</span>
+          </router-link>
+        </a-menu-item>
       </a-menu>
     </a-dropdown>
     <span class="action">

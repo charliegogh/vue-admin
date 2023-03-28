@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import CSwitch from '@/components/c-form/components/Switch'
+import CSwitch from '@/components/c-form/components/CSwitch'
 import previewModal from '@/views/tools/components/previewModal'
 export default {
   components: {

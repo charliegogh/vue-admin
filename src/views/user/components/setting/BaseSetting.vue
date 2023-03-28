@@ -1,25 +1,22 @@
 <template>
-  <div class="account-settings-info-view">
-    <Form
-      ref="Form"
-      v-bind="Form"
-    >
-      <a-button
-        slot="submit"
-        type="primary"
-        html-type="submit"
-        class="login-button"
-        :loading="confirmLoading"
-        @click="handleSubmit"
-      >确定
-      </a-button>
-    </Form>
-  </div>
+  <Form
+    ref="Form"
+    v-bind="Form"
+  >
+    <a-button
+      slot="submit"
+      type="primary"
+      html-type="submit"
+      class="login-button"
+      :loading="confirmLoading"
+      @click="handleSubmit"
+    >提交
+    </a-button>
+  </Form>
 </template>
 <script>
 export default {
-  components: {
-  },
+  name: 'BaseSetting',
   data() {
     return {
       confirmLoading: false,
@@ -35,12 +32,17 @@ export default {
             }
           ]
         },
+        // 按空配置处理
+        layout: {},
         formFields: [
           {
-            prop: 'username', label: '用户账号', component: 'input'
+            prop: 'username', label: '姓名', component: 'input'
           },
           {
             prop: 'phone', label: '手机号', component: 'input'
+          },
+          {
+            prop: 'email', label: '邮箱', component: 'input'
           }
         ]
       },
@@ -57,9 +59,3 @@ export default {
   }
 }
 </script>
-<style>
-.account-settings-info-view{
-  background-color: #ffffff;
-  padding: 20px;
-}
-</style>

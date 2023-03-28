@@ -1,5 +1,4 @@
 <template>
-  <!--  :custom-request="customRequest"-->
   <a-upload
     :multiple="false"
     v-bind="$attrs"
