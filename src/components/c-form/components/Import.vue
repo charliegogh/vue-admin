@@ -1,18 +1,17 @@
 <template>
+  <!--  :custom-request="customRequest"-->
   <a-upload
     :multiple="false"
-    :custom-request="customRequest"
+    v-bind="$attrs"
+    @change="handleImport"
   >
-    <a-button icon="upload">上传</a-button>
+    <a href="javascript:;" style="color: inherit">文件上传</a>
   </a-upload>
 </template>
 <script>
 export default {
   name: 'Import',
   props: {
-    value: {
-
-    }
   },
   data() {
     return {}
@@ -23,6 +22,9 @@ export default {
         file.onSuccess()
         this.$emit('input', file.file)
       })
+    },
+    handleImport(file) {
+      this.$emit('handleImport', file)
     }
   }
 }

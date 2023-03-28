@@ -18,7 +18,8 @@ export const ListMixin = {
         showQuickJumper: true,
         showSizeChanger: true,
         total: 0
-      }
+      },
+      importLoading: false
     }
   },
   async created() {
@@ -109,6 +110,24 @@ export const ListMixin = {
           this.$message.warning('操作失败')
         }
       })
+    },
+    // 信息导入
+    handleImport(info) {
+      if (info.file.status === 'uploading') {
+        this.importLoading = true
+      }
+      if (info.file.status === 'done') {
+        if (info.file.response.code === 200) {
+          this.$message.success(`${info.file.response.message}`)
+          this.importLoading = false
+          this.loadData()
+        } else {
+          this.$message.error(`${info.file.response.message}`)
+        }
+      } else if (info.file.status === 'error') {
+        this.$message.error('导入失败')
+        this.importLoading = false
+      }
     }
   }
 }

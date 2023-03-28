@@ -21,9 +21,9 @@
             更多 <a-icon type="down" />
           </a>
           <a-menu slot="overlay">
-            <a-menu-item>
+<!--            <a-menu-item>
               <a href="javascript:;" @click="handleDetail(record)">详情</a>
-            </a-menu-item>
+            </a-menu-item>-->
             <a-menu-item>
               <a href="javascript:;" @click="handleAddSub(record)">添加下级</a>
             </a-menu-item>
@@ -45,18 +45,21 @@ import { ListMixin } from '@/mixins/ListMixin'
 const columns = [
   {
     title: '菜单名称',
-    dataIndex: 'name'
+    dataIndex: 'name',
+    width: 200
   },
   {
     title: '路径',
-    dataIndex: 'url',
-    key: 'url',
-    scopedSlots: { customRender: 'url' }
+    dataIndex: 'pageUrl',
+    scopedSlots: { customRender: 'url' },
+    align: 'center',
+    width: 200
   },
   {
     title: '排序',
-    dataIndex: 'sort',
-    key: 'sort'
+    dataIndex: 'orderNo',
+    align: 'center',
+    width: 200
   },
   {
     title: '操作',

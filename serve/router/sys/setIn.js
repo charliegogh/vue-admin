@@ -66,7 +66,10 @@ router.post('/getUserInfo', async(ctx) => {
     {
       where: {
         id: roleMenu.map(i => i.dataValues.menu_id)
-      }
+      },
+      order: [
+        ['orderNo', 'ASC']
+      ]
     }
   )
   const data = {

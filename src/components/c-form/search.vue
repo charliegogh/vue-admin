@@ -133,7 +133,7 @@
       </a-form>
     </div>
     <div class="table-operator row-between-center" style="margin-top: 0;align-items: center">
-      <div class="fl">
+      <div class="fl row-start-center">
         <template v-if="permission && Object.keys(permission).length!==0">
           <a-button
             v-permission="[permission.add]"

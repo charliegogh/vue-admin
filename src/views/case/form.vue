@@ -1,7 +1,7 @@
 <template>
   <a-card :bordered="false">
     <a-row :gutter="24">
-      <a-col :span="24">
+      <a-col :span="12">
         <Form
           v-bind="form"
         >
@@ -73,9 +73,6 @@ export default {
           {
             prop: 'date', label: '时间选择器', component: 'date'
           },
-          // {
-          //   prop: 'test', label: '高级查询', component: 'slot'
-          // },
           {
             prop: 'treeSelect', label: '树形选择', component: 'treeSelect',
             placeholder: '请选择',
@@ -90,20 +87,7 @@ export default {
                 name: '1',
                 children: [
                   {
-                    name: '2',
-                    children: [
-                      {
-                        name: '3',
-                        children: [
-                          {
-                            name: '4'
-                          },
-                          {
-                            name: '4-2'
-                          }
-                        ]
-                      }
-                    ]
+                    name: '2'
                   },
                   {
                     name: '2-2'

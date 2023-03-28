@@ -7,7 +7,11 @@ const Op = Sequelize.Op
 // 获取菜单列表
 router.get(base + '/getSystemMenuList', async(ctx) => {
   try {
-    const data = await sys_menus.findAll()
+    const data = await sys_menus.findAll({
+      order:[
+        ['orderNo','ASC']
+      ]
+    })
     ctx.success(
       flatToTree(
         data,

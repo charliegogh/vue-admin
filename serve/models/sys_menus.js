@@ -29,6 +29,11 @@ module.exports = (sequelize, DataTypes) =>
       type: {
         type: DataTypes.INTEGER,
         allowNull: true
+      },
+      orderNo: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'order_no'
       }
     },
     {

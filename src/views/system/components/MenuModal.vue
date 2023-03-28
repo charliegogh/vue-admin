@@ -25,17 +25,17 @@ export default {
         {
           code: 0,
           name: '一级菜单',
-          menus: ['type', 'name', 'pageUrl', 'icon']
+          menus: ['type', 'name', 'pageUrl', 'icon', 'orderNo']
         },
         {
           code: 1,
           name: '子菜单',
-          menus: ['type', 'pid', 'name', 'pageUrl', 'icon']
+          menus: ['type', 'pid', 'name', 'pageUrl', 'icon', 'orderNo']
         },
         {
           code: 2,
           name: '按钮/权限',
-          menus: ['name', 'code', 'type']
+          menus: ['name', 'code', 'type', 'orderNo']
         }
       ]
     }
@@ -101,6 +101,9 @@ export default {
             prop: 'code', label: '字典编码', component: 'input'
           },
           {
+            prop: 'orderNo', label: '排序', component: 'input'
+          },
+          {
             prop: 'icon', label: '菜单图标', component: 'input'
           }
         ]
@@ -134,7 +137,6 @@ export default {
     },
     edit(record) {
       this.Form.dataForm = Object.assign({}, record)
-      this.resetScreenSize() // 调用此方法,根据屏幕宽度自适应调整抽屉的宽度
       this.visible = true
       this.$nextTick(() => {
         this.$refs.Form.clearValidate()
