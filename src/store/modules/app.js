@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 import { jsonp } from 'vue-jsonp'
 import * as fetch from '@/api'
 import { Local } from '_utils/storage'
+import config from '@/defaultSettings'
 const state = {
   title: '',
   sidebar: {
@@ -10,6 +11,7 @@ const state = {
   },
   device: 'desktop',
   dict: { },
+  color: Local.readData('DEFAULT_COLOR').length !== 0 && Local.readData('DEFAULT_COLOR') || config.primaryColor,
   staticFile: {}, // 静态文件
   regionList: [] // 地区信息
 }
@@ -34,6 +36,7 @@ const mutations = {
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
+
   SET_DICT: (state, data) => {
     state.dict = {
       ...state.dict,
@@ -50,7 +53,13 @@ const mutations = {
       ...state.staticFile,
       ...data
     }
+  },
+  TOGGLE_COLOR: (state, color) => {
+    Local.saveData('DEFAULT_COLOR', color)
+    console.log(color)
+    state.color = color
   }
+
 }
 const actions = {
   toggleSideBar({ commit }) {
@@ -113,6 +122,9 @@ const actions = {
         resolve()
       })
     })
+  },
+  ToggleColor({ commit }, color) {
+    commit('TOGGLE_COLOR', color)
   }
 }
 

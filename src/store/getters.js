@@ -1,9 +1,9 @@
 export default {
-  // 用户数据
   userInfo: state => state.user.userInfo,
   roles: state => state.user.roles,
-  routes: state => state.user.routes, // 路由
+  routes: state => state.user.routes,
   token: state => state.user.token,
   dict: state => state.app.dict,
-  regionList: state => state.app.regionList
+  color: state => state.app.color
+  // regionList: state => state.app.regionList,
 }

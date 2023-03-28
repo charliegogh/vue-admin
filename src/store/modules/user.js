@@ -91,7 +91,6 @@ const actions = {
       return roles
     }
     getRolesList(menuList)
-    console.log(roles)
     commit('SET_ROLES', roles)
   },
   /* 更新用戶信息 （用户相关信息更改之后） */

@@ -17,6 +17,10 @@
             <span>账户设置</span>
           </router-link>
         </a-menu-item>
+        <a-menu-item key="2" @click="systemSetting">
+          <a-icon type="tool" />
+          <span>系统设置</span>
+        </a-menu-item>
       </a-menu>
     </a-dropdown>
     <span class="action">
@@ -25,13 +29,16 @@
         <span>退出登录</span>
       </a>
     </span>
+    <setting-drawer ref="settingDrawer" :closable="true" title="系统设置" />
   </div>
 </template>
 <script>
 import { mixinDevice } from '../mixin/device'
 import { mapState } from 'vuex'
+import settingDrawer from './setting/SettingDrawer'
 export default {
   components: {
+    settingDrawer
   },
   mixins: [mixinDevice],
   computed: {
@@ -51,6 +58,9 @@ export default {
         onCancel() {
         }
       })
+    },
+    systemSetting() {
+      this.$refs.settingDrawer.showDrawer()
     }
   }
 }
