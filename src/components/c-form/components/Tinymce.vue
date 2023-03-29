@@ -1,6 +1,6 @@
 <template>
   <Editor
-    v-model="value"
+    v-model="content"
     :init="setting"
   />
 </template>
@@ -19,12 +19,17 @@ import 'tinymce/plugins/colorpicker'
 import 'tinymce/plugins/textcolor'
 import 'tinymce/plugins/fullscreen'
 import 'tinymce/icons/default'
+import { postAction } from '@/api'
 export default {
   name: 'Tinymce',
   components: {
     Editor
   },
   props: {
+    prop: {
+      type: String,
+      default: ''
+    },
     value: {
       type: String,
       default: ''
@@ -41,6 +46,7 @@ export default {
   },
   data() {
     return {
+      content: '',
       setting: {
         skin_url: '/tinymce/skins/lightgray',
         language_url: '/tinymce/langs/zh_CN.js', // 语言包的路径
@@ -49,7 +55,34 @@ export default {
         branding: false, // 是否禁用“Powered by TinyMCE”
         menubar: true, // 顶部菜单栏显示,
         toolbar: this.toolbar,
-        plugins: this.plugins
+        plugins: this.plugins,
+        images_upload_handler: (blobInfo, success) => {
+          const formData = new FormData()
+          formData.append('file', blobInfo.blob(), blobInfo.filename())
+          formData.append('biz', 'jeditor')
+          formData.append('jeditor', '1')
+          postAction('http://192.168.72.235:88/upload/', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }).then(rs => {
+            success(rs.path)
+          })
+        }
+      }
+    }
+  },
+  watch: {
+    content(value) {
+      if (value) {
+        this.$emit('clearValidate', this.prop)
+      }
+      this.$emit('input', value)
+    },
+    value: {
+      immediate: true,
+      handler(newVal) {
+        this.content = newVal
       }
     }
   },

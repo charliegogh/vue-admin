@@ -44,9 +44,7 @@
 </template>
 <script>
 import { ListMixin } from '@/mixins/ListMixin'
-import Import from '../../components/c-form/components/Import'
 export default {
-  components: { Import },
   mixins: [ListMixin],
   data() {
     return {
@@ -83,15 +81,18 @@ export default {
           ]
         },
         rules: {
+          richText: [
+            { required: true, message: '请输入~!' }
+          ],
           input: [
             { required: true, message: '请输入~!' }
           ],
           cascade: [
             { required: true, message: '请选择~!' }
           ],
-          treeSelect: [
-            { required: true, message: '请选择~!' }
-          ]
+          // treeSelect: [
+          //   { required: true, message: '请选择~!' }
+          // ]
         },
         formFields: [
           {

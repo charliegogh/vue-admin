@@ -168,6 +168,8 @@
               <Tinymce
                 v-if="formField.component==='Tinymce'"
                 v-model="dataForm[formField.prop]"
+                v-bind="formField.options"
+                :prop="formField.prop"
               />
             </a-form-model-item>
           </a-col>
