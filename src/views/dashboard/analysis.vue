@@ -95,9 +95,9 @@ export default {
           // ]
         },
         formFields: [
-          {
-            prop: 'richText', label: '富文本', component: 'Tinymce'
-          },
+          // {
+          //   prop: 'richText', label: '富文本', component: 'Tinymce'
+          // },
           {
             prop: 'dateRange', label: '时间范围', component: 'dateRange'
             // format: 'YYYY-MM',
