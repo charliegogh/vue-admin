@@ -59,7 +59,7 @@ export default {
   },
   // 加载默认省市区列表信息
   async mounted() {
-    this.treeData = await this.$store.dispatch('app/getRegionList')
+    // this.treeData = await this.$store.dispatch('app/getRegionList')
   },
   methods: {
     handleChange(value) {
