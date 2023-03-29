@@ -1,7 +1,9 @@
-serve
 .DS_Store
 node_modules
 /dist
+/config
+/serve/
+
 
 # local env files
 .env.local
@@ -21,3 +23,4 @@ pnpm-debug.log*
 *.njsproj
 *.sln
 *.sw?
+
