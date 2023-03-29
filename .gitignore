@@ -1,7 +1,7 @@
+serve
 .DS_Store
 node_modules
 /dist
-/serve/config.js
 
 # local env files
 .env.local
