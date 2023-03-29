@@ -31,38 +31,38 @@
   </div>
 </template>
 <script>
-import { updateTheme, colorList } from "./setting";
-import config from "@/defaultSettings";
+import { updateTheme, colorList } from './setting'
+import config from '@/defaultSettings'
 export default {
   data() {
     return {
       visible: false,
       colorList
-    };
+    }
   },
   computed: {
     primaryColor() {
-      return this.$store.getters.color;
+      return this.$store.getters.color
     }
   },
   mounted() {
     // 当主题色不是默认色时，才进行主题编译
     if (this.primaryColor !== config.primaryColor) {
-      updateTheme(this.primaryColor);
+      // updateTheme(this.primaryColor)
     }
   },
   methods: {
     showDrawer() {
-      this.visible = true;
+      this.visible = true
     },
     changeColor(color) {
       if (this.primaryColor !== color) {
-        this.$store.dispatch("app/ToggleColor", color);
-        updateTheme(color);
+        this.$store.dispatch('app/ToggleColor', color)
+        updateTheme(color)
       }
     }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

@@ -67,11 +67,12 @@
               -->
               <a-select
                 v-if="formField.component==='select'"
-                v-model="dataForm[formField.prop]"
+                :value="dataForm[formField.prop] || undefined"
                 :placeholder="`请选择${formField.label}`"
                 allow-clear
                 v-bind="formField.options"
                 v-on="formField.event"
+                @change="(el)=>{dataForm[formField.prop]=el}"
               >
                 <a-select-option
                   v-for="(item, index) in formField.dataSource"
@@ -138,6 +139,7 @@
                 :prop="formField.prop"
                 @clearValidate="clearValidate"
               />
+
               <!--   区域级联选择     -->
               <Cascade
                 v-if="formField.component==='cascade'"
@@ -161,6 +163,10 @@
               <!--  导入     -->
               <Import
                 v-if="formField.component==='import'"
+                v-model="dataForm[formField.prop]"
+              />
+              <Tinymce
+                v-if="formField.component==='Tinymce'"
                 v-model="dataForm[formField.prop]"
               />
             </a-form-model-item>

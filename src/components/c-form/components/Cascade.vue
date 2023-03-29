@@ -39,7 +39,6 @@ export default {
   watch: {
     formField: {
       deep: true,
-      immediate: true,
       handler(val) {
         if (val.dataSource.length !== 0) {
           this.treeData = val.dataSource

@@ -77,6 +77,7 @@ export default {
           cascade: '110000,110100,110102',
           treeSelect: '',
           files: 'efc07c6a-039e-4cbc-84d5-606ec20448d0瑞尺新材料.doc',
+          select: null,
           dateRange: [
             '2022-08', '2022-10'
           ]
@@ -93,9 +94,9 @@ export default {
           ]
         },
         formFields: [
-          // {
-          //   prop: 'import', label: '导入', component: 'import'
-          // },
+          {
+            prop: 'richText', label: '富文本', component: 'Tinymce'
+          },
           {
             prop: 'dateRange', label: '时间范围', component: 'dateRange'
             // format: 'YYYY-MM',
@@ -154,13 +155,20 @@ export default {
           },
           {
             prop: 'select', label: '下拉框', component: 'select',
-            dict: 'user',
-            options: {
-              value: 'id',
-              label: 'username'
-            },
+            dataSource: [
+              {
+                name: 'charlie',
+                code: 'charlie'
+              },
+              {
+                name: 'roy',
+                code: 'roy'
+              }
+            ],
             event: {
-              change: () => {}
+              change: (e) => {
+                console.log(e)
+              }
             }
           },
           {
@@ -228,9 +236,7 @@ export default {
               }
             }
           }
-          // {
-          //   prop: 'richText', label: '富文本', type: 'richText'
-          // }
+
         ]
       }
     }
