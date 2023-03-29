@@ -48,7 +48,7 @@ export default {
   mounted() {
     // 当主题色不是默认色时，才进行主题编译
     if (this.primaryColor !== config.primaryColor) {
-      // updateTheme(this.primaryColor)
+      updateTheme(this.primaryColor)
     }
   },
   methods: {

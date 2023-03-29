@@ -46,7 +46,7 @@ export default {
   },
   data() {
     return {
-      content: this.value,
+      content: '',
       setting: {
         skin_url: '/tinymce/skins/lightgray',
         language_url: '/tinymce/langs/zh_CN.js', // 语言包的路径
@@ -78,6 +78,12 @@ export default {
         this.$emit('clearValidate', this.prop)
       }
       this.$emit('input', value)
+    },
+    value: {
+      immediate: true,
+      handler(val) {
+        this.content = val
+      }
     }
   }
 }

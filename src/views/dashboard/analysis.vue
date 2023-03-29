@@ -69,6 +69,7 @@ export default {
       form: {
         ref: 'form',
         dataForm: {
+          richText: '',
           switch: false,
           'radio-group': '1',
           MultipleSelect: 'charlie',
@@ -89,15 +90,15 @@ export default {
           ],
           cascade: [
             { required: true, message: '请选择~!' }
-          ],
+          ]
           // treeSelect: [
           //   { required: true, message: '请选择~!' }
           // ]
         },
         formFields: [
-          // {
-          //   prop: 'richText', label: '富文本', component: 'Tinymce'
-          // },
+          {
+            prop: 'richText', label: '富文本', component: 'Tinymce'
+          },
           {
             prop: 'dateRange', label: '时间范围', component: 'dateRange'
             // format: 'YYYY-MM',
@@ -253,6 +254,9 @@ export default {
     }
   },
   async mounted() {
+    setTimeout(() => {
+      this.form.dataForm.richText = '11111'
+    }, 500)
   },
   methods: {
     submit() {
