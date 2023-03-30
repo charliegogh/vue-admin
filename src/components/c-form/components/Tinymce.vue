@@ -49,6 +49,7 @@ export default {
       content: '',
       setting: {
         skin_url: '/tinymce/skins/lightgray',
+        content_css: '/tinymce/skins/lightgray/content.min.css',
         language_url: '/tinymce/langs/zh_CN.js', // 语言包的路径
         language: 'zh_CN', // 语言
         height: 300, // 编辑器高度

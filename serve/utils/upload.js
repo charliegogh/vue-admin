@@ -1,7 +1,7 @@
 const multer = require('koa-multer')
 const path = require('path')
 // const destPath = path.join(__dirname, '../uploadImgs')
-const destPath = path.join(__dirname, '../../files')
+const destPath = path.join(__dirname, '../files')
 // 配置
 const storage = multer.diskStorage({
   // 文件保存路径
