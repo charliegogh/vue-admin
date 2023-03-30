@@ -52,7 +52,7 @@ export default {
         },
         formFields: [
           {
-            prop: 'username', label: '用户账号', component: 'input'
+            prop: 'username', label: '用户账号', component: 'Tinymce'
           },
           {
             prop: 'realname', label: '用户姓名', component: 'input'

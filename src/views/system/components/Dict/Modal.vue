@@ -25,17 +25,17 @@ export default {
         dataForm: {},
         formFields: [
           {
-            prop: 'name', label: '字典名称', component: 'input'
+            prop: 'name', label: '字典名称', component: 'Tinymce'
           },
           {
             prop: 'code', label: '字典编码', component: 'input'
           },
           {
             prop: 'remark', label: '描述', component: 'select',
-            dataSource:[
+            dataSource: [
               {
-                name:'1',
-                code:'1'
+                name: '1',
+                code: '1'
               }
             ]
           }
