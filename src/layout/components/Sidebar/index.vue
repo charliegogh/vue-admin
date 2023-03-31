@@ -9,7 +9,7 @@
       <s-menu
         :collapsed="collapsed"
         :menu="routes"
-        theme="light"
+        :theme="theme"
         :mode="'inline'"
       />
     </a-layout-sider>
@@ -25,7 +25,7 @@
       <s-menu
         :collapsed="!collapsed"
         :menu="routes"
-        theme="light"
+        :theme="theme"
         :mode="'inline'"
       />
     </a-drawer>
@@ -34,6 +34,7 @@
 <script>
 import SMenu from './menu'
 import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 import Logo from './Logo'
 export default {
   components: {
@@ -41,6 +42,7 @@ export default {
     Logo
   },
   computed: {
+    ...mapGetters(['theme']),
     ...mapState({
       collapsed: state => !state.app.sidebar.opened,
       device: state => state.app.device,
@@ -63,6 +65,9 @@ export default {
   background-color:#ffffff!important;
   float:left;
   height: 100vh;
+}
+.ant-menu-root{
+  height: 100%;
 }
 .drawer-sider-container{
   .ant-drawer-body{

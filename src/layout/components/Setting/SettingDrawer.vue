@@ -11,7 +11,6 @@
       <div class="setting-drawer-index-content">
         <div :style="{ marginBottom: '24px' }">
           <h3 class="setting-drawer-index-title">整体风格设置</h3>
-
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
               <template slot="title">
