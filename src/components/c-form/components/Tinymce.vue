@@ -62,12 +62,12 @@ export default {
           formData.append("file", blobInfo.blob(), blobInfo.filename());
           formData.append("biz", "jeditor");
           formData.append("jeditor", "1");
-          postAction("http://192.168.72.235:88/upload/", formData, {
+          postAction("/upload/", formData, {
             headers: {
               "Content-Type": "multipart/form-data"
             }
           }).then(rs => {
-            success(rs.path);
+            success(this.$config.filePrefix + rs.path);
           });
         }
       }
