@@ -1,13 +1,35 @@
 <template>
-  <div class="sidebar-container">
-
-    <!--    <Logo />-->
-    <s-menu
-      :collapsed="!sidebar.opened"
-      :menu="routes"
-      theme="light"
-      :mode="'inline'"
-    />
+  <div>
+    <a-layout-sider
+      v-if="device==='desktop'"
+      v-model="collapsed"
+      width="200px"
+      :collapsible="collapsible"
+      :trigger="null"
+    >
+      <s-menu
+        :collapsed="collapsed"
+        :menu="routes"
+        theme="light"
+        :mode="'inline'"
+      />
+    </a-layout-sider>
+    <a-drawer
+      v-else
+      placement="left"
+      wrapClassName="drawer-sider-container"
+      :closable="false"
+      :visible="collapsed"
+      width="200px"
+      @close="handleClickOutside"
+    >
+      <s-menu
+        :collapsed="!collapsed"
+        :menu="routes"
+        theme="light"
+        :mode="'inline'"
+      />
+    </a-drawer>
   </div>
 </template>
 <script>
@@ -21,22 +43,28 @@ export default {
   },
   computed: {
     ...mapState({
-      sidebar: state => state.app.sidebar,
+      collapsed: state => !state.app.sidebar.opened,
       device: state => state.app.device,
       routes: state => state.user.routes
     })
   },
   data() {
     return {
-      isShow: false,
-      collapsed: false,
-      headerFixed: false
+      collapsible: true,
+      visible: true
     }
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+      this.$store.dispatch('app/toggleSideBar')
     }
   }
 }
 </script>
+<style>
+.ant-layout-sider{
+  background-color:#ffffff!important;
+  float:left;
+  height: 100vh;
+}
+</style>

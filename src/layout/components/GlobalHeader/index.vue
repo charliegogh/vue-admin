@@ -1,57 +1,116 @@
 <template>
-  <a-layout-header>
-    <UserMenu />
+  <a-layout-header
+    :class="['ant-header-fixedHeader',device==='desktop'?(collapsed ? 'ant-header-side-opened' : 'ant-header-side-closed'):'', ]"
+  >
+    <div v-if="mode === 'sidemenu'" class="header" :class="theme">
+      <div class="row-all-center">
+        <div class="header-icon">
+          <a-icon
+            v-if="device==='mobile'"
+            class="trigger"
+            :type="collapsed ? 'menu-fold' : 'menu-unfold'"
+            @click="toggle"
+          />
+          <a-icon
+            v-else
+            class="trigger"
+            :type="collapsed ? 'menu-unfold' : 'menu-fold'"
+            @click="toggle"
+          />
+        </div>
+        <div class="title">
+          <span v-if="device === 'desktop'">欢迎进入 charlie</span>
+          <span v-else>charlie</span>
+        </div>
+      </div>
+      <user-menu :theme="theme" />
+    </div>
+    <tags-view />
   </a-layout-header>
 </template>
 <script>
 import { mapState } from 'vuex'
-import UserMenu from '@/layout/components/UserMenu'
+import UserMenu from './UserMenu'
 import config from '@/defaultSettings'
+import tagsView from '../TagsView'
 export default {
   components: {
-    UserMenu
+    UserMenu,
+    tagsView
   },
   props: {
-    collapsed: {
-      type: Boolean,
+    mode: {
+      type: String,
+      // sidemenu, topmenu
+      default: 'sidemenu'
+    },
+    theme: {
+      type: String,
       required: false,
-      default: false
+      default: 'dark'
     }
+  },
+  computed: {
+    ...mapState({
+      collapsed: state => state.app.sidebar.opened,
+      device: state => state.app.device
+    })
   },
   data() {
     return {
       config
     }
   },
-  computed: {
-    ...mapState({
-      sidebar: state => state.app.sidebar,
-      device: state => state.app.device
-    })
-  },
   methods: {
     toggle() {
-      this.$emit('toggle')
+      this.$store.dispatch('app/toggleSideBar')
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.navbar{
+.header{
+  z-index: 2;
+  color: white;
   height: 59px;
+  //background-color: @primary-color;
   transition: background 300ms;
-  padding: 0 20px;
-  position: relative;
-  background-color: #ffffff;
-  box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  -webkit-box-shadow: 0 1px 4px rgba(0, 21, 41, 0.08);
-  border-bottom: 1px solid #f4f4f4;
-  .trigger{
+  border-bottom:  1px solid #f4f4f4;
+  .row-between-center();
+  /* dark 样式 */
+  &.dark {
+    color: #000000;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    background-color: white !important;
+  }
+  .trigger {
     font-size: 22px;
+    padding: 25px 10px 0 15px;
+    cursor: pointer;
+    transition: color 300ms, background 300ms;
   }
   .title{
-    margin-left: 15px;
-    font-size: 16px;
+    font-size:16px;
+  }
+}
+.ant-layout-header {
+  height: 110px;
+  padding: 0;
+}
+.ant-header-fixedHeader {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 9;
+  width: 100%;
+  transition: width .2s;
+
+  &.ant-header-side-opened {
+    width: calc(100% - 200px)
+  }
+
+  &.ant-header-side-closed {
+    width: calc(100% - 80px)
   }
 }
 </style>

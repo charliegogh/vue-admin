@@ -24,12 +24,5 @@ export default {
 .router-fade-enter, .router-fade-leave-active {
   opacity: 0;
 }
-.app-main {
-  .ql{
-    height: 110px;
-  }
-  padding: 15px;
-  position: relative;
-}
 </style>
 
