@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div class="sidebar-container">
+
     <!--    <Logo />-->
     <s-menu
       :collapsed="!sidebar.opened"
@@ -30,6 +31,11 @@ export default {
       isShow: false,
       collapsed: false,
       headerFixed: false
+    }
+  },
+  methods: {
+    handleClickOutside() {
+      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
     }
   }
 }

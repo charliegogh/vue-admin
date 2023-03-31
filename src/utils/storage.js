@@ -4,7 +4,7 @@ class Local {
   }
 
   static readData(KEY) {
-    return JSON.parse(window.localStorage.getItem(KEY) || '[]')
+    return JSON.parse(window.localStorage.getItem(KEY))
   }
 
   static removeData(KEY) {

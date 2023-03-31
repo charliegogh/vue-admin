@@ -1,5 +1,17 @@
 @sideBarWidth: 220px;
 #app{
+  .sidebar-mask{
+    background: #000;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    opacity: 0.3;
+    position: absolute;
+    z-index: 9998;
+  }
   .main-container {
     min-height: 100%;
     transition: margin-left .1s;
@@ -20,13 +32,12 @@
     background-color: #ffffff;
     height: 100vh;
     position: fixed;
-    //overflow-y: scroll;
     overflow: hidden;
     font-size: 0px;
     top: 0;
     bottom: 0;
     left: 0;
-    z-index: 1000;
+    z-index: 9999;
     .ant-menu-inline{
       border: none;
     }
@@ -61,7 +72,6 @@
     }
   }
   .withoutAnimation {
-
     .main-container,
     .sidebar-container {
       transition: none;

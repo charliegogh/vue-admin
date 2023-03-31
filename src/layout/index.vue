@@ -1,8 +1,11 @@
 <template>
   <div :class="classObj" class="app-wrapper">
-    <!--  侧边栏遮罩  -->
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <Sidebar class="sidebar-container" />
+    <div
+      v-if="device==='mobile'&& sidebar.opened"
+      class="sidebar-mask"
+      @click="handleClickOutside"
+    />
+    <Sidebar />
     <div class="main-container">
       <div
         class="nav"
@@ -58,14 +61,5 @@ export default {
 }
 </script>
 <style lang="less">
-  @import "style";
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
-  }
+
 </style>

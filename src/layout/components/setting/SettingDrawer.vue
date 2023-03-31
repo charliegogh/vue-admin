@@ -26,6 +26,35 @@
             </a-tooltip>
           </div>
         </div>
+        <div :style="{ marginBottom: '24px' }">
+          <h3 class="setting-drawer-index-title">导航模式</h3>
+
+          <div class="setting-drawer-index-blockChecbox">
+            <a-tooltip>
+              <template slot="title">
+                侧边栏导航
+              </template>
+              <div class="setting-drawer-index-item" @click="handleLayoutMode('sidemenu')">
+                <img src="https://gw.alipayobjects.com/zos/rmsportal/JopDzEhOqwOjeNTXkoje.svg" alt="sidemenu">
+                <div v-if="layoutMode === 'sidemenu'" class="setting-drawer-index-selectIcon">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
+
+            <a-tooltip>
+              <template slot="title">
+                顶部栏导航
+              </template>
+              <div class="setting-drawer-index-item" @click="handleLayoutMode('topmenu')">
+                <img src="https://gw.alipayobjects.com/zos/rmsportal/KDNDBbriJhLwuqMoxcAr.svg" alt="topmenu">
+                <div v-if="layoutMode !== 'sidemenu'" class="setting-drawer-index-selectIcon">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
+          </div>
+        </div>
       </div>
     </a-drawer>
   </div>
@@ -36,13 +65,16 @@ import config from '@/defaultSettings'
 export default {
   data() {
     return {
-      visible: false,
+      visible: true,
       colorList
     }
   },
   computed: {
     primaryColor() {
       return this.$store.getters.color
+    },
+    layoutMode() {
+      return this.$store.getters.layoutMode
     }
   },
   mounted() {
@@ -60,6 +92,9 @@ export default {
         this.$store.dispatch('app/ToggleColor', color)
         updateTheme(color)
       }
+    },
+    handleLayoutMode(mode) {
+      this.$store.dispatch('app/ToggleLayoutMode', mode)
     }
   }
 }
