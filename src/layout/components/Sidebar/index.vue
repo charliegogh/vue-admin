@@ -1,10 +1,9 @@
 <template>
   <div>
     <a-layout-sider
-      v-if="device==='desktop'"
+      v-show="device==='desktop'"
       v-model="collapsed"
       width="200px"
-      :collapsible="collapsible"
       :trigger="null"
     >
       <s-menu
@@ -15,9 +14,9 @@
       />
     </a-layout-sider>
     <a-drawer
-      v-else
+      v-show="device==='mobile'"
       placement="left"
-      wrapClassName="drawer-sider-container"
+      wrap-class-name="drawer-sider-container"
       :closable="false"
       :visible="collapsed"
       width="200px"
@@ -50,8 +49,6 @@ export default {
   },
   data() {
     return {
-      collapsible: true,
-      visible: true
     }
   },
   methods: {
@@ -61,10 +58,15 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="less">
 .ant-layout-sider{
   background-color:#ffffff!important;
   float:left;
   height: 100vh;
+}
+.drawer-sider-container{
+  .ant-drawer-body{
+    padding: 0;
+  }
 }
 </style>

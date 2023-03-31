@@ -15,13 +15,15 @@ const state = {
   dict: {},
   color: Local.readData('DEFAULT_COLOR') || config.primaryColor,
   layoutMode: Local.readData('DEFAULT_LAYOUT_MODE') || config.layoutMode,
+  theme: Local.readData('DEFAULT_THEME') || config.navTheme,
   staticFile: {}, // 静态文件
   regionList: [] // 地区信息
 }
 const mutations = {
   // 侧边
-  TOGGLE_SIDEBAR: state => {
+  TOGGLE_SIDEBAR: (state, opened) => {
     state.sidebar.opened = !state.sidebar.opened
+    if (opened) state.sidebar.opened = opened
     if (state.sidebar.opened) {
       Cookies.set('sidebarStatus', 1)
     } else {
@@ -36,6 +38,10 @@ const mutations = {
   TOGGLE_COLOR: (state, color) => {
     Local.saveData('DEFAULT_COLOR', color)
     state.color = color
+  },
+  TOGGLE_THEME: (state, theme) => {
+    Local.saveData('DEFAULT_THEME', theme)
+    state.theme = theme
   },
   // 导航模式切换
   TOGGLE_LAYOUT_MODE: (state, layout) => {
@@ -72,6 +78,9 @@ const actions = {
   },
   ToggleLayoutMode({ commit }, mode) {
     commit('TOGGLE_LAYOUT_MODE', mode)
+  },
+  ToggleTheme({ commit }, theme) {
+    commit('TOGGLE_THEME', theme)
   },
   /**
    * 获取字典配合缓存

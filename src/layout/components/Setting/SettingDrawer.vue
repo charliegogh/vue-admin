@@ -10,6 +10,35 @@
     >
       <div class="setting-drawer-index-content">
         <div :style="{ marginBottom: '24px' }">
+          <h3 class="setting-drawer-index-title">整体风格设置</h3>
+
+          <div class="setting-drawer-index-blockChecbox">
+            <a-tooltip>
+              <template slot="title">
+                暗色菜单风格
+              </template>
+              <div class="setting-drawer-index-item" @click="handleMenuTheme('dark')">
+                <img src="https://gw.alipayobjects.com/zos/rmsportal/LCkqqYNmvBEbokSDscrm.svg" alt="dark">
+                <div v-if="navTheme === 'dark'" class="setting-drawer-index-selectIcon">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
+
+            <a-tooltip>
+              <template slot="title">
+                亮色菜单风格
+              </template>
+              <div class="setting-drawer-index-item" @click="handleMenuTheme('light')">
+                <img src="https://gw.alipayobjects.com/zos/rmsportal/jpRkZQMyYRryryPNtyIC.svg" alt="light">
+                <div v-if="navTheme !== 'dark'" class="setting-drawer-index-selectIcon">
+                  <a-icon type="check" />
+                </div>
+              </div>
+            </a-tooltip>
+          </div>
+        </div>
+        <div :style="{ marginBottom: '24px' }">
           <h3 class="setting-drawer-index-title">主题色</h3>
           <div style="height: 20px">
             <a-tooltip
@@ -75,6 +104,9 @@ export default {
     },
     layoutMode() {
       return this.$store.getters.layoutMode
+    },
+    navTheme() {
+      return this.$store.getters.theme
     }
   },
   mounted() {
@@ -92,6 +124,9 @@ export default {
         this.$store.dispatch('app/ToggleColor', color)
         updateTheme(color)
       }
+    },
+    handleMenuTheme(theme) {
+      this.$store.dispatch('app/ToggleTheme', theme)
     },
     handleLayoutMode(mode) {
       this.$store.dispatch('app/ToggleLayoutMode', mode)

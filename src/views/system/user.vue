@@ -26,7 +26,7 @@
       </template>
       <template slot="avatarslot" slot-scope="record">
         <div class="anty-img-wrap">
-          <a-avatar shape="square" :src="$config.fileContext+record.avatar" icon="user" />
+<!--          <a-avatar shape="square" :src="$config.fileContext+record.avatar" icon="user" />-->
         </div>
       </template>
       <!--      <template slot="action" slot-scope="record" />-->
