@@ -7,22 +7,23 @@
     />
     <Sidebar />
     <div class="main-container">
-      <div
+      <GlobalHeader />
+      <!--      <div
         class="nav"
         :style="{width:(sidebar.opened && device!=='mobile')?'calc(100% - 220px)':(device==='mobile')?'100%':'calc(100% - 80px)'}"
       >
         <navbar
           @toggle="toggleSideBar"
         />
-        <!-- tag标签 -->
+        &lt;!&ndash; tag标签 &ndash;&gt;
         <tags-view />
-      </div>
+      </div>-->
       <AppMain />
     </div>
   </div>
 </template>
 <script>
-import { Sidebar, AppMain, Navbar, TagsView } from './components'
+import { Sidebar, AppMain, Navbar, TagsView, GlobalHeader } from './components'
 import { mapState } from 'vuex'
 import ResizeMixin from './mixin/ResizeHandler'
 export default {
@@ -31,7 +32,8 @@ export default {
     Sidebar,
     AppMain,
     Navbar,
-    TagsView
+    TagsView,
+    GlobalHeader
   },
   mixins: [ResizeMixin],
   computed: {

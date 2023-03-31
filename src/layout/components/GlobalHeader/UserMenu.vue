@@ -34,9 +34,9 @@
   </div>
 </template>
 <script>
-import { mixinDevice } from '../mixin/device'
+import { mixinDevice } from '../../mixin/device'
 import { mapState } from 'vuex'
-import settingDrawer from './Setting/SettingDrawer'
+import settingDrawer from '../Setting/SettingDrawer'
 export default {
   components: {
     settingDrawer

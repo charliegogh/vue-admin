@@ -65,7 +65,7 @@ import config from '@/defaultSettings'
 export default {
   data() {
     return {
-      visible: true,
+      visible: false,
       colorList
     }
   },
