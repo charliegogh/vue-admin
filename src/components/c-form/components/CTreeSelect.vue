@@ -10,7 +10,6 @@
 </template>
 <script>
 import { TreeSelect } from "ant-design-vue";
-// 显示所有节点
 const SHOW_ALL = TreeSelect.SHOW_ALL;
 export default {
   name: "CTreeSelect",
@@ -25,9 +24,13 @@ export default {
   },
   watch: {
     selectValue: {
-      immediate: true,
       handler(val) {
         this.$emit("input", val);
+      }
+    },
+    value: {
+      handler(val) {
+        this.selectValue = val;
       }
     }
   }
