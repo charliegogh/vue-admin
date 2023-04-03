@@ -9,34 +9,27 @@
   />
 </template>
 <script>
-import { TreeSelect } from 'ant-design-vue'
+import { TreeSelect } from "ant-design-vue";
 // 显示所有节点
-const SHOW_ALL = TreeSelect.SHOW_ALL
+const SHOW_ALL = TreeSelect.SHOW_ALL;
 export default {
-  name: 'CTreeSelect',
+  name: "CTreeSelect",
   props: {
-    value: String,
-    dataForm: {
-      type: Object,
-      default: () => {}
-    }
+    value: String
   },
   data() {
     return {
       SHOW_ALL,
       selectValue: this.value || undefined
-    }
+    };
   },
   watch: {
     selectValue: {
+      immediate: true,
       handler(val) {
-        this.$emit('input', val)
+        this.$emit("input", val);
       }
     }
-  },
-  mounted() {
-  },
-  methods: {
   }
-}
+};
 </script>
