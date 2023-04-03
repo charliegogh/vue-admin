@@ -52,7 +52,7 @@ export default {
           {
             prop: "username",
             label: "用户账号",
-            component: "input"
+            component: "Tinymce"
           },
           {
             prop: "realname",

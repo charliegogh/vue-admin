@@ -4,6 +4,7 @@
     v-model="selectValue"
     :tree-check-strictly="false"
     v-bind="$attrs"
+    :placeholder="$attrs.placeholder || `请选择${$attrs.label}`"
     :show-checked-strategy="SHOW_ALL"
     tree-default-expand-all
   />
