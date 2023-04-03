@@ -32,17 +32,17 @@
   </div>
 </template>
 <script>
-import SMenu from "./menu";
-import { mapState } from "vuex";
-import { mapGetters } from "vuex";
-import Logo from "./Logo";
+import SMenu from './menu'
+import { mapState } from 'vuex'
+import { mapGetters } from 'vuex'
+import Logo from './Logo'
 export default {
   components: {
     SMenu,
     Logo
   },
   computed: {
-    ...mapGetters(["theme"]),
+    ...mapGetters(['theme']),
     ...mapState({
       collapsed: state => !state.app.sidebar.opened,
       device: state => state.app.device,
@@ -50,14 +50,14 @@ export default {
     })
   },
   data() {
-    return {};
+    return {}
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch("app/toggleSideBar");
+      this.$store.dispatch('app/toggleSideBar')
     }
   }
-};
+}
 </script>
 <style lang="less">
 .ant-layout-sider {
