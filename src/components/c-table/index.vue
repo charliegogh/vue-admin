@@ -1,20 +1,27 @@
 <template>
   <a-table
     size="middle"
-    :row-key="record=>record.id"
+    :row-key="record => record.id"
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <template v-for="column in $attrs.columns" :slot="column.scopedSlots?column.scopedSlots.customRender:''" slot-scope="text,record">
+    <template
+      v-for="column in $attrs.columns"
+      :slot="column.scopedSlots ? column.scopedSlots.customRender : ''"
+      slot-scope="text, record"
+    >
       <slot
         v-bind="record"
-        :name="column.scopedSlots?column.scopedSlots.customRender:''"
+        :name="column.scopedSlots ? column.scopedSlots.customRender : ''"
       />
     </template>
-    <template slot="action" slot-scope="text,record">
-      <a @click="dispatch('handleEdit',record)">编辑</a>
+    <template slot="action" slot-scope="text, record">
+      <a @click="dispatch('handleEdit', record)">编辑</a>
       <a-divider type="vertical" />
-      <a-popconfirm title="确定删除吗?" @confirm="() => dispatch('handleDelete',record.id)">
+      <a-popconfirm
+        title="确定删除吗?"
+        @confirm="() => dispatch('handleDelete', record.id)"
+      >
         <a>删除</a>
       </a-popconfirm>
       <slot name="action" />
@@ -22,9 +29,9 @@
   </a-table>
 </template>
 <script>
-import Emitter from '../mixins/emitter'
+import Emitter from "../mixins/emitter";
 export default {
-  name: 'CTable',
+  name: "CTable",
   mixins: [Emitter]
-}
+};
 </script>
