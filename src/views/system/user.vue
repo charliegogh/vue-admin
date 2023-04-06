@@ -24,7 +24,9 @@
           <!--          <a-avatar shape="square" :src="$config.fileContext+record.avatar" icon="user" />-->
         </div>
       </template>
-      <!--      <template slot="action" slot-scope="record" />-->
+      <template slot="action" slot-scope="record">
+        <a @click="test(record)">111</a>
+      </template>
     </c-table>
     <user-modal ref="modalForm" @ok="modalFormOk" />
   </a-card>
@@ -65,7 +67,6 @@ const columns = [
   },
   {
     title: "操作",
-    dataIndex: "action",
     scopedSlots: { customRender: "action" },
     align: "center",
     width: 150
@@ -120,6 +121,11 @@ export default {
         ]
       }
     };
+  },
+  methods: {
+    test(record) {
+      console.log(record);
+    }
   }
 };
 </script>
