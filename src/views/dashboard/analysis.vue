@@ -14,6 +14,22 @@
         </Form>
       </a-col>
     </a-row>
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
+    111<br />
   </a-card>
 </template>
 <script>
@@ -57,11 +73,11 @@ export default {
           cascade: [{ required: true, message: "请选择~!" }]
         },
         formFields: [
-          {
-            prop: "richText",
-            label: "富文本",
-            component: "Tinymce"
-          },
+          // {
+          //   prop: "richText",
+          //   label: "富文本",
+          //   component: "Tinymce"
+          // },
           {
             prop: "dateRange",
             label: "时间范围",
