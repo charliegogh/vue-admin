@@ -70,16 +70,12 @@ export default {
   .ant-layout-sider {
     background-color: #ffffff !important;
     float: left;
-    height: 100vh;
-    .ant-menu-root {
-      height: 100%;
-    }
+    height: 100%;
   }
-
-  .drawer-sider-container {
-    .ant-drawer-body {
-      padding: 0;
-    }
+}
+.drawer-sider-container {
+  .ant-drawer-body {
+    padding: 0;
   }
 }
 </style>

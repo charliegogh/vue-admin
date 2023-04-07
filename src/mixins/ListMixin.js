@@ -90,7 +90,6 @@ export const ListMixin = {
       this.$refs.modalForm.disableSubmit = false;
     },
     handleEdit(record) {
-      console.log(record);
       this.$refs.modalForm.edit(record);
       this.$refs.modalForm.title = "编辑";
       this.$refs.modalForm.disableSubmit = false;
