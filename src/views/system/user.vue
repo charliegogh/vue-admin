@@ -24,9 +24,6 @@
           <!--          <a-avatar shape="square" :src="$config.fileContext+record.avatar" icon="user" />-->
         </div>
       </template>
-      <template slot="action" slot-scope="record">
-        <a @click="test(record)">111</a>
-      </template>
     </c-table>
     <user-modal ref="modalForm" @ok="modalFormOk" />
   </a-card>
@@ -121,11 +118,6 @@ export default {
         ]
       }
     };
-  },
-  methods: {
-    test(record) {
-      console.log(record);
-    }
   }
 };
 </script>

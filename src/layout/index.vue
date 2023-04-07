@@ -8,10 +8,10 @@
   </div>
 </template>
 <script>
-import { Sidebar, AppMain, GlobalHeader } from './components'
-import { mapState } from 'vuex'
+import { Sidebar, AppMain, GlobalHeader } from "./components";
+import { mapState } from "vuex";
 export default {
-  name: 'Layout',
+  name: "Layout",
   components: {
     Sidebar,
     AppMain,
@@ -23,19 +23,18 @@ export default {
       device: state => state.app.device
     })
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+      this.$store.dispatch("app/closeSideBar", { withoutAnimation: false });
     }
   }
-}
+};
 </script>
 <style lang="less">
-.layout{
+.layout {
   .app-main {
-    .ql{
+    .ql {
       height: 110px;
     }
     padding: 15px;
@@ -43,9 +42,9 @@ export default {
   }
   .main-container {
     min-height: 100%;
-    transition: margin-left .1s;
-    overflow: auto;
+    transition: margin-left 0.1s;
     position: relative;
+    margin-left: 210px;
   }
 }
 </style>

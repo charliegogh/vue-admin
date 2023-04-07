@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="sidebar-container">
     <a-layout-sider
       v-show="device === 'desktop'"
       v-model="collapsed"
@@ -32,17 +32,17 @@
   </div>
 </template>
 <script>
-import SMenu from './menu'
-import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
-import Logo from './Logo'
+import SMenu from "./menu";
+import { mapState } from "vuex";
+import { mapGetters } from "vuex";
+import Logo from "./Logo";
 export default {
   components: {
     SMenu,
     Logo
   },
   computed: {
-    ...mapGetters(['theme']),
+    ...mapGetters(["theme"]),
     ...mapState({
       collapsed: state => !state.app.sidebar.opened,
       device: state => state.app.device,
@@ -50,28 +50,36 @@ export default {
     })
   },
   data() {
-    return {}
+    return {};
   },
   methods: {
     handleClickOutside() {
-      this.$store.dispatch('app/toggleSideBar')
+      this.$store.dispatch("app/toggleSideBar");
     }
   }
-}
+};
 </script>
 <style lang="less">
-.ant-layout-sider {
-  background-color: #ffffff !important;
-  float: left;
+.sidebar-container {
+  position: fixed;
   height: 100vh;
-  .ant-menu-root {
-    height: 100%;
+  font-size: 0px;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  .ant-layout-sider {
+    background-color: #ffffff !important;
+    float: left;
+    height: 100vh;
+    .ant-menu-root {
+      height: 100%;
+    }
   }
-}
 
-.drawer-sider-container {
-  .ant-drawer-body {
-    padding: 0;
+  .drawer-sider-container {
+    .ant-drawer-body {
+      padding: 0;
+    }
   }
 }
 </style>
