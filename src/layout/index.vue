@@ -1,7 +1,13 @@
 <template>
   <div class="layout">
     <Sidebar />
-    <div class="main-container">
+    <div
+      class="main-container"
+      :style="{
+        marginLeft:
+          device === 'mobile' ? '0px' : sidebar.opened ? '210px' : '80px'
+      }"
+    >
       <GlobalHeader />
       <AppMain />
     </div>
@@ -44,7 +50,7 @@ export default {
     min-height: 100%;
     transition: margin-left 0.1s;
     position: relative;
-    margin-left: 210px;
+    // margin-left: 210px;
   }
 }
 </style>
