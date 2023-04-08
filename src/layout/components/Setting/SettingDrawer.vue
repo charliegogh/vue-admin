@@ -9,7 +9,7 @@
       @close="visible = false"
     >
       <div class="setting-drawer-index-content">
-        <div :style="{ marginBottom: '24px' }">
+<!--        <div :style="{ marginBottom: '24px' }">
           <h3 class="setting-drawer-index-title">整体风格设置</h3>
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
@@ -36,7 +36,7 @@
               </div>
             </a-tooltip>
           </div>
-        </div>
+        </div>-->
         <div :style="{ marginBottom: '24px' }">
           <h3 class="setting-drawer-index-title">主题色</h3>
           <div style="height: 20px">

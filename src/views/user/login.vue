@@ -46,7 +46,7 @@ export default {
         username: [
           {
             required: true,
-            message: '请输入用户名',
+            message: '请输入账号',
             trigger: 'blur'
           }
         ],
@@ -60,7 +60,7 @@ export default {
       },
       formFields: [
         {
-          prop: 'username', label: '用户名', component: 'input'
+          prop: 'username', label: '账号', component: 'input'
         },
         {
           prop: 'password', label: '密码', component: 'password'
