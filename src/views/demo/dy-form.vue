@@ -58,8 +58,6 @@ export default {
       ]
     }
   },
-  async mounted() {
-  },
   methods: {
     validate() {
       return this.dataForm.list.map((i, index) => (this.$refs[`Form${i.id}`][0].validate())).every(i => i === true)
