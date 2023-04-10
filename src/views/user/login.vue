@@ -39,8 +39,8 @@ export default {
       confirmLoading: false,
       title: this.$config.title,
       dataForm: {
-        username: this.isPro ? '' : 'super',
-        password: this.isPro ? '' : '123456'
+        username: 'super',
+        password: '1'
       },
       rules: {
         username: [
