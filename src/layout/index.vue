@@ -5,7 +5,7 @@
       class="main-container"
       :style="{
         marginLeft:
-          device === 'mobile' ? '0px' : sidebar.opened ? '210px' : '80px'
+          device === 'mobile' ? '0px' : sidebar.opened ? '200px' : '80px'
       }"
     >
       <GlobalHeader />
