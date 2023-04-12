@@ -142,7 +142,7 @@ export default {
       this.visible = false;
     },
     add() {
-      this.edit({ type: 0, pid: undefined });
+      this.edit({ type: 0, pid: "" });
     },
     edit(record) {
       this.Form.dataForm = Object.assign({}, record);

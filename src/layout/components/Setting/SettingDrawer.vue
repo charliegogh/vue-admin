@@ -9,7 +9,7 @@
       @close="visible = false"
     >
       <div class="setting-drawer-index-content">
-<!--        <div :style="{ marginBottom: '24px' }">
+        <!--        <div :style="{ marginBottom: '24px' }">
           <h3 class="setting-drawer-index-title">整体风格设置</h3>
           <div class="setting-drawer-index-blockChecbox">
             <a-tooltip>
@@ -54,7 +54,7 @@
             </a-tooltip>
           </div>
         </div>
-        <div :style="{ marginBottom: '24px' }">
+        <!-- <div :style="{ marginBottom: '24px' }">
           <h3 class="setting-drawer-index-title">导航模式</h3>
 
           <div class="setting-drawer-index-blockChecbox">
@@ -82,56 +82,56 @@
               </div>
             </a-tooltip>
           </div>
-        </div>
+        </div> -->
       </div>
     </a-drawer>
   </div>
 </template>
 <script>
-import { updateTheme, colorList } from './setting'
-import config from '@/defaultSettings'
+import { updateTheme, colorList } from "./setting";
+import config from "@/defaultSettings";
 export default {
   data() {
     return {
       visible: false,
       colorList
-    }
+    };
   },
   computed: {
     primaryColor() {
-      return this.$store.getters.color
+      return this.$store.getters.color;
     },
     layoutMode() {
-      return this.$store.getters.layoutMode
+      return this.$store.getters.layoutMode;
     },
     navTheme() {
-      return this.$store.getters.theme
+      return this.$store.getters.theme;
     }
   },
   mounted() {
     // 当主题色不是默认色时，才进行主题编译
     if (this.primaryColor !== config.primaryColor) {
-      updateTheme(this.primaryColor)
+      updateTheme(this.primaryColor);
     }
   },
   methods: {
     showDrawer() {
-      this.visible = true
+      this.visible = true;
     },
     changeColor(color) {
       if (this.primaryColor !== color) {
-        this.$store.dispatch('app/ToggleColor', color)
-        updateTheme(color)
+        this.$store.dispatch("app/ToggleColor", color);
+        updateTheme(color);
       }
     },
     handleMenuTheme(theme) {
-      this.$store.dispatch('app/ToggleTheme', theme)
+      this.$store.dispatch("app/ToggleTheme", theme);
     },
     handleLayoutMode(mode) {
-      this.$store.dispatch('app/ToggleLayoutMode', mode)
+      this.$store.dispatch("app/ToggleLayoutMode", mode);
     }
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
