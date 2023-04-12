@@ -5,11 +5,9 @@
       @searchQuery="searchQuery"
       @searchReset="searchReset"
     />
-    <div class="test"></div>
     <a-table
       :columns="columns.filter(i=>(colCheckedList.includes(i.dataIndex)))"
       size="middle"
-      :pagination="false"
       :data-source="dataSource"
       :loading="loading"
       :row-key="record=>record.id"
@@ -32,7 +30,6 @@
 import { ListMixin } from '@/mixins/ListMixin'
 import RoleModal from './components/Role/RoleModal'
 import AuthModal from './components/Role/AuthModal'
-import CSearch from "../../components/c-form/search";
 const columns = [
   {
     title: '角色名称',
@@ -55,7 +52,6 @@ const columns = [
 ]
 export default {
   components: {
-    CSearch,
     RoleModal,
     AuthModal
   },

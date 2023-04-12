@@ -148,24 +148,29 @@
             type="primary"
             icon="plus"
             @click="$emit('handleAdd')"
-            >新增</a-button
-          >
+          >新增</a-button>
         </template>
         <template v-else>
-          <a-button type="primary" icon="plus" @click="$emit('handleAdd')"
-            >新增</a-button
-          >
+          <a-button
+            type="primary"
+            icon="plus"
+            @click="$emit('handleAdd')"
+          >新增</a-button>
         </template>
         <slot name="fl" />
       </div>
       <div v-show="formFields.length !== 0" class="fr">
         <slot name="fr" />
-        <a-button type="primary" icon="search" @click="$emit('searchQuery')"
-          >查询</a-button
-        >
-        <a-button type="primary" icon="reload" @click="$emit('searchReset')"
-          >重置</a-button
-        >
+        <a-button
+          type="primary"
+          icon="search"
+          @click="$emit('searchQuery')"
+        >查询</a-button>
+        <a-button
+          type="primary"
+          icon="reload"
+          @click="$emit('searchReset')"
+        >重置</a-button>
         <a
           v-show="formFields.length > maxFieldsShowLength"
           style="margin-left: 8px"
@@ -179,10 +184,10 @@
   </div>
 </template>
 <script>
-import permission from "@/directive/permission";
-import mixins from "_com/c-form/mixins";
+import permission from '@/directive/permission'
+import mixins from '_com/c-form/mixins'
 export default {
-  name: "CSearch",
+  name: 'CSearch',
   directives: { permission },
   mixins: [mixins],
   props: {
@@ -199,8 +204,8 @@ export default {
   data() {
     return {
       toggleStatus: false
-    };
+    }
   },
   methods: {}
-};
+}
 </script>

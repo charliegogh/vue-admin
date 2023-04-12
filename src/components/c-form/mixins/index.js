@@ -1,4 +1,4 @@
-import { register_components } from "../components/index";
+import { register_components } from '../components/index'
 export default {
   components: {
     ...register_components
@@ -20,7 +20,7 @@ export default {
       type: Object,
       default: () => {
         return {
-          layout: "horizontal",
+          layout: 'horizontal',
           labelCol: {
             xs: 4,
             sm: 4,
@@ -41,29 +41,31 @@ export default {
             xxl: 6,
             sm: 8
           }
-        };
+        }
       }
     }
   },
   data() {
-    return {};
+    return {}
   },
   computed: {
     dict() {
-      return this.$store.getters.dict;
+      return this.$store.getters.dict
     }
   },
   watch: {
     // 动态字典
     dict: {
       deep: true,
+      immediate: true,
       handler(val) {
         this.formFields.forEach(f => {
           Object.keys(val).forEach(d => {
-            if (f.dict === d) f.dataSource = val[f.dict];
-          });
-        });
+            if (f.dict === d) f.dataSource = val[f.dict]
+          })
+        })
+        console.log(this.formFields)
       }
     }
   }
-};
+}
