@@ -5,13 +5,16 @@
         <a-menu
           :mode="device == 'mobile' ? 'horizontal' : 'inline'"
           :default-selected-keys="['基本设置']"
-          :style="{ border: '0', width: device === 'mobile' ? '560px' : 'auto'}"
+          :style="{
+            border: '0',
+            width: device === 'mobile' ? '560px' : 'auto'
+          }"
           type="inner"
         >
           <a-menu-item
-            v-for="(item,index) of setting"
+            v-for="(item, index) of setting"
             :key="index"
-            @click="openKeys=index"
+            @click="openKeys = index"
           >
             {{ index }}
           </a-menu-item>
@@ -27,35 +30,31 @@
   </a-card>
 </template>
 <script>
-import { mapState } from 'vuex'
-import { register_components } from './components/setting'
+import { mapState } from "vuex";
+import { register_components } from "./components/setting";
 export default {
   components: {
     ...register_components
   },
   data() {
     return {
-      openKeys: '基本设置',
+      openKeys: "基本设置",
       setting: {
-        '基本设置': {
-          component: 'BaseSetting'
+        基本设置: {
+          component: "BaseSetting"
         },
-        '个性化': {
-          component: 'Custom'
+        个性化: {
+          component: "Custom"
         }
       }
-    }
+    };
   },
   computed: {
     ...mapState({
       device: state => state.app.device
     })
-  },
-  mounted() {
-  },
-  methods: {
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .account-settings-info-main {
@@ -90,7 +89,7 @@ export default {
     padding: 8px 40px;
 
     .account-settings-info-title {
-      color: rgba(0,0,0,.85);
+      color: rgba(0, 0, 0, 0.85);
       font-size: 20px;
       font-weight: 500;
       line-height: 28px;
