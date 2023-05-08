@@ -1,9 +1,6 @@
 <template>
-  <a-card :bordered="false"><ErroyType /></a-card>
+  <a-card :bordered="false">111</a-card>
 </template>
 <script>
-import ErroyType from "@/components/ErroyType";
-export default {
-  components: { ErroyType }
-};
+export default {};
 </script>
