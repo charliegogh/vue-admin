@@ -1,0 +1,158 @@
+export const getDocument = elm => (elm || {}).ownerDocument || document
+export const getWindow = elm => (getDocument(elm) || {}).defaultView || window
+export const isHTMLElement = elm =>
+  elm instanceof HTMLElement || elm instanceof getWindow(elm).HTMLElement
+export const isHTMLCanvasElement = elm =>
+  elm instanceof HTMLCanvasElement ||
+  elm instanceof getWindow(elm).HTMLCanvasElement
+
+export const asElement = x => x
+
+export const getPageFromElement = target => {
+  const node = asElement(target.closest('.page'))
+
+  if (!node || !isHTMLElement(node)) {
+    return null
+  }
+
+  const number = Number(asElement(node).dataset.pageNumber)
+
+  return { node, number }
+}
+
+export const getPagesFromRange = range => {
+  const startParentElement = range.startContainer.parentElement
+  const endParentElement = range.endContainer.parentElement
+
+  if (!isHTMLElement(startParentElement) || !isHTMLElement(endParentElement)) {
+    return []
+  }
+
+  const startPage = getPageFromElement(asElement(startParentElement))
+  // const endPage = getPageFromElement(asElement(endParentElement))
+
+  // if (!startPage?.number || !endPage?.number) {
+  //   return []
+  // }
+  if (!startPage?.number) {
+    return []
+  }
+  if (startPage.number) {
+    return [startPage]
+  }
+  return []
+  // if (startPage.number === endPage.number) {
+  //   return [startPage]
+  // }
+
+  // if (startPage.number === endPage.number - 1) {
+  //   return [startPage, endPage]
+  // }
+
+  // const pages = []
+
+  // const currentPageNumber = startPage.number
+
+  // const document = startPage.node.ownerDocument
+
+  // while (currentPageNumber <= endPage.number) {
+  //   const currentPage = getPageFromElement(
+  //     document.querySelector(`[data-page-number='${currentPageNumber}'`),
+  //   )
+  //   if (currentPage) {
+  //     pages.push(currentPage)
+  //   }
+  // }
+
+  // return pages
+}
+const isClientRectInsidePageRect = (clientRect, pageRect) => {
+  if (clientRect.top < pageRect.top) {
+    return false
+  }
+  if (clientRect.bottom > pageRect.bottom) {
+    return false
+  }
+  if (clientRect.right > pageRect.right) {
+    return false
+  }
+  if (clientRect.left < pageRect.left) {
+    return false
+  }
+
+  return true
+}
+export const sortByKey = (array, key) => {
+  return array.sort((a, b) => {
+    const x = a[key]
+    const y = b[key]
+    return x < y ? -1 : x > y ? 1 : 0
+  })
+}
+
+export const getClientRects = (range, pages, shouldOptimize = true) => {
+  console.log(pages, '~~~~~~~~~~~')
+
+  // // 获取开始字符和结尾字符的坐标
+  // 获取开始字符和结尾字符的坐标
+  const { startContainer } = range
+  const { endContainer } = range
+  const { startOffset } = range
+  const { endOffset } = range
+  const startRect = startContainer.parentElement.getBoundingClientRect() // 所选文本的起始位置所在的节点的矩形区域
+  const endRect = endContainer.parentElement.getBoundingClientRect()
+  const startLine = startContainer.parentElement
+  const endLine = endContainer.parentElement
+  //   const viewport = page.getViewport({ scale: 1 });
+  //   const startX = startRect.left - viewport.offsetLeft + startOffset * startRect.width / startContainer.textContent.length;
+  //   const startY = startRect.top - viewport.offsetTop;
+  //   const endX = endRect.left - viewport.offsetLeft + endOffset * endRect.width / endContainer.textContent.length;
+  //   const endY = endRect.top - viewport.offsetTop;
+
+  // 获取给定文本选区范围内所有客户端矩形坐标
+  const clientRects = Array.from(range.getClientRects())
+  let rects = []
+
+  for (const clientRect of clientRects) {
+    for (const page of pages) {
+      const pageRect = page.node.getBoundingClientRect()
+      // 检查它是否位于某个页面的范围内
+      if (
+        isClientRectInsidePageRect(clientRect, pageRect) &&
+        clientRect.top >= 0 &&
+        clientRect.bottom >= 0 &&
+        clientRect.width > 0 &&
+        clientRect.height > 0 &&
+        clientRect.width < pageRect.width &&
+        clientRect.height < pageRect.height
+      ) {
+        const highlightedRect = {
+          top: clientRect.top + page.node.scrollTop - pageRect.top,
+          left: clientRect.left + page.node.scrollLeft - pageRect.left,
+          width: clientRect.width,
+          height: clientRect.height,
+          pageNumber: page.number
+        }
+        console.log('clientRect', clientRect)
+        rects.push(highlightedRect)
+        // console.log('pageRect.width', pageRect.width)
+        // console.log('pageRect.height', pageRect.height)
+      }
+    }
+  }
+  // 按行数分组
+  // const linesRects = []
+  rects = sortByKey(rects, 'top')
+  // console.log('rects', rects)
+  // todo 将 rects 数组按照矩形顶部的 Y 坐标进行升序排序，然后计算所有矩形高度的平均值，并将数组中所有矩形的高度设置为平均值。接着，它遍历所有矩形，如果有两个矩形之间的距离小于平均值，则将它们的顶部位置设置为相同，以此来将矩形分成更合适的行。
+
+  const average =
+    rects.reduce((acc, curr) => acc + Number(curr.height), 0) / rects.length
+  for (let i = 0; i < rects.length; i++) {
+    if (i < rects.length - 1 && rects[i + 1].top - rects[i].top < average) {
+      rects[i + 1].top = rects[i].top
+    }
+    rects[i].height = average
+  }
+  return  rects
+}
