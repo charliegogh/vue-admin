@@ -1,6 +1,6 @@
 <template>
   <a-card :bordered="false">
-    <test />
+    222
   </a-card>
 </template>
 <script>

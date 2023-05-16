@@ -64,7 +64,6 @@ export default {
             if (f.dict === d) f.dataSource = val[f.dict]
           })
         })
-        console.log(this.formFields)
       }
     }
   }

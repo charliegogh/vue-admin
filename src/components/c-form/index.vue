@@ -206,25 +206,25 @@
   </div>
 </template>
 <script>
-import mixins from "_com/c-form/mixins";
+import mixins from '_com/c-form/mixins'
 export default {
-  name: "Form",
+  name: 'Form',
   mixins: [mixins],
   data() {
-    return {};
+    return {}
   },
   methods: {
     validate(status = false) {
-      this.$refs.ruleForm.validate(vaild => (status = vaild));
-      return status;
+      this.$refs.ruleForm.validate(vaild => (status = vaild))
+      return status
     },
     clearValidate(props) {
       this.$nextTick(() => {
-        this.$refs.ruleForm.clearValidate(props || "");
-      });
+        this.$refs.ruleForm.clearValidate(props || '')
+      })
     }
   }
-};
+}
 </script>
 <style lang="less">
 @import "./style.less";

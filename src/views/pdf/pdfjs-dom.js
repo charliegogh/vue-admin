@@ -93,28 +93,13 @@ export const sortByKey = (array, key) => {
 export const getClientRects = (range, pages, shouldOptimize = true) => {
   console.log(pages, '~~~~~~~~~~~')
 
-  // // 获取开始字符和结尾字符的坐标
-  // 获取开始字符和结尾字符的坐标
-  const { startContainer } = range
-  const { endContainer } = range
-  const { startOffset } = range
-  const { endOffset } = range
-  const startRect = startContainer.parentElement.getBoundingClientRect() // 所选文本的起始位置所在的节点的矩形区域
-  const endRect = endContainer.parentElement.getBoundingClientRect()
-  const startLine = startContainer.parentElement
-  const endLine = endContainer.parentElement
-  //   const viewport = page.getViewport({ scale: 1 });
-  //   const startX = startRect.left - viewport.offsetLeft + startOffset * startRect.width / startContainer.textContent.length;
-  //   const startY = startRect.top - viewport.offsetTop;
-  //   const endX = endRect.left - viewport.offsetLeft + endOffset * endRect.width / endContainer.textContent.length;
-  //   const endY = endRect.top - viewport.offsetTop;
-
   // 获取给定文本选区范围内所有客户端矩形坐标
   const clientRects = Array.from(range.getClientRects())
   let rects = []
 
   for (const clientRect of clientRects) {
     for (const page of pages) {
+      // getBoundingClientRect 获取一个元素的大小及其相对于视口的位置
       const pageRect = page.node.getBoundingClientRect()
       // 检查它是否位于某个页面的范围内
       if (
@@ -126,6 +111,7 @@ export const getClientRects = (range, pages, shouldOptimize = true) => {
         clientRect.width < pageRect.width &&
         clientRect.height < pageRect.height
       ) {
+        console.log(clientRect.top, page.node.scrollTop, pageRect.top)
         const highlightedRect = {
           top: clientRect.top + page.node.scrollTop - pageRect.top,
           left: clientRect.left + page.node.scrollLeft - pageRect.left,
@@ -133,19 +119,13 @@ export const getClientRects = (range, pages, shouldOptimize = true) => {
           height: clientRect.height,
           pageNumber: page.number
         }
-        console.log('clientRect', clientRect)
         rects.push(highlightedRect)
-        // console.log('pageRect.width', pageRect.width)
-        // console.log('pageRect.height', pageRect.height)
       }
     }
   }
   // 按行数分组
-  // const linesRects = []
   rects = sortByKey(rects, 'top')
-  // console.log('rects', rects)
   // todo 将 rects 数组按照矩形顶部的 Y 坐标进行升序排序，然后计算所有矩形高度的平均值，并将数组中所有矩形的高度设置为平均值。接着，它遍历所有矩形，如果有两个矩形之间的距离小于平均值，则将它们的顶部位置设置为相同，以此来将矩形分成更合适的行。
-
   const average =
     rects.reduce((acc, curr) => acc + Number(curr.height), 0) / rects.length
   for (let i = 0; i < rects.length; i++) {
@@ -154,5 +134,5 @@ export const getClientRects = (range, pages, shouldOptimize = true) => {
     }
     rects[i].height = average
   }
-  return  rects
+  return rects
 }

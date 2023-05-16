@@ -37,7 +37,6 @@ import { EventBus, PDFViewer, PDFLinkService } from 'pdfjs-dist/legacy/web/pdf_v
 import 'pdfjs-dist/web/pdf_viewer.css'
 export const _getDocument = elm => (elm || {}).ownerDocument || document
 export const getWindow = elm => (_getDocument(elm) || {}).defaultView || window
-
 import { debounce } from '@/utils'
 import { getPagesFromRange, getClientRects } from '@/views/pdf/pdfjs-dom'
 
@@ -85,19 +84,16 @@ export default {
         window.addEventListener('mouseup', this.addListener)
       }
     },
-    addListener(e) {
-      setTimeout(() => {
-        const container = this.containerNode
-        const selection = getWindow(container).getSelection()
-        const range = selection.getRangeAt(0)
-        const pages = getPagesFromRange(range)
-        if (!pages.length) return
-        const rects = getClientRects(range, [pages[0]])
-        console.log(rects)
-        this.rects = rects
-      }, 5000)
-      console.log(1111)
-    }
+    addListener: debounce(function() {
+      const container = this.containerNode
+      const selection = getWindow(container).getSelection()
+      // 获取选择的第一个文本范围
+      const range = selection.getRangeAt(0)
+      const pages = getPagesFromRange(range)
+      if (!pages.length) return
+      const rects = getClientRects(range, [pages[0]])
+      this.rects = rects
+    }, 500)
   }
 }
 </script>
