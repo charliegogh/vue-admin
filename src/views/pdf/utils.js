@@ -90,13 +90,10 @@ export const sortByKey = (array, key) => {
   })
 }
 
-export const getClientRects = (range, pages, shouldOptimize = true) => {
-  console.log(pages, '~~~~~~~~~~~')
-
+export const getClientRects = (range, pages) => {
   // 获取给定文本选区范围内所有客户端矩形坐标
   const clientRects = Array.from(range.getClientRects())
   let rects = []
-
   for (const clientRect of clientRects) {
     for (const page of pages) {
       // getBoundingClientRect 获取一个元素的大小及其相对于视口的位置
@@ -111,7 +108,7 @@ export const getClientRects = (range, pages, shouldOptimize = true) => {
         clientRect.width < pageRect.width &&
         clientRect.height < pageRect.height
       ) {
-        console.log(clientRect.top, page.node.scrollTop, pageRect.top)
+        // console.log(clientRect.top, page.node.scrollTop, pageRect.top)
         const highlightedRect = {
           top: clientRect.top + page.node.scrollTop - pageRect.top,
           left: clientRect.left + page.node.scrollLeft - pageRect.left,

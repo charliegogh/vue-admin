@@ -38,8 +38,7 @@ import 'pdfjs-dist/web/pdf_viewer.css'
 export const _getDocument = elm => (elm || {}).ownerDocument || document
 export const getWindow = elm => (_getDocument(elm) || {}).defaultView || window
 import { debounce } from '@/utils'
-import { getPagesFromRange, getClientRects } from '@/views/pdf/pdfjs-dom'
-
+import { getPagesFromRange, getClientRects } from './utils'
 export default {
   data() {
     return {
@@ -92,7 +91,7 @@ export default {
       const pages = getPagesFromRange(range)
       if (!pages.length) return
       const rects = getClientRects(range, [pages[0]])
-      this.rects = rects
+      if (rects) this.rects = rects
     }, 500)
   }
 }
@@ -111,5 +110,6 @@ export default {
 }
 .Highlight__part{
   position:absolute;
+  cursor: text;
 }
 </style>
