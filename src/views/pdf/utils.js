@@ -23,17 +23,10 @@ export const getPageFromElement = target => {
 export const getPagesFromRange = range => {
   const startParentElement = range.startContainer.parentElement
   const endParentElement = range.endContainer.parentElement
-
   if (!isHTMLElement(startParentElement) || !isHTMLElement(endParentElement)) {
     return []
   }
-
   const startPage = getPageFromElement(asElement(startParentElement))
-  // const endPage = getPageFromElement(asElement(endParentElement))
-
-  // if (!startPage?.number || !endPage?.number) {
-  //   return []
-  // }
   if (!startPage?.number) {
     return []
   }
@@ -41,30 +34,6 @@ export const getPagesFromRange = range => {
     return [startPage]
   }
   return []
-  // if (startPage.number === endPage.number) {
-  //   return [startPage]
-  // }
-
-  // if (startPage.number === endPage.number - 1) {
-  //   return [startPage, endPage]
-  // }
-
-  // const pages = []
-
-  // const currentPageNumber = startPage.number
-
-  // const document = startPage.node.ownerDocument
-
-  // while (currentPageNumber <= endPage.number) {
-  //   const currentPage = getPageFromElement(
-  //     document.querySelector(`[data-page-number='${currentPageNumber}'`),
-  //   )
-  //   if (currentPage) {
-  //     pages.push(currentPage)
-  //   }
-  // }
-
-  // return pages
 }
 const isClientRectInsidePageRect = (clientRect, pageRect) => {
   if (clientRect.top < pageRect.top) {

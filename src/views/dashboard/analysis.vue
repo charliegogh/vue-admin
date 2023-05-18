@@ -1,6 +1,6 @@
 <template>
   <a-card :bordered="false">
-    工作台
+    <test />
   </a-card>
 </template>
 <script>
