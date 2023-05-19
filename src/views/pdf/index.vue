@@ -132,7 +132,9 @@ export default {
                 <div
                  class="Highlight__part ${cdx}"
                  style="top:${c.top}px;left:${c.left}px;height: ${c.height}px;width: ${c.width}px"
-                ></div>
+                >
+
+                </div>
               `
               )).join(' ')}
               </div>

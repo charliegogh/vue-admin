@@ -8,7 +8,12 @@ export default {
   components: {
   },
   data() {
-    return {}
+    return {
+
+    }
+  },
+  mounted() {
+
   }
 }
 </script>

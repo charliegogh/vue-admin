@@ -85,6 +85,7 @@ export const getClientRects = (range, pages) => {
           height: clientRect.height,
           pageNumber: page.number
         }
+        console.log(highlightedRect)
         rects.push(highlightedRect)
       }
     }
