@@ -72,7 +72,7 @@ export default {
         ref: 'form',
         dataForm: {
           switch: false,
-          'radio-group': '1',
+          'radio-group': '111',
           MultipleSelect: 'charlie',
           cascade: '110000,110100,110102',
           treeSelect: '',
