@@ -14,7 +14,12 @@
         </div>
       </a-col>
       <a-col :span="12">
-        <div v-for="(item,idx) of Layers" :key="item.id" class="notes">
+        <div
+          v-for="(item,idx) of Layers"
+          :key="item.id"
+          class="notes"
+          @click="location(item)"
+        >
           {{ idx+1 }}.
           {{ item.text }}
           <span @click="handleDeleteNotes(item)">删除</span>
@@ -77,6 +82,7 @@ export default {
         linkService.setDocument(pdf)
         linkService.setViewer(pdfViewer)
         pdfViewer.setDocument(pdf)
+        this.pdfViewer = pdfViewer
         this.pdfDocument = pdf
         this.setPageData()
         // 换用 pointerup 监听鼠标指针释放
@@ -101,7 +107,7 @@ export default {
       if (!pages.length) return
       // 边界信息
       const rects = getClientRects(range, [pages[0]])
-      if (rects && rects.length) {
+      if (rects.length) {
         Layers[pages[0].number].push({
           id: createUUID(),
           rects,
@@ -111,6 +117,7 @@ export default {
         this.Layers = Object.values(Layers).flat()
         this.renderLayers()
       }
+      console.log(this.pdfViewer.scroll)
     }, 500),
     // 绘制滑动图形
     renderLayers() {
@@ -153,6 +160,14 @@ export default {
       this.Layers = Object.values(Layers).flat()
       const el = document.getElementById(`highlight_${e.id}`)
       el.parentNode.removeChild(el)
+    },
+    // 定位
+    location(note) {
+      // document.location.hash = `highlight-${note.id}`
+      // 定位到某个页面
+      this.pdfViewer.scrollPageIntoView({
+        pageNumber: 2
+      })
     }
   }
 }
