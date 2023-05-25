@@ -8,8 +8,10 @@
 
 <script>
 import zhCN from 'ant-design-vue/lib/locale-provider/zh_CN'
+import ResizeHandler from './mixins/ResizeHandler'
 export default {
   name: 'App',
+  mixins: [ResizeHandler],
   data() {
     return {
       locale: zhCN

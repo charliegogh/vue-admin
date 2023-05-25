@@ -8,9 +8,10 @@
   </CDrawer>
 </template>
 <script>
+import Logo from '../../../layout/components/Sidebar/Logo'
+
 export default {
-  components: {
-  },
+  components: {},
   data() {
     return {
       title: '操作',
@@ -18,8 +19,7 @@ export default {
       visible: false,
       Form: {
         ref: 'Form',
-        dataForm: {
-        },
+        dataForm: {},
         rules: {
           username: [
             {
@@ -52,19 +52,29 @@ export default {
         },
         formFields: [
           {
-            prop: 'username', label: '用户账号', component: 'input'
+            prop: 'username',
+            label: '用户账号',
+            component: 'input'
           },
           {
-            prop: 'realname', label: '用户姓名', component: 'input'
+            prop: 'realname',
+            label: '用户姓名',
+            component: 'input'
           },
           {
-            prop: 'password', label: '登录密码', component: 'password'
+            prop: 'password',
+            label: '登录密码',
+            component: 'password'
           },
           {
-            prop: 'phone', label: '手机号', component: 'input'
+            prop: 'phone',
+            label: '手机号',
+            component: 'input'
           },
           {
-            prop: 'roles', label: '角色分配', component: 'select',
+            prop: 'roles',
+            label: '角色分配',
+            component: 'select',
             dict: 'roles',
             options: {
               value: 'id',
@@ -72,17 +82,23 @@ export default {
             }
           },
           {
-            prop: 'sex', label: '性别', component: 'select',
+            prop: 'sex',
+            label: '性别',
+            component: 'select',
             dict: 'sex'
           },
           {
-            prop: 'avatar', label: '头像', component: 'upload',
+            prop: 'avatar',
+            label: '头像',
+            component: 'upload',
             options: {
               listType: 'picture-card'
             }
           },
           {
-            prop: 'status', label: '状态', component: 'switch',
+            prop: 'status',
+            label: '状态',
+            component: 'switch',
             dict: 'sys_user_status',
             options: {
               'checked-children': '启用',
@@ -98,9 +114,13 @@ export default {
       this.edit()
     },
     // 编辑
-    edit(record) {
-      this.Form.dataForm = Object.assign({}, record)
+    async edit(record) {
       this.visible = true
+      if (record.id) {
+        const rs = await this.$fetch.getAction('/sys/user/queryUserRole', { id: record.id })
+        record.roles = rs.data.map(r => r.role_id).toString()
+      }
+      this.Form.dataForm = Object.assign({}, record)
       this.$nextTick(() => {
         this.$refs.Form.clearValidate()
       })
@@ -134,4 +154,3 @@ export default {
   }
 }
 </script>
-

@@ -6,6 +6,12 @@ const plugins = [
       libraryDirectory: 'es',
       style: true
     }
+  ],
+  [
+    'component',
+    {
+      'libraryName': 'test'
+    }
   ]
 ]
 /* 生产环境移除console */

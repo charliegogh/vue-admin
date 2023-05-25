@@ -19,20 +19,21 @@ export const ListMixin = {
         showSizeChanger: true,
         total: 0
       },
-      importLoading: false
+      importLoading: false,
+      exportLoading: false
     }
   },
   async created() {
+    // 初始化字典配置 在自己页面定义
+    await this.loadDict()
     if (!this.disableMixinCreated) {
       console.log(' -- mixin created -- ')
-      this.loadData()
+      await this.loadData()
     }
     // 派发点击事件
     ['handleEdit', 'handleDelete'].forEach(i => {
-      this.$on(i, (p) => this[i](p))
+      this.$on(i, p => this[i](p))
     })
-    // 初始化字典配置 在自己页面定义
-    this.loadDict()
   },
   methods: {
     searchQuery() {
@@ -42,7 +43,7 @@ export const ListMixin = {
       this.queryParam = {}
       this.loadData()
     },
-    loadData(arg) {
+    async loadData(arg) {
       if (!this?.url?.list) {
         this.$message.error('请设置url.list属性!')
         return
@@ -52,47 +53,45 @@ export const ListMixin = {
         this.ipagination.current = 1
       }
       this.loading = true
-      this.$fetch.getAction(this.url.list, this.queryParam).then((res) => {
-        if (res.success) {
-          this.dataSource = res.data
-          // this.ipagination.total = res.result.total
+      try {
+        const rs = await this.$fetch.getAction(this.url.list, this.queryParam)
+        if (rs.success) {
+          if (rs.success) {
+            this.dataSource = rs.data
+          }
+          this.loading = false
         }
-        if (res.code === 510) {
-          this.$message.warning(res.message)
-        }
+      } catch (e) {
         this.loading = false
-      }).finally(() => {
-        this.loading = false
-      })
+      }
     },
     // 加载字典
     async loadDict() {
       // 本地
       await this.$store.dispatch('app/setDict', this.dict)
-      // 远端
-      if (!this.url.dict) return
-      await this.$store.dispatch('app/loadDict', this.url.dict)
-      this.dict = {
-        ...this.$store.getters.dict,
-        ...this.dict
+      if (this.url.dict) {
+        await this.$store.dispatch('app/loadDict', this.url.dict)
+        this.dict = {
+          ...this.$store.getters.dict,
+          ...this.dict
+        }
       }
     },
-    handleAdd: function() {
+    // 新增/修改 成功时，重载列表
+    modalFormOk() {
+      this.loadData()
+    },
+    handleAdd() {
       this.$refs.modalForm.add()
       this.$refs.modalForm.title = '新增'
       this.$refs.modalForm.disableSubmit = false
     },
-    modalFormOk() {
-      // 新增/修改 成功时，重载列表
-      this.loadData()
-    },
-    handleEdit: function(record) {
-      console.log(record)
+    handleEdit(record) {
       this.$refs.modalForm.edit(record)
       this.$refs.modalForm.title = '编辑'
       this.$refs.modalForm.disableSubmit = false
     },
-    handleDetail: function(record) {
+    handleDetail(record) {
       this.$refs.modalForm.edit(record)
       this.$refs.modalForm.title = '详情'
       this.$refs.modalForm.disableSubmit = true
@@ -102,7 +101,7 @@ export const ListMixin = {
         this.$message.error('请设置url.delete属性!')
         return
       }
-      this.$fetch.deleteAction(this.url.delete, { id: id }).then((res) => {
+      this.$fetch.deleteAction(this.url.delete, { id: id }).then(res => {
         if (res.code === 200) {
           this.$message.success('操作成功')
           this.loadData()
@@ -127,6 +126,40 @@ export const ListMixin = {
       } else if (info.file.status === 'error') {
         this.$message.error('导入失败')
         this.importLoading = false
+      }
+    },
+    // 文件下载 a 链接方式
+    downloadFile(href) {
+      const link = document.createElement('a')
+      link.style.display = 'none'
+      document.body.appendChild(link)
+      link.href = href
+      // link.download = '文件名'
+      link.click()
+      document.body.removeChild(link)
+    },
+    async handleExport() {
+      const file = {
+        name: '',
+        url: '',
+        type: ''
+      }
+      try {
+        this.exportLoading = true
+        const res = await this.$fetch.uploadAction('/xx', {
+        }, {
+          responseType: 'blob'
+        })
+        const link = document.createElement('a')
+        const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
+        const objectUrl = URL.createObjectURL(blob) // 创建URL
+        link.href = objectUrl
+        link.download = 'xx' + '.xlsx'
+        link.click() // 下载文件
+        URL.revokeObjectURL(objectUrl)
+        this.exportLoading = false
+      } catch (e) {
+        this.exportLoading = false
       }
     }
   }

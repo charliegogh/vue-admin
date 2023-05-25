@@ -1,71 +1,56 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
-    <!--  侧边栏遮罩  -->
-    <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" />
-    <Sidebar class="sidebar-container" />
-    <div class="main-container">
-      <div
-        class="nav"
-        :style="{width:(sidebar.opened && device!=='mobile')?'calc(100% - 220px)':(device==='mobile')?'100%':'calc(100% - 80px)'}"
-      >
-        <navbar
-          @toggle="toggleSideBar"
-        />
-        <!-- tag标签 -->
-        <tags-view />
-      </div>
+  <div class="layout">
+    <Sidebar />
+    <div
+      class="main-container"
+      :style="{
+        marginLeft:
+          device === 'mobile' ? '0px' : sidebar.opened ? '200px' : '80px'
+      }"
+    >
+      <GlobalHeader />
       <AppMain />
     </div>
   </div>
 </template>
 <script>
-import { Sidebar, AppMain, Navbar, TagsView } from './components'
-import { mapState } from 'vuex'
-import ResizeMixin from './mixin/ResizeHandler'
+import { Sidebar, AppMain, GlobalHeader } from "./components";
+import { mapState } from "vuex";
 export default {
-  name: 'Layout',
+  name: "Layout",
   components: {
     Sidebar,
     AppMain,
-    Navbar,
-    TagsView
+    GlobalHeader
   },
-  mixins: [ResizeMixin],
   computed: {
     ...mapState({
       sidebar: state => state.app.sidebar,
       device: state => state.app.device
-    }),
-    classObj() {
-      return {
-        hideSidebar: !this.sidebar.opened,
-        openSidebar: this.sidebar.opened,
-        withoutAnimation: this.sidebar.withoutAnimation,
-        mobile: this.device === 'mobile'
-      }
-    }
+    })
   },
-  mounted() {
-  },
+  mounted() {},
   methods: {
-    toggleSideBar() {
-      this.$store.dispatch('app/toggleSideBar')
-    },
     handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
+      this.$store.dispatch("app/closeSideBar", { withoutAnimation: false });
     }
   }
-}
+};
 </script>
 <style lang="less">
-  @import "style";
-  .drawer-bg {
-    background: #000;
-    opacity: 0.3;
-    width: 100%;
-    top: 0;
-    height: 100%;
-    position: absolute;
-    z-index: 999;
+.layout {
+  .app-main {
+    .ql {
+      height: 110px;
+    }
+    padding: 15px;
+    position: relative;
   }
+  .main-container {
+    min-height: 100%;
+    transition: margin-left 0.1s;
+    position: relative;
+    // margin-left: 210px;
+  }
+}
 </style>

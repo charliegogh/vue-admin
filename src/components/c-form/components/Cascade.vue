@@ -39,7 +39,6 @@ export default {
   watch: {
     formField: {
       deep: true,
-      immediate: true,
       handler(val) {
         if (val.dataSource.length !== 0) {
           this.treeData = val.dataSource
@@ -60,7 +59,7 @@ export default {
   },
   // 加载默认省市区列表信息
   async mounted() {
-    this.treeData = await this.$store.dispatch('app/getRegionList')
+    // this.treeData = await this.$store.dispatch('app/getRegionList')
   },
   methods: {
     handleChange(value) {

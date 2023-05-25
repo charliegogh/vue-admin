@@ -6,13 +6,11 @@ export default {
   props: {
     dataForm: {
       type: Object,
-      default: () => {
-      }
+      default: () => {}
     },
     rules: {
       type: Object,
-      default: () => {
-      }
+      default: () => {}
     },
     formFields: {
       type: Array,
@@ -48,8 +46,7 @@ export default {
     }
   },
   data() {
-    return {
-    }
+    return {}
   },
   computed: {
     dict() {
@@ -58,11 +55,10 @@ export default {
   },
   watch: {
     // 动态字典
-    'dict': {
-      // immediate: true,
+    dict: {
       deep: true,
+      immediate: true,
       handler(val) {
-        // console.log(val, 'dict')
         this.formFields.forEach(f => {
           Object.keys(val).forEach(d => {
             if (f.dict === d) f.dataSource = val[f.dict]

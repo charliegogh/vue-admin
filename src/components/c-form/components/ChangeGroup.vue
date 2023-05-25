@@ -15,9 +15,6 @@
 export default {
   name: 'CheckboxGroup',
   props: {
-    value: {
-
-    },
     formField: {
       type: Object
     }

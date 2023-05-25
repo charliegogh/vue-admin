@@ -68,15 +68,17 @@ const actions = {
   async generateRoutes({ commit, dispatch }, routes) {
     const asyncRoutes = formatRoutes(routes)
     const redirect = asyncRoutes[0].redirect || '/dashboard/analysis'
-    const _routes = [{
-      path: '/',
-      component: Layout,
-      redirect: redirect,
-      meta: {
-        title: ''
-      },
-      children: asyncRoutes
-    }].concat(errorRoutes) // 组合完毕之后再去添加静态路由用来防止异步
+    const _routes = [
+      {
+        path: '/',
+        component: Layout,
+        redirect: redirect,
+        meta: {
+          title: ''
+        },
+        children: asyncRoutes
+      }
+    ].concat(errorRoutes) // 组合完毕之后再去添加静态路由用来防止异步
     commit('SET_ROUTERS', asyncRoutes) // 侧边栏结构
     return _routes
   },
@@ -93,17 +95,6 @@ const actions = {
     getRolesList(menuList)
     commit('SET_ROLES', roles)
   },
-  /* 更新用戶信息 （用户相关信息更改之后） */
-  async updateUserInfo({ commit }) {
-    try {
-      const res = await postAction('/getUserInfo')
-      if (res.success) {
-        commit('SET_USER_INFO', res)
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  },
   // 同步登出
   async logOut() {
     await removeToken()
@@ -111,16 +102,16 @@ const actions = {
   }
 }
 
-// 递归生成路由结构信息
-
 /**
+ * 递归生成路由结构信息
  * @param menuList
  * icon属性 不能为空 前端在此数据替
  * name属性 必须项且唯一，否则侧边栏无法点击
  */
 const formatRoutes = (menuList = []) => {
   return menuList.map(item => {
-    if (item.children && item.children.length && item.children[0].type !== 2) {
+    if (item.children) item.children = item.children.filter(i => i.type !== 2)
+    if (item.children && item.children.length) {
       return {
         path: item.pageUrl,
         children: formatRoutes(item.children),
@@ -133,11 +124,12 @@ const formatRoutes = (menuList = []) => {
         meta: { title: item.name, icon: item.icon || 'medicine-box' }
       }
     } else {
-      const component = `views${item.pageUrl}`
+      const component = `views${item.pageUrl}${
+        item.pageUrl.split('/').length === 2 ? '/index' : ''
+      }`
       return {
         path: item.pageUrl,
         name: item.name,
-        // hidden: item.hidden,
         component(resolve) {
           require(['@/' + component + '.vue'], resolve)
         },

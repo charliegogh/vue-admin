@@ -4,10 +4,6 @@
     <transition name="router-fade" mode="out-in">
       <router-view />
     </transition>
-    <!--    <keep-alive>-->
-    <!--      <router-view v-if="$route.meta.keepAlive" :key="key" />-->
-    <!--    </keep-alive>-->
-    <!--    <router-view v-if="!$route.meta.keepAlive" :key="key" />-->
   </section>
 </template>
 
@@ -27,13 +23,6 @@ export default {
 }
 .router-fade-enter, .router-fade-leave-active {
   opacity: 0;
-}
-.app-main {
-  .ql{
-    height: 110px;
-  }
-  padding: 15px;
-  position: relative;
 }
 </style>
 
