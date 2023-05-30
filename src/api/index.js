@@ -7,7 +7,6 @@ const CancelToken = axios.CancelToken
 const queue = [] // 请求队列
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_URL,
-  // baseURL: 'http://localhost:88/',
   withCredentials: true, // 允许携带 cookie
   timeout: 50000, // 请求超时时间
   // 默认请求头
@@ -22,13 +21,13 @@ const service = axios.create({
         data = JSON.stringify(data)
       }
       if (config['Content-Type'] === 'application/x-www-form-urlencoded') {
-        data = qs.stringify(data) // 请求参数序列化
+        data = qs.stringify(data)
       }
       return data
     }
   ]
 })
-// request拦截器
+// request 拦截器
 service.interceptors.request.use(
   config => {
     config.headers['Authorization'] = getToken()
@@ -49,7 +48,7 @@ service.interceptors.request.use(
   }
 )
 
-// respone拦截器   响应拦截器
+// response 拦截器
 service.interceptors.response.use(
   response => {
     removeRepeatRequest(response.config)

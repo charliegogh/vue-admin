@@ -24,10 +24,10 @@ export const ListMixin = {
     }
   },
   async created() {
+    console.log(' -- mixin created -- ')
     // 初始化字典配置 在自己页面定义
     await this.loadDict()
     if (!this.disableMixinCreated) {
-      console.log(' -- mixin created -- ')
       await this.loadData()
     }
     // 派发点击事件
@@ -36,12 +36,9 @@ export const ListMixin = {
     })
   },
   methods: {
-    searchQuery() {
-      this.loadData()
-    },
-    searchReset() {
+    async searchReset() {
       this.queryParam = {}
-      this.loadData()
+      await this.loadData()
     },
     async loadData(arg) {
       if (!this?.url?.list) {
@@ -78,8 +75,8 @@ export const ListMixin = {
       }
     },
     // 新增/修改 成功时，重载列表
-    modalFormOk() {
-      this.loadData()
+    async modalFormOk() {
+      await this.loadData()
     },
     handleAdd() {
       this.$refs.modalForm.add()
@@ -91,41 +88,17 @@ export const ListMixin = {
       this.$refs.modalForm.title = '编辑'
       this.$refs.modalForm.disableSubmit = false
     },
-    handleDetail(record) {
-      this.$refs.modalForm.edit(record)
-      this.$refs.modalForm.title = '详情'
-      this.$refs.modalForm.disableSubmit = true
-    },
-    handleDelete(id) {
+    async handleDelete(id) {
       if (!this.url.delete) {
         this.$message.error('请设置url.delete属性!')
         return
       }
-      this.$fetch.deleteAction(this.url.delete, { id: id }).then(res => {
-        if (res.code === 200) {
-          this.$message.success('操作成功')
-          this.loadData()
-        } else {
-          this.$message.warning('操作失败')
-        }
-      })
-    },
-    // 信息导入
-    handleImport(info) {
-      if (info.file.status === 'uploading') {
-        this.importLoading = true
-      }
-      if (info.file.status === 'done') {
-        if (info.file.response.code === 200) {
-          this.$message.success(`${info.file.response.message}`)
-          this.importLoading = false
-          this.loadData()
-        } else {
-          this.$message.error(`${info.file.response.message}`)
-        }
-      } else if (info.file.status === 'error') {
-        this.$message.error('导入失败')
-        this.importLoading = false
+      const rs = await this.$fetch.deleteAction(this.url.delete, { id: id })
+      if (rs.code === 200) {
+        this.$message.success('操作成功')
+        await this.loadData()
+      } else {
+        this.$message.warning('操作失败')
       }
     },
     // 文件下载 a 链接方式
@@ -138,28 +111,39 @@ export const ListMixin = {
       link.click()
       document.body.removeChild(link)
     },
-    async handleExport() {
-      const file = {
-        name: '',
-        url: '',
-        type: ''
-      }
+    // blob 形式导出
+    async handleExport(file) {
+      const { url, name, type } = file
       try {
         this.exportLoading = true
-        const res = await this.$fetch.uploadAction('/xx', {
-        }, {
-          responseType: 'blob'
-        })
+        const res = await this.$fetch.getAction(url)
+        const blob = new Blob([res])
+        // 创建下载链接
         const link = document.createElement('a')
-        const blob = new Blob([res], { type: 'application/vnd.ms-excel' })
         const objectUrl = URL.createObjectURL(blob) // 创建URL
         link.href = objectUrl
-        link.download = 'xx' + '.xlsx'
+        // 执行下载名称
+        link.download = name + '.' + type
         link.click() // 下载文件
+        // 清理下载链接
+        document.body.removeChild(link)
         URL.revokeObjectURL(objectUrl)
         this.exportLoading = false
       } catch (e) {
         this.exportLoading = false
+      }
+    },
+    // 关闭一组页面并打开新的页面
+    openAndClose(url, num) {
+      // 打开新页面
+      window.open(url, '_blank')
+      // 获取前两个打开的窗口
+      const windows = [window.opener, window]
+      // 关闭前两个窗口
+      for (let i = 0; i < num; i++) {
+        if (windows[i]) {
+          windows[i].close()
+        }
       }
     }
   }

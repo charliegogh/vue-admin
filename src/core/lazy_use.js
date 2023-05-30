@@ -113,6 +113,8 @@ Vue.use(CDrawer)
 Vue.use(CTable)
 
 import { test } from 'charliegogh-ui'
+
+console.log(test)
 Vue.use(test)
 
 Vue.prototype.$confirm = Modal.confirm

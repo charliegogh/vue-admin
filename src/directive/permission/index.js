@@ -1,6 +1,6 @@
 import permission from './permission'
 
-const install = function (Vue) {
+const install = function(Vue) {
   Vue.directive('permission', permission)
 }
 
@@ -12,4 +12,3 @@ if (window.Vue) {
 permission.install = install
 export default permission
 
-console.log(1)

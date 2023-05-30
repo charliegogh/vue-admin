@@ -15,6 +15,6 @@ export function formatDict(value, dict = [], compareValue = 'code', getValue = '
   return data ? data[getValue] : ''
 }
 /* 时间格式化 */
-export function formatDate(date) {
-  return date && moment(date).format('YYYY-MM-DD')
+export function formatDate(date, format = 'YYYY-MM-DD') {
+  return date && moment(date).format(format)
 }

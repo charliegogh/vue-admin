@@ -19,7 +19,7 @@
           />
         </div>
         <div class="title">
-          <span v-if="device === 'desktop'">欢迎进入 charlie</span>
+          <span v-if="device === 'desktop'">欢迎进入</span>
           <span v-else>charlie</span>
         </div>
       </div>
@@ -41,7 +41,6 @@ export default {
   props: {
     mode: {
       type: String,
-      // sidemenu, topmenu
       default: 'sidemenu'
     },
     theme: {
@@ -73,11 +72,9 @@ export default {
   z-index: 2;
   color: white;
   height: 59px;
-  //background-color: @primary-color;
   transition: background 300ms;
   border-bottom:  1px solid #f4f4f4;
   .row-between-center();
-  /* dark 样式 */
   &.dark {
     color: #000000;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);

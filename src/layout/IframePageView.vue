@@ -7,7 +7,6 @@
 <script>
 export default {
   name: 'IframePageContent',
-  // inject: ['closeCurrent'],
   data() {
     return {
       url: '',
@@ -18,8 +17,6 @@ export default {
   },
   created() {
     this.url = this.$route.meta.url
-  },
-  methods: {
   }
 }
 </script>
