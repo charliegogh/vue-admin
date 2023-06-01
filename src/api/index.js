@@ -51,6 +51,7 @@ service.interceptors.request.use(
 // response 拦截器
 service.interceptors.response.use(
   response => {
+    console.log(response.headers['custom-header'])
     removeRepeatRequest(response.config)
     return Promise.resolve(response)
   },
