@@ -30,8 +30,8 @@ module.exports = {
       '/api': {
         open: false, // 自动打开浏览器
         ws: false,
-        // target: 'http://47.93.4.29:88',
-        target: 'http://localhost:88',
+        target: 'http://47.93.4.29:88',
+        // target: 'http://localhost:88',
         changeOrigin: true, //
         pathRewrite: { '^/api': '/' } // 代理重写
       },

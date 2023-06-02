@@ -36,6 +36,9 @@ export const ListMixin = {
     })
   },
   methods: {
+    searchQuery() {
+      this.loadData()
+    },
     async searchReset() {
       this.queryParam = {}
       await this.loadData()
@@ -87,6 +90,9 @@ export const ListMixin = {
       this.$refs.modalForm.edit(record)
       this.$refs.modalForm.title = '编辑'
       this.$refs.modalForm.disableSubmit = false
+    },
+    handleDetail(record) {
+      this.$refs.modalForm.detail(record)
     },
     async handleDelete(id) {
       if (!this.url.delete) {
