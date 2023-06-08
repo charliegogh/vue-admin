@@ -8,8 +8,6 @@
   </CDrawer>
 </template>
 <script>
-import Logo from '../../../layout/components/Sidebar/Logo'
-
 export default {
   components: {},
   data() {
@@ -111,7 +109,7 @@ export default {
   },
   methods: {
     add() {
-      this.edit()
+      this.edit({})
     },
     // 编辑
     async edit(record) {

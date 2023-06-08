@@ -73,11 +73,12 @@
                 v-bind="formField"
               />
               <!-- 下拉
+              :value="dataForm[formField.prop] || undefined"
                                            v-model="dataForm[formField.prop]"
               -->
               <a-select
                 v-if="formField.component === 'select'"
-                :value="dataForm[formField.prop] || undefined"
+                v-model="dataForm[formField.prop]"
                 :placeholder="`请选择${formField.label}`"
                 allow-clear
                 v-bind="formField.options"

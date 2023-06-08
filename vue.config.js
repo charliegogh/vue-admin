@@ -106,6 +106,7 @@ module.exports = {
       .set('_utils', resolve('src/utils'))
       .set('_com', resolve('src/components'))
       .set('_assets', resolve('src/assets'))
+      // .set('collectArticle$', resolve('public/collectArticle.js'))
     // .set('@ant-design/icons/lib/dist$', resolve('src/core/icons.js'))  // 拆掉antd的icon包
 
     /* 文件拆分 */

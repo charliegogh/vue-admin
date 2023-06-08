@@ -1,6 +1,8 @@
 <template>
   <a-card :bordered="false">
-    11
+    <div class="xr-video">
+      11
+    </div>
   </a-card>
 </template>
 <script>

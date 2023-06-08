@@ -1,5 +1,7 @@
 <template>
   <a-card :bordered="false">
+    <iframe id="print-pdf-iframe" style="width: 800px" />
+    <a-button @click="print">打印</a-button>
     <a-row :gutter="24">
       <a-col :span="12">
         <div class="pdf-container">
@@ -56,7 +58,70 @@ export default {
     this.load()
   },
   methods: {
+    print() {
+      const image = new Image()
+      image.src = 'https://x.cnki.net/read/Content/Images/CNKILogo.png' // 设置图片的路径
+      const renderPromises = []
+      // 添加打印信息
+      const totalPages = this.pdfDocument.numPages
+      for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+        renderPromises.push(
+          this.pdfDocument.getPage(pageNumber).then(function(page) {
+            const scale = 1.5 // 缩放比例
+            const viewport = page.getViewport({ scale: scale })
 
+            const canvas = document.createElement('canvas') // 创建新的画布元素
+            const context = canvas.getContext('2d')
+
+            canvas.height = viewport.height
+            canvas.width = viewport.width
+            console.log(canvas)
+            // 打印操作
+            return page.render({
+              canvasContext: context,
+              viewport: viewport
+            }).promise.then(() => {
+              return canvas
+            })
+          })
+        )
+      }
+      Promise.all(renderPromises).then((canvases) => {
+        const iframe = document.createElement('iframe')
+        document.body.appendChild(iframe)
+        // 将 canvas 元素添加到网页中
+        const printWindow = iframe.contentWindow
+        var printDocument = iframe.contentDocument
+        canvases.forEach(function(canvas) {
+          const preFixType = function(type) {
+            type = type.toLowerCase().replace(/jpg/i, 'jpeg')
+            const r = type.match(/png|jpeg|bmp|gif/)[0]
+            return `image/${r}`
+          }
+          const type = 'png'
+          const fixType = preFixType(type)
+          let downLoadImgUrl = canvas.toDataURL(fixType)
+          downLoadImgUrl = downLoadImgUrl.replace(fixType, 'image/octet-stream')
+
+          // const context = canvas.getContext('2d')
+          // // 计算图片在 Canvas 中的绘制位置
+          // const imageX = (canvas.width - image.width) / 2
+          // const imageY = (canvas.height - image.height) / 2
+          // // 在 Canvas 中绘制图片
+          // context.drawImage(image, imageX, imageY)
+          // iframe.contentDocument.body.appendChild(canvas)
+        })
+        // 111
+        /*   var newCanvas = document.createElement('canvas')
+        var newContext = newCanvas.getContext('2d')
+        newCanvas.width = 500
+        newCanvas.height = 100
+        newContext.fillStyle = '#ff0000'
+        newContext.fillRect(0, 0, newCanvas.width, newCanvas.height)
+        printDocument.body.appendChild(newCanvas) */
+        printWindow.print()
+      })
+    },
     async load() {
       const linkService = new PDFLinkService()
       const loadingTask = getDocument('./1.pdf')
@@ -84,7 +149,11 @@ export default {
         pdfViewer.setDocument(pdf)
         this.pdfViewer = pdfViewer
         this.pdfDocument = pdf
-        this.setPageData()
+        setTimeout(() => {
+          const { canvas } = this.pdfViewer.getPageView(0)
+          console.log(canvas)
+        }, 200)
+        // this.setPageData()
         // 换用 pointerup 监听鼠标指针释放
         // window.addEventListener('mouseup', this.mouseup)
       }
