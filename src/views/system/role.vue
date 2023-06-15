@@ -80,6 +80,5 @@ export default {
 </script>
 <style lang="less">
 .test{
-  .row-start-center;
 }
 </style>
