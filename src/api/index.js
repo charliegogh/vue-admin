@@ -16,7 +16,6 @@ const service = axios.create({
   transformRequest: [
     function(data, config) {
       // 在请求之前对data传参进行格式转换 111
-      // json
       if (config['Content-Type'] === 'application/json;charset=UTF-8') {
         data = JSON.stringify(data)
       }
