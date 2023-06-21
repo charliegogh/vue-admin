@@ -6,11 +6,11 @@ const components = modulesFiles.keys().reduce((modules, modulePath) => {
   modules.push(value.default)
   return modules
 }, [])
-const register_components = {}
+const registerComponents = {}
 components.forEach(item => {
-  register_components[item.name] = item
+  registerComponents[item.name] = item
 })
 
 export {
-  register_components
+  registerComponents
 }

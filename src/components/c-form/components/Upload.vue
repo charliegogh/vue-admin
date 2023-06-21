@@ -126,11 +126,6 @@ export default {
             name: item,
             status: 'done',
             url: this.fileContext + item,
-            linkProps: {
-              attrs: {
-                download: '111'
-              }
-            },
             response: {
               status: 'success',
               path: item

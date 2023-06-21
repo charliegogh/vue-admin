@@ -1,7 +1,7 @@
-import { register_components } from '../components/index'
+import { registerComponents } from '../components/index'
 export default {
   components: {
-    ...register_components
+    ...registerComponents
   },
   props: {
     dataForm: {
