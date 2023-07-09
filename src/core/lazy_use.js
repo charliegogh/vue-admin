@@ -52,7 +52,8 @@ import {
   Empty,
   Collapse,
   Pagination,
-  Cascader
+  Cascader,
+  AutoComplete
 } from 'ant-design-vue'
 import {
   CDrawer,
@@ -60,6 +61,7 @@ import {
 } from '@/components'
 
 Vue.use(ConfigProvider)
+Vue.use(AutoComplete)
 Vue.use(Collapse)
 Vue.use(Layout)
 Vue.use(Input)

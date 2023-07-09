@@ -2,7 +2,7 @@
   <div class="app-login-container">
     <div class="bg">
       <div class="w960 row-between-center">
-        <img src="~@/assets/img/login.png" class="enter-x-animation" alt="" />
+        <img src="~@/assets/img/login.png" class="enter-x-animation" alt="">
         <div class="form-wrapper enter-x-animation">
           <!-- <h2>{{ title }}</h2> -->
           <div class="form-wrapper--main">
@@ -21,7 +21,7 @@
                 class="login-button"
                 :loading="confirmLoading"
                 @click="handleSubmit"
-                >登录
+              >登录
               </a-button>
             </Form>
           </div>
@@ -31,7 +31,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
 export default {
   components: {},
   data() {
@@ -39,45 +39,45 @@ export default {
       confirmLoading: false,
       title: this.$config.title,
       dataForm: {
-        username: "super",
-        password: "1"
+        username: 'super',
+        password: '1'
       },
       rules: {
         username: [
           {
             required: true,
-            message: "请输入账号",
-            trigger: "blur"
+            message: '请输入账号',
+            trigger: 'blur'
           }
         ],
         password: [
           {
             required: true,
-            message: "请输入密码",
-            trigger: "blur"
+            message: '请输入密码',
+            trigger: 'blur'
           }
         ]
       },
       formFields: [
         {
-          prop: "username",
-          label: "账号",
-          component: "input"
+          prop: 'username',
+          label: '账号',
+          component: 'input'
         },
         {
-          prop: "password",
-          label: "密码",
-          component: "password"
+          prop: 'password',
+          label: '密码',
+          component: 'password'
         }
       ]
-    };
+    }
   },
   watch: {
     $route: {
       handler: function(route) {
-        const query = route.query;
+        const query = route.query
         if (query) {
-          this.redirect = query.redirect;
+          this.redirect = query.redirect
         }
       },
       immediate: true
@@ -86,32 +86,32 @@ export default {
   created() {},
   methods: {
     ...mapActions({
-      login: "user/login"
+      login: 'user/login'
     }),
     async handleSubmit(e) {
-      const status = this.$refs.Form.validate();
+      const status = this.$refs.Form.validate()
       if (status) {
-        this.confirmLoading = true;
+        this.confirmLoading = true
         this.login(this.dataForm)
           .then(res => {
             if (res.code === 200) {
               this.$router
                 .replace({
-                  path: this.redirect || "/"
+                  path: this.redirect || '/'
                 })
-                .catch(() => {});
+                .catch(() => {})
             } else {
-              this.confirmLoading = false;
+              this.confirmLoading = false
             }
           })
           .catch(e => {
-            this.confirmLoading = false;
-            this.$message.error("服务器错误");
-          });
+            this.confirmLoading = false
+            this.$message.error('服务器错误')
+          })
       }
     }
   }
-};
+}
 </script>
 <style lang="less">
 @import "~@/styles/animations.less";
