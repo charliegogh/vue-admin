@@ -6,13 +6,14 @@ const plugins = [
       libraryDirectory: 'es',
       style: true
     }
-  ]
-/*   [
+  ],
+  [
     'component',
     {
-      'libraryName': 'charliegogh-ui'
+      libraryName: 'element-ui',
+      styleLibraryName: 'theme-chalk'
     }
-  ] */
+  ]
 ]
 /* 生产环境移除console */
 if (process.env.NODE_ENV === 'production') {

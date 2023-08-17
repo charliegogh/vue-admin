@@ -115,9 +115,10 @@ export default {
             prop: 'files',
             label: '文件上传',
             component: 'upload',
+            extra: '111',
             options: {
-              limit: 10
-              // listType: 'picture-card'
+              limit: 10,
+              listType: 'picture-card'
             }
           },
           {

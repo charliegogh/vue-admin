@@ -20,7 +20,7 @@
         </div>
         <div class="title">
           <span v-if="device === 'desktop'">欢迎进入</span>
-          <span v-else>charlie</span>
+          <span v-else></span>
         </div>
       </div>
       <user-menu :theme="theme" />

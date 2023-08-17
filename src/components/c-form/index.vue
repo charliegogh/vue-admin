@@ -22,6 +22,7 @@
               :key="formField.prop"
               :label="formField.label"
               :prop="formField.prop"
+              :extra="formField.extra"
               v-bind="{
                 ...layout,
                 [formField.labelCol && 'labelCol']: {

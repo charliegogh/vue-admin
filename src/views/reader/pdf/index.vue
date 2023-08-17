@@ -1,34 +1,46 @@
 <template>
-  <a-card :bordered="false">
-    <iframe id="print-pdf-iframe" style="width: 800px" />
-    <a-button @click="print">打印</a-button>
+  <div>
+    <iframe id="print-pdf-iframe" class="none" />
+    <div class="pdf-action">
+      <a-button @click="print">打印</a-button>
+      <a-button @click="enlarge">放大</a-button>
+      <a-button @click="toggleHandTool">抓手</a-button>
+      <a-button @click="enlarge">适应宽度</a-button>
+      <a-button @click="enlarge">适应高度</a-button>
+    </div>
     <a-row :gutter="24">
-      <a-col :span="12">
+      <a-col :span="16">
         <div class="pdf-container">
+          <!--          @pointerup="mouseup"-->
           <div
             id="viewer"
             ref="attachRef"
             class="PdfHighlighter"
-            @pointerup="mouseup"
           >
-            <div class="pdfViewer" />
+            <div
+              ref="importDom"
+              class="pdfViewer"
+            />
           </div>
         </div>
       </a-col>
-      <a-col :span="12">
-        <div
-          v-for="(item,idx) of Layers"
-          :key="item.id"
-          class="notes"
-          @click="location(item)"
-        >
-          {{ idx+1 }}.
-          {{ item.text }}
-          <span @click="handleDeleteNotes(item)">删除</span>
-        </div>
+      <a-col :span="8">
+        <FindBar
+          :find-bar="findBar"
+        />
+        <!--        <div-->
+        <!--          v-for="(item,idx) of Layers"-->
+        <!--          :key="item.id"-->
+        <!--          class="notes"-->
+        <!--          @click="location(item)"-->
+        <!--        >-->
+        <!--          {{ idx+1 }}.-->
+        <!--          {{ item.text }}-->
+        <!--          <span @click="handleDeleteNotes(item)">删除</span>-->
+        <!--        </div>-->
       </a-col>
     </a-row>
-  </a-card>
+  </div>
 </template>
 <script>
 import { getDocument, GlobalWorkerOptions } from 'pdfjs-dist/legacy/build/pdf'
@@ -44,13 +56,26 @@ import { debounce } from '@/utils'
 import { getPagesFromRange, getClientRects } from './utils'
 import { createUUID } from '@/utils'
 const Layers = {}
+import GrabToPan from '@/views/reader/pdf/hook/useGrabToPan'
+import FindBar from '@/views/dashboard/components/FindBar.vue'
+import usePdfFindBar from '@/views/reader/pdf/hook/usePdfFindBar'
 export default {
+  components: {
+    FindBar
+  },
   data() {
     return {
       containerNode: null,
       pdfViewer: null,
       rects: {},
       pdfDocument: null,
+      handTool: null,
+      findBar: {
+        findStates: '',
+        queryMatches: [],
+        findMax: 50
+      },
+      eventBus: new EventBus(),
       Layers: {} //
     }
   },
@@ -58,69 +83,12 @@ export default {
     this.load()
   },
   methods: {
-    print() {
-      const image = new Image()
-      image.src = 'https://x.cnki.net/read/Content/Images/CNKILogo.png' // 设置图片的路径
-      const renderPromises = []
-      // 添加打印信息
-      const totalPages = this.pdfDocument.numPages
-      for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-        renderPromises.push(
-          this.pdfDocument.getPage(pageNumber).then(function(page) {
-            const scale = 1.5 // 缩放比例
-            const viewport = page.getViewport({ scale: scale })
-
-            const canvas = document.createElement('canvas') // 创建新的画布元素
-            const context = canvas.getContext('2d')
-
-            canvas.height = viewport.height
-            canvas.width = viewport.width
-            console.log(canvas)
-            // 打印操作
-            return page.render({
-              canvasContext: context,
-              viewport: viewport
-            }).promise.then(() => {
-              return canvas
-            })
-          })
-        )
-      }
-      Promise.all(renderPromises).then((canvases) => {
-        const iframe = document.createElement('iframe')
-        document.body.appendChild(iframe)
-        // 将 canvas 元素添加到网页中
-        const printWindow = iframe.contentWindow
-        var printDocument = iframe.contentDocument
-        canvases.forEach(function(canvas) {
-          const preFixType = function(type) {
-            type = type.toLowerCase().replace(/jpg/i, 'jpeg')
-            const r = type.match(/png|jpeg|bmp|gif/)[0]
-            return `image/${r}`
-          }
-          const type = 'png'
-          const fixType = preFixType(type)
-          let downLoadImgUrl = canvas.toDataURL(fixType)
-          downLoadImgUrl = downLoadImgUrl.replace(fixType, 'image/octet-stream')
-
-          // const context = canvas.getContext('2d')
-          // // 计算图片在 Canvas 中的绘制位置
-          // const imageX = (canvas.width - image.width) / 2
-          // const imageY = (canvas.height - image.height) / 2
-          // // 在 Canvas 中绘制图片
-          // context.drawImage(image, imageX, imageY)
-          // iframe.contentDocument.body.appendChild(canvas)
-        })
-        // 111
-        /*   var newCanvas = document.createElement('canvas')
-        var newContext = newCanvas.getContext('2d')
-        newCanvas.width = 500
-        newCanvas.height = 100
-        newContext.fillStyle = '#ff0000'
-        newContext.fillRect(0, 0, newCanvas.width, newCanvas.height)
-        printDocument.body.appendChild(newCanvas) */
-        printWindow.print()
-      })
+    toggleHandTool() {
+      this.handTool.toggle()
+    },
+    // 放大
+    enlarge(steps) {
+      this.pdfViewer.increaseScale()
     },
     async load() {
       const linkService = new PDFLinkService()
@@ -131,7 +99,7 @@ export default {
       if (pdf) {
         const pdfViewer = new PDFViewer({
           container: viewer,
-          eventBus: new EventBus(), //  ？？？？
+          eventBus: this.eventBus, //  ？？？？
           textLayerMode: 2, // 显示文字类型 渲染文字图层
           annotationMode: 2,
           annotationEditorMode: 0,
@@ -142,27 +110,32 @@ export default {
           removePageBorders: true,
           linkService,
           renderer: 'canvas',
-          l10n: null
+          l10n: null,
+          defaultRenderingQueue: true // 设置默认渲染整个 PDF
         })
         linkService.setDocument(pdf)
         linkService.setViewer(pdfViewer)
         pdfViewer.setDocument(pdf)
         this.pdfViewer = pdfViewer
         this.pdfDocument = pdf
+        this.handTool = new GrabToPan({
+          element: viewer
+        })
         setTimeout(() => {
-          const { canvas } = this.pdfViewer.getPageView(0)
-          console.log(canvas)
-        }, 200)
-        // this.setPageData()
+          this.findBar = usePdfFindBar({
+            findField: document.getElementById('findInput'),
+            caseSensitiveCheckbox: document.getElementById('findMatchCase'),
+            caseCurPageCheckbox: document.getElementById('findMatchCurPage'),
+            findInputSearch: document.getElementById('findInputSearch'),
+            findList: document.querySelector('.xr-find__list'),
+            pdfDocument: this.pdfDocument,
+            pdfViewer: this.pdfViewer,
+            findMax: this.findBar.findMax,
+            root: document.querySelectorAll('.page')
+          })
+        })
         // 换用 pointerup 监听鼠标指针释放
         // window.addEventListener('mouseup', this.mouseup)
-      }
-    },
-    // 配置页面data
-    setPageData() {
-      const numPages = this.pdfDocument.numPages
-      for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-        Layers[pageNum] = []
       }
     },
     // 鼠标滑动监听
@@ -237,6 +210,53 @@ export default {
       this.pdfViewer.scrollPageIntoView({
         pageNumber: 2
       })
+    },
+    // 打印
+    print() {
+      // 水印路径
+      const image = new Image()
+      image.src = 'https://x.cnki.net/read/Content/Images/CNKILogo.png'
+      const renderPromises = []
+      // 添加打印信息
+      const totalPages = this.pdfDocument.numPages
+      for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+        renderPromises.push(
+          this.pdfDocument.getPage(pageNumber).then(function(page) {
+            const scale = 1.5 // 缩放比例
+            const viewport = page.getViewport({ scale: scale })
+
+            const canvas = document.createElement('canvas') // 创建新的画布元素
+            const context = canvas.getContext('2d')
+
+            canvas.height = viewport.height
+            canvas.width = viewport.width
+            console.log(canvas)
+            // 打印操作
+            return page.render({
+              canvasContext: context,
+              viewport: viewport
+            }).promise.then(() => {
+              return canvas
+            })
+          })
+        )
+      }
+      Promise.all(renderPromises).then((canvases) => {
+        const iframe = document.createElement('iframe')
+        document.body.appendChild(iframe)
+        // 将 canvas 元素添加到网页中
+        const printWindow = iframe.contentWindow
+        canvases.forEach(function(canvas) {
+          const context = canvas.getContext('2d')
+          // 计算图片在 Canvas 中的绘制位置
+          const imageX = (canvas.width - image.width) / 2
+          const imageY = (canvas.height - image.height) / 2
+          // 在 Canvas 中绘制图片
+          context.drawImage(image, imageX, imageY)
+          iframe.contentDocument.body.appendChild(canvas)
+        })
+        printWindow.print()
+      })
     }
   }
 }
@@ -245,7 +265,8 @@ export default {
 .pdf-container {
   position: relative;
   width: 100%;
-  height: calc(100vh - 75px);
+  height: 800px;
+  //height: calc(100vh - 75px);
 
   .PdfHighlighter {
     position: absolute;
@@ -263,5 +284,16 @@ export default {
 }
 .notes{
   cursor: pointer;
+}
+.pdf-action{
+  button{
+    margin-right: 5px;
+  }
+}
+.grab-to-pan-grab {
+  cursor: grab !important;
+}
+.grab-to-pan-grab *:not(input):not(textarea):not(button):not(select):not(:link) {
+  cursor: inherit !important;
 }
 </style>

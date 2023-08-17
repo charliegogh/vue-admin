@@ -1,20 +1,28 @@
 <template>
-  <div style="position: relative;width: 500px;line-height: 1.5">
-    <div ref="content" v-underline-text class="content" v-html="text" />
-    <div
-      v-for="highlight in highlights"
-      :key="highlight.id"
-      class="Highlight__part"
-      :style="getHighlightStyle(highlight)"
-    >
-      <span>{{ highlight.note }}</span>
-    </div>
-    <!--    :style="getHighlightStyle(highlight.range)"-->
-  </div>
+  <a-row :gutter="24">
+    <a-col :span="12">
+      <div id="content" ref="content" v-underline-text class="content" v-html="text" />
+      <!--      <div-->
+      <!--        v-for="highlight in highlights"-->
+      <!--        :key="highlight.id"-->
+      <!--        class="Highlight__part"-->
+      <!--        :style="getHighlightStyle(highlight)"-->
+      <!--      >-->
+      <!--        <span>{{ highlight.note }}</span>-->
+      <!--      </div>-->
+    </a-col>
+    <a-col :span="12">
+      <FindBar
+        :find-bar="findBar"
+      />
+    </a-col>
+  </a-row>
 </template>
 
 <script>
 import { content } from '@/views/reader/xml/data'
+import FindBar from '@/views/dashboard/components/FindBar.vue'
+import useXmlFindBar from './hook/useXmlFindBar'
 const getClientRects = (range, pageRect) => {
   const clientRects = Array.from(range.getClientRects())
   const rects = []
@@ -31,6 +39,9 @@ const getClientRects = (range, pageRect) => {
   return rects
 }
 export default {
+  components: {
+    FindBar
+  },
   directives: {
     underlineText: {
       bind(el, binding, vnode) {
@@ -56,9 +67,25 @@ export default {
   data() {
     return {
       text: content,
+      findBar: {
+        findStates: '',
+        queryMatches: [],
+        findMax: 5,
+        inputValue: ''
+      },
       highlights: [
       ]
     }
+  },
+  mounted() {
+    this.findBar = useXmlFindBar({
+      findField: document.getElementById('findInput'),
+      originalTextContent: this.text,
+      caseSensitiveCheckbox: document.getElementById('findMatchCase'),
+      findInputSearch: document.getElementById('findInputSearch'),
+      findList: document.querySelector('.xr-find__list'),
+      root: document.querySelector('.content')
+    })
   },
   methods: {
     getHighlightStyle(rect) {
@@ -79,5 +106,10 @@ export default {
   cursor: text;
   pointer-events: none;
   border-bottom: 2px solid red;
+}
+.content{
+  line-height: 1.5;
+  height:300px;
+  overflow-y:auto;
 }
 </style>
