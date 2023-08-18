@@ -79,7 +79,7 @@ class FindBar {
       '\u00BE': '3/4'
     }
 
-    this.events = [
+    this.events= [
       'find',
       'findcasesensitivitychange',
       'findmatchcurpage',
@@ -210,6 +210,10 @@ class FindBar {
 
   // 事件监听
   handleEvent(e) {
+    this.selected = {
+      pageIdx: -1,
+      matchIdx: -1
+    }
     this.removeMatches().then(() => {
       this.state = e.detail
       this.extractText()
@@ -336,19 +340,6 @@ class FindBar {
     // 大小写
     if (caseSensitive) {
       regex = new RegExp(query, 'g')
-    }
-    if (!containsEnglish(query)) {
-      text = removeSpaces(text)
-      let matchIdx = -queryLen
-      const _matches = []
-      while (true) {
-        matchIdx = text.indexOf(query, matchIdx + queryLen)
-        if (matchIdx === -1) {
-          break
-        }
-        _matches.push(matchIdx)
-      }
-      matches = _matches
     }
     for (let index = 0; index < matches.length; index++) {
       const idx = matches[index]
@@ -638,17 +629,19 @@ class FindBar {
       return self.charactersToNormalize[ch]
     })
   }
-  async reset() {
+  async reset(isRemoveListener=true) {
     await this.removeMatches()
     this.selected = {
       pageIdx: -1,
       matchIdx: -1
     }
-    // 移除监听器
-    for (let i = 0, len = this.events.length; i < len; i++) {
-      window.removeEventListener(this.events[i], this.handleEvent)
-    }
     this.queryMatches = []
+    if (isRemoveListener){
+      // 移除监听器
+      for (let i = 0, len = this.events.length; i < len; i++) {
+        window.removeEventListener(this.events[i],this.handleEvent)
+      }
+    }
   }
 }
 function usePdfFindBar(options) {
