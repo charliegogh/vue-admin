@@ -79,7 +79,7 @@ class FindBar {
       '\u00BE': '3/4'
     }
 
-    this.events= [
+    this.events = [
       'find',
       'findcasesensitivitychange',
       'findmatchcurpage',
@@ -254,6 +254,7 @@ class FindBar {
           const str = []
           for (let i = 0, len = textItems.length; i < len; i++) {
             str.push(textItems[i].str)
+            // console.log(textItems[i].image)
           }
           self.pageContents.push(str.join(''))
           extractTextPromisesResolves[pageIndex](pageIndex)
@@ -629,17 +630,17 @@ class FindBar {
       return self.charactersToNormalize[ch]
     })
   }
-  async reset(isRemoveListener=true) {
+  async reset(isRemoveListener = true) {
     await this.removeMatches()
     this.selected = {
       pageIdx: -1,
       matchIdx: -1
     }
     this.queryMatches = []
-    if (isRemoveListener){
+    if (isRemoveListener) {
       // 移除监听器
       for (let i = 0, len = this.events.length; i < len; i++) {
-        window.removeEventListener(this.events[i],this.handleEvent)
+        window.removeEventListener(this.events[i], this.handleEvent)
       }
     }
   }

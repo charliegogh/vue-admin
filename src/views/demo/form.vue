@@ -250,7 +250,7 @@ export default {
   mounted() {},
   methods: {
     submit() {
-      this.$refs.form.validate()
+      // this.$refs.form.validate()
     },
     // 信息导入
     handleImport(info) {

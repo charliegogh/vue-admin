@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>PDF.js Image Extraction Demo</title>
+  <script src="path_to_pdfjs/pdf.js"></script>
+  <script src="path_to_pdfjs/pdf.worker.js"></script>
+</head>
+<body>
+<input type="file" id="pdfInput" accept=".pdf">
+<div id="imageContainer"></div>
+
+<script>
+  var pdfInput = document.getElementById('pdfInput');
+  var imageContainer = document.getElementById('imageContainer');
+
+  pdfInput.addEventListener('change', function(event) {
+    var file = event.target.files[0];
+    if (file) {
+      var fileReader = new FileReader();
+      fileReader.onload = function() {
+        var typedArray = new Uint8Array(this.result);
+        // Load PDF document using PDF.js
+        PDFJS.getDocument(typedArray).promise.then(function(pdf) {
+          // Iterate through each page
+          for (var pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            pdf.getPage(pageNum).then(function(page) {
+              // Extract images from page
+              page.getOperatorList().then(function(opList) {
+                var pageImages = [];
+                for (var i = 0; i < opList.fnArray.length; i++) {
+                  if (opList.fnArray[i] === PDFJS.OPS.paintJpegXObject ||
+                    opList.fnArray[i] === PDFJS.OPS.paintImageXObject) {
+                    var imageData = opList.argsArray[i][0];
+                    pageImages.push(imageData);
+                  }
+                }
+                // Display images in the container
+                pageImages.forEach(function(imageData) {
+                  var imgElement = document.createElement('img');
+                  imgElement.src = imageData.src;
+                  imageContainer.appendChild(imgElement);
+                });
+              });
+            });
+          }
+        });
+      };
+      fileReader.readAsArrayBuffer(file);
+    }
+  });
+</script>
+</body>
+</html>

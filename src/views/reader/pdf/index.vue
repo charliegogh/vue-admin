@@ -57,7 +57,7 @@ import { getPagesFromRange, getClientRects } from './utils'
 import { createUUID } from '@/utils'
 const Layers = {}
 import GrabToPan from '@/views/reader/pdf/hook/useGrabToPan'
-import FindBar from '@/views/dashboard/components/FindBar.vue'
+import FindBar from '../components/FindBar'
 import usePdfFindBar from '@/views/reader/pdf/hook/usePdfFindBar'
 export default {
   components: {
