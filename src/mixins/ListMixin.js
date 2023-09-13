@@ -132,7 +132,6 @@ export const ListMixin = {
         link.download = name + '.' + type
         link.click() // 下载文件
         // 清理下载链接
-        document.body.removeChild(link)
         URL.revokeObjectURL(objectUrl)
         this.exportLoading = false
       } catch (e) {
