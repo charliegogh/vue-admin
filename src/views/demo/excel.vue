@@ -15,8 +15,7 @@
           </a-menu-item>
         </a-menu>
         <a-button type="primary" icon="import" :loading="importLoading">
-          {{ importLoading ? "正在加载" : "导入" }}</a-button
-        >
+          {{ importLoading ? "正在加载" : "导入" }}</a-button>
       </a-dropdown>
     </div>
 
@@ -30,19 +29,18 @@
   </a-card>
 </template>
 <script>
-import excel from "@/mixins/excel.js";
-import ImportFile from "@/components/c-form/components/ImportFile";
-import xlsxLoader from "@/plugins/xlsx";
+import ImportFile from '@/components/c-form/components/ImportFile'
+import xlsxLoader from '@/plugins/xlsx'
 const columns = [
   {
-    title: "时间",
-    dataIndex: "时间"
+    title: 'id',
+    dataIndex: 'school_id'
   },
   {
-    title: "推送状态",
-    dataIndex: "推送状态"
+    title: '学校名称',
+    dataIndex: 'hightitle'
   }
-];
+]
 export default {
   components: {
     ImportFile
@@ -53,33 +51,33 @@ export default {
       columns,
       importLoading: false,
       dataSource: []
-    };
+    }
   },
   mounted() {},
   methods: {
     async handleFileChange(el) {
-      this.loading = true;
-      await xlsxLoader();
-      const XLSX = window.XLSX;
-      this.importLoading = true;
-      const rawFile = el;
+      this.loading = true
+      await xlsxLoader()
+      const XLSX = window.XLSX
+      this.importLoading = true
+      const rawFile = el
       return new Promise((resolve, reject) => {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = e => {
-          const data = e.target.result;
-          const workbook = XLSX.read(data, { type: "array" });
-          const firstSheetName = workbook.SheetNames[0];
-          const worksheet = workbook.Sheets[firstSheetName];
-          const results = XLSX.utils.sheet_to_json(worksheet);
-          this.dataSource = results;
-          this.importLoading = false;
-          this.loading = false;
-          this.$message.success("导入成功");
-          resolve();
-        };
-        reader.readAsArrayBuffer(rawFile);
-      });
+          const data = e.target.result
+          const workbook = XLSX.read(data, { type: 'array' })
+          const firstSheetName = workbook.SheetNames[0]
+          const worksheet = workbook.Sheets[firstSheetName]
+          const results = XLSX.utils.sheet_to_json(worksheet)
+          this.dataSource = results
+          this.importLoading = false
+          this.loading = false
+          this.$message.success('导入成功')
+          resolve()
+        }
+        reader.readAsArrayBuffer(rawFile)
+      })
     }
   }
-};
+}
 </script>

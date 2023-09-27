@@ -54,7 +54,7 @@ export default {
         html5m3u8: true,
         loaded: 'loadedHandler', // 播放器加载完成后调用该函数
         // forceduration: this.duration,
-        video: 'https://kvod.cnki.net/straight/4163/ts/8b9ec56346f44675bf5cbfb9faaecc7d/720p/8b9ec56346f44675bf5cbfb9faaecc7d_720P.m3u8'
+        video: 'https://kvod.cnki.net/straight/3824/ts/b34053b01dd147dab5658634abc0cd71/720p/b34053b01dd147dab5658634abc0cd71_720P.m3u8'
       }
       const player = new ckplayer(videoObject)
       this.player = player
