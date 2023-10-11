@@ -30,8 +30,8 @@ module.exports = {
       '/api': {
         open: false, // 自动打开浏览器
         ws: false,
-        // target: 'http://47.93.4.29:88',
-        target: 'http://localhost:88',
+        target: 'http://47.93.4.29:88',
+        // target: 'http://localhost:88',
         changeOrigin: true, //
         pathRewrite: { '^/api': '/' } // 代理重写
       },
@@ -41,13 +41,6 @@ module.exports = {
         target: 'https://xfat.cnki.net',
         changeOrigin: true, //
         pathRewrite: { '^/cnki': '/' } // 代理重写
-      },
-      '/_': {
-        open: false, // 自动打开浏览器
-        ws: false,
-        target: 'https://static-data.gaokao.cn/www/2.0/school',
-        changeOrigin: true, //
-        pathRewrite: { '^/_': '/' } // 代理重写
       }
     }
   },
