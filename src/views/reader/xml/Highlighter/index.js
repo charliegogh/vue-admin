@@ -1,13 +1,8 @@
-class XmlHighlighter {
+import HighlightRange from './model/range'
+class Highlighter {
   constructor() {
     this.eventHandlers = {}
-    this.highlights = [
-      {
-        'selectedText': '信息技术',
-        'startOffset': 2,
-        'endOffset': 6
-      }
-    ]
+    this.highlights = []
     this.waitForTargetElement()
   }
 
@@ -21,14 +16,19 @@ class XmlHighlighter {
     const targetElement = document.querySelector('.content')
 
     if (targetElement) {
-      targetElement.addEventListener('mouseup', this.handleMouseUp.bind(this))
+      targetElement.addEventListener('mouseup', this._handleSelection.bind(this))
       this.renderHighlights()
     } else {
       setTimeout(this.waitForTargetElement.bind(this), 1000)
     }
   }
-  handleMouseUp() {
-    const selection = window.getSelection()
+
+  // 划词监听
+  _handleSelection() {
+    const range = HighlightRange.fromSelection()
+    if (range) {
+    }
+    /*  const selection = window.getSelection()
     const selectedText = selection.toString().trim()
 
     // 检查是否有选中文本
@@ -63,7 +63,7 @@ class XmlHighlighter {
       console.log(this.highlights, '信息收集')
       // 触发自定义事件并传递选中文本和起始偏移量
       this.dispatchEvent('selection', { selectedText, startOffset, endOffset })
-    }
+    } */
   }
 
   // 事件推送
@@ -104,5 +104,5 @@ class XmlHighlighter {
   }
 }
 
-export default XmlHighlighter
+export default Highlighter
 

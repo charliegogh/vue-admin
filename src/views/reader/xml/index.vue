@@ -3,8 +3,9 @@
     <div ref="content" class="content" v-html="text" />
   </div>
 </template>
+
 <script>
-import XmlHighlighter from './hook/XmlHighlighter'
+import XmlHighlighter from './Highlighter'
 export default {
   components: {
   },
