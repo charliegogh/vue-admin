@@ -7,6 +7,9 @@ const components = modulesFiles.keys().reduce((modules, modulePath) => {
   modules.push(value.default)
   return modules
 }, [])
+
 components.forEach(item => {
   Vue.component(item.name, item.default || item)
 })
+
+export default components
