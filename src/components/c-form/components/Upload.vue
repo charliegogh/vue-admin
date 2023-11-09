@@ -13,6 +13,7 @@
       multiple
       :file-list="fileList"
       :before-upload="beforeUpload"
+      v-on="$listeners"
       v-bind="_options"
       :show-upload-list="{
         showRemoveIcon: true,

@@ -5,6 +5,8 @@ import store from './store'
 import './core/lazy_use' // 按需加载组件
 import * as fetch from '@/api'
 import './styles/index.less' // 全局样式
+import './assets/font/iconfont.css'
+
 // 权限认证
 import './permission'
 Vue.prototype.$fetch = fetch
