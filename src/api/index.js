@@ -6,7 +6,7 @@ import store from '@/store'
 const CancelToken = axios.CancelToken
 const queue = [] // 请求队列
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_URL,
+  baseURL: 'http://8.140.248.54/api/',
   withCredentials: true, // 允许携带 cookie
   timeout: 50000, // 请求超时时间
   // 默认请求头

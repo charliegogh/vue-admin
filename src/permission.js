@@ -12,7 +12,7 @@ router.beforeEach(async(to, from, next) => {
     if (hasToken) {
       // 如果当前状态为登陆状态，手动输入login直接跳转去首页
       if (to.path === '/login') {
-          next({ path: '/' })
+        next({ path: '/' })
         NProgress.done()
       } else {
         const hasUserInfo = store.getters.userInfo && Object.keys(store.getters.userInfo).length > 0

@@ -56,11 +56,6 @@ export const routes = [
     path: '/login',
     component: () => import('@/views/user/login'),
     hidden: true
-  },
-  {
-    path: '/test',
-    hidden: true,
-    component: () => import(/* webpackChunkName: "fail" */ '@/views/chat')
   }
 ]
 

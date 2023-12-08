@@ -13,9 +13,8 @@
         <div class="pdf-container">
           <!--          @pointerup="mouseup"-->
           <div
-            id="viewer"
             ref="attachRef"
-            class="PdfHighlighter"
+            id="pdfViewer"
           >
             <div
               ref="importDom"
@@ -28,16 +27,6 @@
         <FindBar
           :find-bar="findBar"
         />
-        <!--        <div-->
-        <!--          v-for="(item,idx) of Layers"-->
-        <!--          :key="item.id"-->
-        <!--          class="notes"-->
-        <!--          @click="location(item)"-->
-        <!--        >-->
-        <!--          {{ idx+1 }}.-->
-        <!--          {{ item.text }}-->
-        <!--          <span @click="handleDeleteNotes(item)">删除</span>-->
-        <!--        </div>-->
       </a-col>
     </a-row>
   </div>
@@ -59,6 +48,8 @@ const Layers = {}
 import GrabToPan from '@/views/reader/pdf/hook/useGrabToPan'
 import FindBar from '../components/FindBar'
 import usePdfFindBar from '@/views/reader/pdf/hook/usePdfFindBar'
+import Highlighter from 'web-highlighter'
+
 export default {
   components: {
     FindBar
@@ -97,6 +88,7 @@ export default {
       this.containerNode = viewer
       const pdf = await loadingTask.promise
       if (pdf) {
+        console.log(viewer)
         const pdfViewer = new PDFViewer({
           container: viewer,
           eventBus: this.eventBus, //  ？？？？
@@ -116,24 +108,42 @@ export default {
         linkService.setDocument(pdf)
         linkService.setViewer(pdfViewer)
         pdfViewer.setDocument(pdf)
-        this.pdfViewer = pdfViewer
-        this.pdfDocument = pdf
-        this.handTool = new GrabToPan({
-          element: viewer
-        })
-        setTimeout(() => {
-          this.findBar = usePdfFindBar({
-            findField: document.getElementById('findInput'),
-            caseSensitiveCheckbox: document.getElementById('findMatchCase'),
-            caseCurPageCheckbox: document.getElementById('findMatchCurPage'),
-            findInputSearch: document.getElementById('findInputSearch'),
-            findList: document.querySelector('.xr-find__list'),
-            pdfDocument: this.pdfDocument,
-            pdfViewer: this.pdfViewer,
-            findMax: this.findBar.findMax,
-            root: document.querySelectorAll('.page')
-          })
-        })
+        // this.pdfViewer = pdfViewer
+        // this.pdfDocument = pdf
+        // this.handTool = new GrabToPan({
+        //   element: viewer
+        // })
+        // setTimeout(() => {
+        //   this.findBar = usePdfFindBar({
+        //     findField: document.getElementById('findInput'),
+        //     caseSensitiveCheckbox: document.getElementById('findMatchCase'),
+        //     caseCurPageCheckbox: document.getElementById('findMatchCurPage'),
+        //     findInputSearch: document.getElementById('findInputSearch'),
+        //     findList: document.querySelector('.xr-find__list'),
+        //     pdfDocument: this.pdfDocument,
+        //     pdfViewer: this.pdfViewer,
+        //     findMax: this.findBar.findMax,
+        //     root: document.querySelectorAll('.page')
+        //   })
+        //   const highlighter = new Highlighter({
+        //     $root: document.querySelector('.pdf-container'),
+        //     wrapTag: 'span',
+        //     style: {
+        //       className: 'highlight-mengshou-wrap'
+        //     }
+        //   })
+        //   console.log(highlighter)
+        //   highlighter
+        //     .on('selection:hover', ({ id }) => {
+        //       console.log(11)
+        //       // display different bg color when hover
+        //       highlighter.addClass('highlight-wrap-hover', id)
+        //     })
+        //     .on('selection:create', ({ sources }) => {
+        //       console.log(sources)
+        //     })
+        //   highlighter.run()
+        // })
         // 换用 pointerup 监听鼠标指针释放
         // window.addEventListener('mouseup', this.mouseup)
       }
@@ -262,13 +272,18 @@ export default {
 }
 </script>
 <style lang="less">
+.highlight-mengshou-wrap{
+  display: inline-block;
+  border-bottom: 5px solid red;
+}
+
 .pdf-container {
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 300px;
   //height: calc(100vh - 75px);
 
-  .PdfHighlighter {
+  #pdfViewer {
     position: absolute;
     overflow: auto;
     width: 100%;

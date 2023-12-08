@@ -30,17 +30,10 @@ module.exports = {
       '/api': {
         open: false, // 自动打开浏览器
         ws: false,
-        target: 'http://47.93.4.29:88',
+        target: 'http://8.140.248.54:88',
         // target: 'http://localhost:88',
         changeOrigin: true, //
         pathRewrite: { '^/api': '/' } // 代理重写
-      },
-      '/cnki': {
-        open: false, // 自动打开浏览器
-        ws: false,
-        target: 'https://xfat.cnki.net',
-        changeOrigin: true, //
-        pathRewrite: { '^/cnki': '/' } // 代理重写
       }
     }
   },
@@ -65,7 +58,11 @@ module.exports = {
     sourceMap: false, // 关闭 否则热更新失效11
     loaderOptions: {
       less: {
-        javascriptEnabled: true
+        javascriptEnabled: true,
+        modifyVars: {
+          'primary-color': '#1A5EFF',
+          'link-color': '#6F48FF'
+        }
       },
       postcss: {
         plugins: [
@@ -106,7 +103,6 @@ module.exports = {
       .set('_utils', resolve('src/utils'))
       .set('_com', resolve('src/components'))
       .set('_assets', resolve('src/assets'))
-      // .set('collectArticle$', resolve('public/collectArticle.js'))
     // .set('@ant-design/icons/lib/dist$', resolve('src/core/icons.js'))  // 拆掉antd的icon包
 
     /* 文件拆分 */

@@ -20,9 +20,6 @@ import '@/components/c-form/install.js'
 
 // 全局过滤器
 import * as filters from './filters'
-// import xCollectLoader from '@/plugins/collectArticle'
-// xCollectLoader()
-
 Object.keys(filters).forEach(key => {
   Vue.filter(key, filters[key])
 })

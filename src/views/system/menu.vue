@@ -46,36 +46,36 @@
   </a-card>
 </template>
 <script>
-import MenuModal from "./components/MenuModal";
-import { ListMixin } from "@/mixins/ListMixin";
+import MenuModal from './components/MenuModal'
+import { ListMixin } from '@/mixins/ListMixin'
 const columns = [
   {
-    title: "菜单名称",
-    dataIndex: "name",
+    title: '菜单名称',
+    dataIndex: 'name',
     width: 200
   },
   {
-    title: "路径",
-    dataIndex: "pageUrl",
-    scopedSlots: { customRender: "url" },
-    align: "center",
+    title: '路径',
+    dataIndex: 'pageUrl',
+    scopedSlots: { customRender: 'url' },
+    align: 'center',
     width: 200
   },
   {
-    title: "排序",
-    dataIndex: "orderNo",
-    align: "center",
+    title: '排序',
+    dataIndex: 'orderNo',
+    align: 'center',
     width: 200
   },
   {
-    title: "操作",
-    dataIndex: "action",
-    scopedSlots: { customRender: "action" },
-    align: "center",
-    fixed: "right",
+    title: '操作',
+    dataIndex: 'action',
+    scopedSlots: { customRender: 'action' },
+    align: 'center',
+    fixed: 'right',
     width: 150
   }
-];
+]
 export default {
   components: {
     MenuModal
@@ -85,17 +85,17 @@ export default {
     return {
       columns,
       url: {
-        list: "/sys/permission/getSystemMenuList",
-        delete: "/sys/permission/delete"
+        list: '/sys/permission/getSystemMenuList',
+        delete: '/sys/permission/delete'
       }
-    };
+    }
   },
   mounted() {},
   methods: {
     handleAddSub(record) {
-      this.$refs.modalForm.title = "添加子菜单";
-      this.$refs.modalForm.edit({ type: 1, pid: record.id });
+      this.$refs.modalForm.title = '添加子菜单'
+      this.$refs.modalForm.edit({ type: 1, pid: record.id })
     }
   }
-};
+}
 </script>

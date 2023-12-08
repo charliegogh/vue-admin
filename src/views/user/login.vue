@@ -1,43 +1,38 @@
 <template>
   <div class="app-login-container">
-    <div class="bg">
-      <div class="w960 row-between-center">
-        <img src="~@/assets/img/login.png" class="enter-x-animation" alt="">
-        <div class="form-wrapper enter-x-animation">
-          <!-- <h2>{{ title }}</h2> -->
-          <div class="form-wrapper--main">
-            <div class="title">登录</div>
-            <Form
-              ref="Form"
-              :form-fields="formFields"
-              :data-form="dataForm"
-              :rules="rules"
-            >
-              <a-button
-                slot="submit"
-                size="large"
-                type="primary"
-                html-type="submit"
-                class="login-button"
-                :loading="confirmLoading"
-                @click="handleSubmit"
-              >登录
-              </a-button>
-            </Form>
-          </div>
+    <div class="bg row-end-end">
+      <div class="form-wrapper">
+        <h2>{{ title }}</h2>
+        <div class="form-wrapper--main">
+          <div class="title">登录</div>
+          <Form
+            ref="Form"
+            :form-fields="formFields"
+            :data-form="dataForm"
+            :rules="rules"
+          >
+            <a-button
+              slot="submit"
+              size="large"
+              type="primary"
+              html-type="submit"
+              class="login-button"
+              :loading="confirmLoading"
+              @click="handleSubmit"
+            >登录
+            </a-button>
+          </Form>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
 export default {
-  components: {},
   data() {
     return {
       confirmLoading: false,
-      title: this.$config.title,
+      title: null,
       dataForm: {
         username: 'super',
         password: '1'
@@ -78,74 +73,55 @@ export default {
         const query = route.query
         if (query) {
           this.redirect = query.redirect
+          console.log(query)
         }
       },
       immediate: true
     }
   },
-  created() {},
   methods: {
-    ...mapActions({
-      login: 'user/login'
-    }),
-    async handleSubmit(e) {
-      const status = this.$refs.Form.validate()
-      if (status) {
-        this.confirmLoading = true
-        this.login(this.dataForm)
-          .then(res => {
-            if (res.code === 200) {
-              this.$router
-                .replace({
-                  path: this.redirect || '/'
-                })
-                .catch(() => {})
-            } else {
-              this.confirmLoading = false
-            }
-          })
-          .catch(e => {
+    async handleSubmit() {
+      try {
+        const status = this.$refs.Form.validate()
+        if (status) {
+          this.confirmLoading = true
+          const rs = await this.$store.dispatch('user/login', this.dataForm)
+          if (rs.code === 200) {
+            await this.$router.replace({ path: this.redirect || '/' })
+          } else {
             this.confirmLoading = false
-            this.$message.error('服务器错误')
-          })
+            this.$message.error(rs.Message)
+          }
+        }
+      } catch (e) {
+        this.confirmLoading = false
       }
     }
   }
 }
 </script>
 <style lang="less">
-@import "~@/styles/animations.less";
 .form-wrapper--main {
   background-color: #ffffff;
   border-radius: 5px;
   .from-container {
     padding: 10px 15px;
   }
-  .ant-row {
-  }
 }
 </style>
 <style lang="less" scoped>
-.w960 {
-  width: 960px;
-  margin: 0 auto;
-}
-
 .app-login-container {
   height: 100vh;
   display: flex;
   align-items: center;
-
   .bg {
     width: 100%;
     background-color: #0183e1;
-    padding: 50px 0;
-
+    padding: 50px 50px;
     .form-wrapper {
       width: 350px;
       font-size: 14px;
       position: relative;
-      transform: translate(50px);
       h2 {
         color: #fff;
         margin-bottom: 1rem;
@@ -165,11 +141,6 @@ export default {
         background: #fff;
         border-radius: 4px 4px 0 0;
       }
-    }
-
-    img {
-      width: 450px;
-      transform: translate(-50px);
     }
   }
 }
